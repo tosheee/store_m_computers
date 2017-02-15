@@ -1,0 +1,40 @@
+<% if !flash[:notice].blank? %>
+    <div class = "alert alert-info">
+      <%= flash[:notice] %>
+    </div>
+<% end %>
+
+<br />
+
+<%= link_to "New xml file", new_admin_extract_xml_path, class: "btn btn-primary" %>
+<br />
+<br />
+
+<table class = "table table-bordered table-striped">
+  <thead>.
+  <tr>
+    <th>Name</th>
+    <th>Date</th>
+    <th>Download Link</th>
+    <th>Extract File</th>
+    <th>Delete </th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @extract_xmls.each do |extr_xml| %>
+
+      <tr>
+        <td><%= extr_xml.name %></td>
+        <td><%= extr_xml.created_at %></td>
+        <td><%= link_to 'View File', extr_xml.attachment_url %></td>
+
+        <td><%= link_to 'Extract File', "extract_xmls/#{extr_xml.id}/extract_xml_file", method: :extract_xml_file, class: "btn btn-success", data:{confirm: "Are you sure that you wish to delete #{extr_xml.name}?"} %></td>
+        <td><%= link_to 'Delete',  extr_xml, method: :delete, class: "btn btn-danger", data: {confirm: "Are you sure that you wish to delete #{extr_xml.name}?"} %></td>
+
+      </tr>
+
+  <% end %>
+  </tbody>
+
+</table>

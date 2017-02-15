@@ -1,0 +1,189 @@
+<%= form_for(@admin_laptop) do |f| %>
+  <% if @admin_laptop.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@admin_laptop.errors.count, "error") %> prohibited this admin_laptop from being saved:</h2>
+
+      <ul>
+      <% @admin_laptop.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :category_id %><br>
+    <%= f.number_field :category_id %>
+  </div>
+  <div class="field">
+    <%= f.label :code %><br>
+    <%= f.text_field :code %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :product_status %><br>
+    <%= f.text_field :product_status %>
+  </div>
+  <div class="field">
+    <%= f.label :hashpromo %><br>
+    <%= f.text_field :hashpromo %>
+  </div>
+  <div class="field">
+    <%= f.label :general_description %><br>
+    <%= f.text_field :general_description %>
+  </div>
+  <div class="field">
+    <%= f.label :classname %><br>
+    <%= f.text_field :classname %>
+  </div>
+  <div class="field">
+    <%= f.label :price %><br>
+    <%= f.text_field :price %>
+  </div>
+  <div class="field">
+    <%= f.label :currency %><br>
+    <%= f.text_field :currency %>
+  </div>
+  <div class="field">
+    <%= f.label :main_picture_url %><br>
+    <%= f.text_area :main_picture_url %>
+  </div>
+  <div class="field">
+    <%= f.label :manufacturer %><br>
+    <%= f.text_field :manufacturer %>
+  </div>
+  <div class="field">
+    <%= f.label :category %><br>
+    <%= f.text_field :category %>
+  </div>
+  <div class="field">
+    <%= f.label :partnum %><br>
+    <%= f.text_field :partnum %>
+  </div>
+  <div class="field">
+    <%= f.label :gallery %><br>
+    <%= f.text_area :gallery %>
+  </div>
+  <div class="field">
+    <%= f.label :vendor_url %><br>
+    <%= f.text_field :vendor_url %>
+  </div>
+  <div class="field">
+    <%= f.label :property_manufacturer %><br>
+    <%= f.text_field :property_manufacturer %>
+  </div>
+  <div class="field">
+    <%= f.label :property_mnfr_part %><br>
+    <%= f.text_field :property_mnfr_part %>
+  </div>
+  <div class="field">
+    <%= f.label :property_model %><br>
+    <%= f.text_field :property_model %>
+  </div>
+  <div class="field">
+    <%= f.label :property_screen_size %><br>
+    <%= f.text_field :property_screen_size %>
+  </div>
+  <div class="field">
+    <%= f.label :property_screen_type %><br>
+    <%= f.text_field :property_screen_type %>
+  </div>
+  <div class="field">
+    <%= f.label :property_screen_resolution %><br>
+    <%= f.text_field :property_screen_resolution %>
+  </div>
+  <div class="field">
+    <%= f.label :property_memory_size %><br>
+    <%= f.text_field :property_memory_size %>
+  </div>
+  <div class="field">
+    <%= f.label :property_memory_type %><br>
+    <%= f.text_field :property_memory_type %>
+  </div>
+  <div class="field">
+    <%= f.label :property_cpu %><br>
+    <%= f.text_field :property_cpu %>
+  </div>
+  <div class="field">
+    <%= f.label :model %><br>
+    <%= f.text_field :model %>
+  </div>
+  <div class="field">
+    <%= f.label :property_graphics %><br>
+    <%= f.text_field :property_graphics %>
+  </div>
+  <div class="field">
+    <%= f.label :property_hdd %><br>
+    <%= f.text_field :property_hdd %>
+  </div>
+  <div class="field">
+    <%= f.label :property_ssd %><br>
+    <%= f.text_field :property_ssd %>
+  </div>
+  <div class="field">
+    <%= f.label :property_disk_specifications %><br>
+    <%= f.text_field :property_disk_specifications %>
+  </div>
+  <div class="field">
+    <%= f.label :property_interface %><br>
+    <%= f.text_field :property_interface %>
+  </div>
+  <div class="field">
+    <%= f.label :property_camera %><br>
+    <%= f.text_field :property_camera %>
+  </div>
+  <div class="field">
+    <%= f.label :property_odd %><br>
+    <%= f.text_field :property_odd %>
+  </div>
+  <div class="field">
+    <%= f.label :property_os %><br>
+    <%= f.text_field :property_os %>
+  </div>
+  <div class="field">
+    <%= f.label :property_wi_fi %><br>
+    <%= f.text_field :property_wi_fi %>
+  </div>
+  <div class="field">
+    <%= f.label :property_audio %><br>
+    <%= f.text_field :property_audio %>
+  </div>
+  <div class="field">
+    <%= f.label :property_lan %><br>
+    <%= f.text_field :property_lan %>
+  </div>
+  <div class="field">
+    <%= f.label :property_bluetooth %><br>
+    <%= f.text_field :property_bluetooth %>
+  </div>
+  <div class="field">
+    <%= f.label :property_body_color %><br>
+    <%= f.text_field :property_body_color %>
+  </div>
+  <div class="field">
+    <%= f.label :property_battery %><br>
+    <%= f.text_field :property_battery %>
+  </div>
+  <div class="field">
+    <%= f.label :property_dimensions %><br>
+    <%= f.text_field :property_dimensions %>
+  </div>
+  <div class="field">
+    <%= f.label :property_weight %><br>
+    <%= f.text_field :property_weight %>
+  </div>
+  <div class="field">
+    <%= f.label :property_other %><br>
+    <%= f.text_field :property_other %>
+  </div>
+  <div class="field">
+    <%= f.label :property_warranty %><br>
+    <%= f.text_field :property_warranty %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

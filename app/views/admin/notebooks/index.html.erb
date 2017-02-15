@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Admin Notebooks</h1>
+
+<table class = "table table-bordered table-striped" >
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Description</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @admin_notebooks.each do |admin_notebook| %>
+      <tr>
+        <td><%= admin_notebook.category_id %></td>
+        <td><%= admin_notebook.description %></td>
+        <td><%= link_to 'Show', admin_notebook %></td>
+        <td><%= link_to 'Edit', edit_admin_notebook_path(admin_notebook) %></td>
+        <td><%= link_to 'Destroy', admin_notebook, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Notebook', new_admin_notebook_path %>

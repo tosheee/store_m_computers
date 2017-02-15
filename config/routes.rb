@@ -1,10 +1,33 @@
 Rails.application.routes.draw do
+
+  namespace :admin do
+    resources :notebooks
+  end
+  root 'store_mcomputers#store_mcomputers'
+  resources :laptops
+  namespace :admin do
+    get '', to: 'admin#admin'
+   # get 'extract_xmls/:id', to: 'extract_xml#extract_xml_file'
+    resources :extract_xmls do
+      post :extract_xml_file, on: :member
+    end
+    resources :categories
+    resources :laptops
+  end
+
+
   devise_for :users
+
+
+
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-   root 'store_mcomputers#store_mcomputers'
+
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

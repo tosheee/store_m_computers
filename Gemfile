@@ -24,6 +24,11 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'devise', '~> 4.2'
 
+gem 'carrierwave', '~> 1.0'
+
+gem 'libxml-to-hash', '~> 0.2.1'
+
+gem 'libxml-ruby', '~> 3.0'
 group :development, :test do
   gem 'byebug'
 end
