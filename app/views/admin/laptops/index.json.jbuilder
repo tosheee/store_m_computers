@@ -1,1 +1,0 @@
-json.array! @admin_laptops, partial: 'admin_laptops/admin_laptop', as: :admin_laptop

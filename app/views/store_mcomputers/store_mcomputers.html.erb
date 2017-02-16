@@ -1,1 +1,5 @@
 <h1>Heloo</h1>
+
+<% @categories.each do |category| %>
+    <a href="<%= category.name_cat.downcase %>"><%= category.name_cat %></a>
+<% end %>

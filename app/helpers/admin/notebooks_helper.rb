@@ -1,2 +1,0 @@
-module Admin::NotebooksHelper
-end

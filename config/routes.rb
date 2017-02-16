@@ -1,22 +1,34 @@
 Rails.application.routes.draw do
 
-  namespace :admin do
-    resources :notebooks
-  end
   root 'store_mcomputers#store_mcomputers'
-  resources :laptops
+
+  devise_for :users
+
+
+
+
+
   namespace :admin do
     get '', to: 'admin#admin'
-   # get 'extract_xmls/:id', to: 'extract_xml#extract_xml_file'
+
     resources :extract_xmls do
       post :extract_xml_file, on: :member
     end
+
+    resources :products
     resources :categories
-    resources :laptops
+    resources :laptops #za iztriwane
+    resources :notebooks #za iztriwane
+  end
+
+  controller 'store_mcomputers' do
+    get '/:product', to: 'store_mcomputers#list'
+    get '/:product/:id', to: 'store_mcomputers#show'
   end
 
 
-  devise_for :users
+
+
 
 
 

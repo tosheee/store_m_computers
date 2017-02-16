@@ -33,9 +33,9 @@ class Admin::ExtractXmlsController < ApplicationController
     xml_hash.select do |key, _|
       case
       when key['category'][/NOTEBOOK/i]
-        notebook = Admin::Notebook.new
-        notebook.description = key
-        notebook.save
+        product = Admin::Product.new
+        product.description = key
+        product.save
       else
         next
       end

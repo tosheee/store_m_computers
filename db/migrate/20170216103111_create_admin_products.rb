@@ -1,6 +1,6 @@
-class CreateAdminNotebooks < ActiveRecord::Migration
+class CreateAdminProducts < ActiveRecord::Migration
   def change
-    create_table :admin_notebooks do |t|
+    create_table :admin_products do |t|
       t.integer :category_id
       t.text :description
 
