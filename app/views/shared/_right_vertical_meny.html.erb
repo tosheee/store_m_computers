@@ -1,0 +1,52 @@
+
+  <% if @products_all %>
+      <% brands = [] %>
+      <%  @products_all.each do |product| %>
+          <% description = eval(product.description) %>
+            <% brands << description['manufacturer'] %>
+      <% end %>
+      <% b = Hash.new(0) %>
+
+      <% brands.each do |brand| %>
+         <% b[brand] += 1 %>
+      <% end %>
+
+      <% b.each do |k, v| %>
+        <section>
+          <li><%= k.capitalize %> <%= v %></li>
+        </section>
+      <% end %>
+      <hr>
+
+
+      <% properties = [] %>
+      <%  @products_all.each do |product| %>
+          <% description = eval(product.description) %>
+          <% properties << description['properties']['property'] %>
+      <% end %>
+
+      <% specification = [] %>
+
+      <% properties.each do |property| %>
+
+          <% property.each do |element| %>
+              <% specification << element %>
+          <% end %>
+
+      <% end %>
+
+      <% bbb = Hash.new(0) %>
+
+      <% specification.each do |brand| %>
+          <% bbb[brand] += 1 %>
+      <% end %>
+
+      <% bbb.each do |k, v| %>
+          <section>
+            <% k %> <% v %>
+          </section>
+
+      <% end %>
+<hr>
+  <% end %>
+

@@ -5,10 +5,11 @@ class StoreMcomputersController < ApplicationController
 
   def list
     @category_name = params[:product].capitalize
-    category_id = Admin::Category.where(name_cat: @category_name).first
-    category_id = category_id.id unless category_id.nil?
+    category_id = Admin::Category.where(name_cat: @category_name).first.id
+    #category_id = category_id.id unless category_id.nil?
+    @products_all = Admin::Product.where(category_id: category_id)
 
-    unless @products = Admin::Product.where(id: category_id)
+    unless @products = @products_all.limit(9)
       render text: "Page not found", status: 404
     end
   end

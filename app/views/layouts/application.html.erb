@@ -8,14 +8,21 @@
 </head>
 <body>
 <div id="wrapper">
+  <div class="top-content">
+    M computers
+    </div>
 
     <header>
       <%= render 'shared/navbar'%>
+      <div class="clearfix" />
     </header>
 
+    <nav id="nav-vertical">
+      <%= render 'shared/right_vertical_meny'%>
+    </nav>
 
     <main class = "container" style = "padding-top:20px;">
-        <%= yield %>
+      <%= yield %>
     </main>
 
     <footer>

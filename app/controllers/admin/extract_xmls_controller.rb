@@ -30,20 +30,31 @@ class Admin::ExtractXmlsController < ApplicationController
   end
 
   def record_products(xml_hash)
+    @buffer = []
     xml_hash.select do |key, _|
-      case
-      when key['category'][/NOTEBOOK/i]
+      unless key['classname'].nil?
         product = Admin::Product.new
-        product.description = key
-        product.save
-      else
-        next
+        case
+        when key['classname'][/notebook/i]
+          product.category_id = 1
+          product.description = key
+          product.save
+        when key['classname'][/tablet/i]
+          product.category_id = 2
+          product.description = key
+          product.save
+        when key['classname'][/Smart Phone/i]
+          product.category_id = 3
+          product.description = key
+          product.save
+        else
+          @buffer << key
+        end
       end
     end
+    @buffer
     redirect_to action: 'index'
   end
-
-
 
   private
   def extract_xml_params
