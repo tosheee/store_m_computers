@@ -9,7 +9,7 @@ class StoreMcomputersController < ApplicationController
     #category_id = category_id.id unless category_id.nil?
     @products_all = Admin::Product.where(category_id: category_id)
 
-    unless @products = @products_all.limit(9)
+    unless @products = @products_all.limit(20)
       render text: "Page not found", status: 404
     end
   end

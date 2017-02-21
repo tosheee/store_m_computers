@@ -1,28 +1,29 @@
 class Admin::ProductsController < ApplicationController
-  before_action :set_admin_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_admin_product, only: [:show, :update, :destroy]
 
-  # GET /admin/products
-  # GET /admin/products.json
   def index
-    @admin_products = Admin::Product.all
+    if params[:product].capitalize
+      @category_name = params[:product].capitalize
+
+      @category_id = Admin::Category.where(name_cat: @category_name).first.id
+
+      @products_all = Admin::Product.where(category_id: @category_id)
+
+      unless @admin_products = @products_all.limit(20)
+        render text: "Page not found", status: 404
+      end
+    else
+      @admin_products = Admin::Product.all
+    end
   end
 
-  # GET /admin/products/1
-  # GET /admin/products/1.json
   def show
   end
 
-  # GET /admin/products/new
   def new
     @admin_product = Admin::Product.new
   end
 
-  # GET /admin/products/1/edit
-  def edit
-  end
-
-  # POST /admin/products
-  # POST /admin/products.json
   def create
     @admin_product = Admin::Product.new(admin_product_params)
 
@@ -37,18 +38,26 @@ class Admin::ProductsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /admin/products/1
-  # PATCH/PUT /admin/products/1.json
+  def edit
+    @admin_product = Admin::Product.find(params[:id])
+    @admin_product.description = eval(@admin_product.description).to_json
+    @admin_product
+  end
+
+
   def update
-    respond_to do |format|
-      if @admin_product.update(admin_product_params)
-        format.html { redirect_to @admin_product, notice: 'Product was successfully updated.' }
-        format.json { render :show, status: :ok, location: @admin_product }
-      else
-        format.html { render :edit }
-        format.json { render json: @admin_product.errors, status: :unprocessable_entity }
-      end
-    end
+
+    render text: params[:category].inspect
+    #@category = Catergory.find(params[:id])
+
+
+    #@categories.update_attributes(params[:category])
+
+    #if @category.errors.empty?
+     # redirect_to category_path(@category)
+    #else
+     # render 'edit'
+    #end
   end
 
   # DELETE /admin/products/1

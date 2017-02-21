@@ -4,21 +4,16 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-
-
-
-
   namespace :admin do
-    get '', to: 'admin#admin'
-
+    resources :categories
     resources :extract_xmls do
       post :extract_xml_file, on: :member
     end
+    get '', to: 'admin#admin'
+    get '/:product', to: 'products#index'
 
     resources :products
-    resources :categories
-    resources :laptops #za iztriwane
-    resources :notebooks #za iztriwane
+
   end
 
   controller 'store_mcomputers' do
