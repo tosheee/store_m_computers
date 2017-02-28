@@ -28,7 +28,12 @@ gem 'carrierwave', '~> 1.0'
 
 gem 'libxml-to-hash', '~> 0.2.1'
 
+gem 'xml_convert', '~> 0.1.0' #xml convert
+
+gem 'nori', '~> 2.6' #xml convert
+
 gem 'libxml-ruby', '~> 3.0'
+
 group :development, :test do
   gem 'byebug'
 end

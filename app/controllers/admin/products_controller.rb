@@ -1,15 +1,12 @@
-class Admin::ProductsController < ApplicationController
-  before_action :set_admin_product, only: [:show, :update, :destroy]
+class Admin::ProductsController < Admin::AdminController
+  before_action :set_admin_product, only: [:show, :edit, :update, :destroy]
 
   def index
     if params[:product].capitalize
       @category_name = params[:product].capitalize
-
       @category_id = Admin::Category.where(name_cat: @category_name).first.id
-
       @products_all = Admin::Product.where(category_id: @category_id)
-
-      unless @admin_products = @products_all.limit(20)
+      unless @admin_products = @products_all
         render text: "Page not found", status: 404
       end
     else
@@ -26,6 +23,12 @@ class Admin::ProductsController < ApplicationController
 
   def create
     @admin_product = Admin::Product.new(admin_product_params)
+    #render text: params[:admin_product][:description].inspect
+    @admin_product.description = params[:admin_product][:description]
+    @admin_product.category_id = params[:admin_product][:category_id]
+    #render text: @admin_product
+
+    @admin_product.save
 
     respond_to do |format|
       if @admin_product.save
@@ -38,46 +41,46 @@ class Admin::ProductsController < ApplicationController
     end
   end
 
+
+  def create_custom
+    render text: @admin_product
+
+    #@admin_product = Admin::Product.new(admin_product_params)
+
+    #if @admin_product.errors.empty?
+     # redirect_to admin_product_path(@admin_product)
+    #else
+     # render "new"
+    #end
+  end
+
   def edit
-    @admin_product = Admin::Product.find(params[:id])
-    @admin_product.description = eval(@admin_product.description).to_json
-    @admin_product
   end
 
 
   def update
-
-    render text: params[:category].inspect
-    #@category = Catergory.find(params[:id])
-
-
-    #@categories.update_attributes(params[:category])
-
-    #if @category.errors.empty?
-     # redirect_to category_path(@category)
-    #else
-     # render 'edit'
-    #end
-  end
-
-  # DELETE /admin/products/1
-  # DELETE /admin/products/1.json
-  def destroy
-    @admin_product.destroy
-    respond_to do |format|
-      format.html { redirect_to admin_products_url, notice: 'Product was successfully destroyed.' }
-      format.json { head :no_content }
+    #render text: admin_product_params
+    @admin_product.update(admin_product_params)
+    if @admin_product.errors.empty?
+      redirect_to admin_product_path(@admin_product)
+    else
+      render :edit
     end
   end
 
+  def destroy
+    @admin_product.destroy
+  end
+
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_admin_product
       @admin_product = Admin::Product.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def admin_product_params
-      params.require(:admin_product).permit(:category_id, :description)
+      params.require(:admin_product).permit(:category_id).tap do |whitelisted|
+        whitelisted[:description] = Hash params[:admin_product][:description].deep_symbolize_keys
+      end
     end
 end

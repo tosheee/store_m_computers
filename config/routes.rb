@@ -6,17 +6,19 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :categories
+
     resources :extract_xmls do
       post :extract_xml_file, on: :member
     end
+
     get '', to: 'admin#admin'
     get '/:product', to: 'products#index'
 
     resources :products
-
   end
 
   controller 'store_mcomputers' do
+    get '/:product/page/:page', to: 'store_mcomputers#list'
     get '/:product', to: 'store_mcomputers#list'
     get '/:product/:id', to: 'store_mcomputers#show'
   end

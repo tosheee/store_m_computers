@@ -13,7 +13,7 @@
 
       <% b.each do |k, v| %>
         <section>
-          <li><%= k.capitalize %> <%= v %></li>
+          <li><%  %> <%= v %></li>
         </section>
       <% end %>
       <hr>
@@ -22,7 +22,7 @@
       <% properties = [] %>
       <%  @products_all.each do |product| %>
           <% description = eval(product.description) %>
-          <% properties << description['properties']['property'] %>
+          <% #properties << description[:properties][:property] %>
       <% end %>
 
       <% specification = [] %>

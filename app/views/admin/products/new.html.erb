@@ -1,285 +1,131 @@
-<style>
-    div#form1{
-        width:250px;
-        height:430px;
-        border:2px solid #a5a5a5;
-        padding:20px;
-        background-color:#f3f3f3;
-        border-radius:3px;
-        float:left;
-        text-align:center;
-        margin-left:100px;
-        margin-top:50px
-    }
-    h3,p{
-        text-align:center;
-        font-family:'Raleway',sans-serif;
-        color:#006400
-    }
-    input{
-        width:100%;
-        margin:10px 0;
-        padding:5px;
-        height:35px;
-        box-shadow:1px 1px 1px 1px gray;
-        border-radius:3px
-    }
-    input#submit{
-        width:100%;
-        margin:10px 15px 10px 0;
-        padding:5px;
-        background-color:#3fb8e8;
-        box-shadow:0 3px 0 0 #3293ba;
-        border-radius:3px;
-        color:#fff;
-        height:41px;
-        font-size:16px
-    }
-    textarea{
-        margin:10px 0;
-        padding:5px;
-        box-shadow:1px 1px 1px 1px gray;
-        border-radius:3px
-    }
-    div#container{
-        margin:50px auto;
-        width:960px
-    }
-    h2{
-        font-family:'Raleway',sans-serif;
-        color:#006400;
-        text-shadow:1px 1px 1px gray
-    }
-
-
-</style>
-
-
-<script>
-    if (document.getElementById('description-data') != null)
-    {
-        var data = JSON.parse(document.getElementById('description-data').value);
-    }
-    else
-    {
-        var data = [''];
-    }
-
-    if (document.getElementById('description-data') != null)
-    {
-        var data = JSON.parse(document.getElementById('description-data').value);
-    }
-    else
-    {
-        var data = [''];
-    }
-
-    pr_id = document.getElementsByTagName('var');
-
-    if (pr_id.length == 0)
-    {
-        var product_id = '';
-    }
-    else
-    {
-        var product_id = pr_id[0].innerHTML;
-    }
-
-    $(document).ready(function() {
-        $("div#form1").append(
-
-                $("<h3/>").text("Form"), $("<p/>").text("This!"),
-                $("<form/>", {
-                    action: '/admin/products/new',
-                    method: 'get'
-                }).append(
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: 'id',
-                            value: data['id'],
-                            placeholder: 'Name'
-                        }),
-                        $("<input/>", {
-                            type: 'hidden',
-                            id: 'vname',
-                            name: 'uid',
-                            value: data['uid'],
-                            placeholder: 'Name'
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: 'code',
-                            value: data['code'],
-                            placeholder: 'Name'
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: 'name',
-                            value: data['name'],
-                            placeholder: 'Name'
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: 'product_status',
-                            value: data['product_status'],
-                            placeholder: 'Name'
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: 'haspromo',
-                            value: data['haspromo'],
-                            placeholder: 'Name'
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: 'general_description',
-                            value: data['general_description'],
-                            placeholder: 'Name'
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: 'classname',
-                            value: data['classname'],
-                            placeholder: 'Name'
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: 'classname_full',
-                            value: data['classname_full'],
-                            placeholder: 'Name'
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: 'class_id',
-                            value: data['class_id'],
-                            placeholder: 'Name'
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vemail',
-                            name: 'price',
-                            value: data['price'],
-                            placeholder: 'Price'
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: 'currency',
-                            value: data['currency'],
-                            placeholder: 'Name'
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: 'main_picture_url',
-                            value: data['main_picture_url'],
-                            placeholder: 'Main URL'
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: 'manufacturer',
-                            value: data['manufacturer'],
-                            placeholder: ''
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: 'category',
-                            value: data['category'],
-                            placeholder: ''
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: 'subcategory',
-                            value: data['subcategory'],
-                            placeholder: ''
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: 'partnum',
-                            value: data['partnum'],
-                            placeholder: ''
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: "gallery[picture][picture_url]",
-                            value: data['gallery'],
-                            placeholder: ''
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: "gallery[picture][thumbnail_url]",
-                            value: data['gallery'],
-                            placeholder: ''
-                        }),
-                        $("<input/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: "properties[property][]",
-                            value: data['properties'],
-                            placeholder: 'Spesification'
-                        }),
-                        $("<textarea/>", {
-                            type: 'text',
-                            id: 'vname',
-                            name: "properties[property][]",
-                            value: data['properties'],
-                            placeholder: 'Spesification'
-                        }).val('asdfasdfasdf'),
-                        $("<br/>"), $("<input/>", {
-                            type: 'submit',
-                            id: 'submit',
-                            value: 'Submit'
-                        })))
-    });
-
-</script>
 
 <h1>New Admin Product</h1>
 <%= link_to 'Back', admin_products_path, class: "btn btn-primary" %>
 
-<div id="form1">
+<div class="form1">
+
+
 
   <%= form_for(@admin_product) do |f| %>
       <% if @admin_product.errors.any? %>
           <div id="error_explanation">
-            <h2><%= pluralize(@admin_product.errors.count, "error") %> prohibited this admin_product from being saved:</h2>
+    <h2><%= pluralize(@admin_product.errors.count, "error") %> prohibited this admin_product from being saved:</h2>
 
-            <ul>
-              <% @admin_product.errors.full_messages.each do |message| %>
-                  <li><%= message %></li>
-              <% end %>
-            </ul>
+        <ul>
+
+          <% @admin_product.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+          <% end %>
+
+        </ul>
+
           </div>
-      <% end %>
+    <% end %>
+
+    <div class="field">
+      <%= f.label :category_id %><br>
+      <%= f.collection_select(:category_id, Admin::Category.all, :id, :name_cat, :prompt => "Select Category") %>
+    </div>
 
       <div class="field">
-        <var><%= @admin_product.id %></var>
-        <%= f.label :category_id %><br>
-        <%= f.collection_select(:category_id, Admin::Category.all, :id, :name_cat, :prompt => "Select Category") %>
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][id]" value="" id="admin_product_description"/>
       </div>
       <div class="field">
-        <%= f.hidden_field :description, id: 'description-data' %>
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][uid]" id="admin_product_description"/>
       </div>
-      <var><%= @admin_product.id %></var>
 
+      <div class="field">
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][name]" id="admin_product_description"/>
       </div>
+
+      <div class="field">
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][product_status]" id="admin_product_description"/>
+      </div>
+
+      <div class="field">
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][haspromo]" id="admin_product_description"/>
+      </div>
+
+      <div class="field">
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][general_description]" id="admin_product_description"/>
+      </div>
+
+      <div class="field">
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][classname]" id="admin_product_description"/>
+      </div>
+
+      <div class="field">
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][classname_full]" id="admin_product_description"/>
+      </div>
+
+      <div class="field">
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][class_id]" id="admin_product_description"/>
+      </div>
+
+      <div class="field">
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][price]" id="admin_product_description"/>
+      </div>
+
+      <div class="field">
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][currency]" id="admin_product_description"/>
+      </div>
+
+      <div class="field">
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][main_picture_url]" id="admin_product_description"/>
+      </div>
+
+      <div class="field">
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][manufacturer]" id="admin_product_description"/>
+      </div>
+
+      <div class="field">
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][category]" id="admin_product_description"/>
+      </div>
+
+      <div class="field">
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][subcategory]" id="admin_product_description"/>
+      </div>
+
+      <div class="field">
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][partnum]" id="admin_product_description"/>
+      </div>
+
+      <div class="field">
+        <%= f.label :description %><br>
+        <textarea rows="4" cols="50" name="admin_product[description][gallery][picture][][picture_url]" id="admin_product_description"></textarea>
+      </div>
+
+      <div class="field">
+        <%= f.label :description %><br>
+        <input type="text" name="admin_product[description][vendor_url]" id="admin_product_description"/>
+      </div>
+
+      <div class="field">
+        <%= f.label :description %><br>
+        <textarea rows="4" cols="50" name="admin_product[description][properties][property][]" id="admin_product_description"></textarea>
+      </div>
+
+
+      <div class="actions">
+      <%= f.submit %>
+    </div>
+
   <% end %>
-  </div>
 
-
-
+</div>

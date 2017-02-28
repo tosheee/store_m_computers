@@ -9,7 +9,20 @@ class StoreMcomputersController < ApplicationController
     #category_id = category_id.id unless category_id.nil?
     @products_all = Admin::Product.where(category_id: category_id)
 
-    unless @products = @products_all.limit(20)
+
+
+    product_num = 21
+    num_all_productsts = @products_all.count
+
+    @pages = num_all_productsts / product_num
+
+    @page_param = params[:page].to_i if params[:page].to_i > -1
+
+    if @pages > @page_param
+      page = params[:page].to_i * product_num
+    end
+
+    unless @products = @products_all.limit(product_num).offset(page)
       render text: "Page not found", status: 404
     end
   end
