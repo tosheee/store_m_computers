@@ -1,4 +1,5 @@
 <style>
+
     .glyphicon { margin-right:5px; }
     .thumbnail
     {
@@ -163,6 +164,8 @@
 
 </style>
 
+
+
 <script>
     $(document).ready(function() {
         $('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
@@ -189,43 +192,61 @@
 
     <ul class="pagination">
       <li class="pagination-item--wide first">
-        <a class="pagination-link--wide first" href="/<%= "#{@category_name.downcase}/page/#{@page_param.to_i - 1}" %>">Previous</a>
+      <% if !@page.nil? %>
+          <% if @page.to_i > 0 %>
+              <a class="pagination-link--wide first" href="/product=<%= "#{@product_param}/page=#{@page.to_i - 1}" %>">Previous</a>
+          <% end %>
+      <% end %>
       </li>
 
       <% (1..@pages).each do |page|%>
-          <li class="pagination-item">
-            <a class="pagination-link" href="<%= "/#{@category_name.downcase}/page/#{page}" %>"><%= page %></a>
-          </li>
+
+            <% if page.to_i == @page.to_i  %>
+              <li class="pagination-item is-active">
+                <a class="pagination-link" href="<%= "/product=#{@product_param}/page=#{page}" %>"><%= page %></a>
+              </li>
+            <% else %>
+              <li class="pagination-item">
+                <a class="pagination-link" href="<%= "/product=#{@product_param}/page=#{page}" %>"><%= page %></a>
+              </li>
+          <% end %>
+
       <% end %>
 
 
       <li class="pagination-item--wide last">
-        <a class="pagination-link--wide last" href="<%= "/#{@category_name.downcase}/page/#{@page_param.to_i + 1}" %>">Next</a>
-      </li> </ul>
+        <% if !@page.nil? %>
+            <% if @page.to_i < @pages.to_i %>
+                <a class="pagination-link--wide last" href="<%= "/product=#{@product_param}/page=#{@page.to_i + 1}" %>">Next</a>
+            <% end %>
+        <% end %>
+      </li>
+    </ul>
 
   </div>
 
   <div id="products" class="row list-group">
-    <%  @products.each do |product| %>
-        <% description = eval(product.description).deep_symbolize_keys %>
+    <% @products.each do |product| %>
+        <% description = eval(product.description) %>
         <div class="item col-xs-4 col-lg-4">
 
           <div class="thumbnail">
-            <a href="<%= "/#{@category_name.downcase}/#{product.id}" %>"><img class="group list-group-image" src="<%= description[:main_picture_url] %>" alt="" /></a>
+            <a href="<%= "/store_mcomputers/#{product.id}" %>"><img class="group list-group-image" src="<%= description[:main_picture_url] %>" alt="" /></a>
             <div class="caption">
 
               <h4 class="group inner list-group-item-heading">
-                <a href="<%= "/#{@category_name.downcase}/#{product.id}" %>"><%= description[:code] %></a>
+                <a href="<%= "/store_mcomputers/#{product.id}" %>"><%= description[:code] %></a>
               </h4>
 
               <p class="group inner list-group-item-text">
-               <ul>
-                <% description[:properties][:property].each do |property| %>
-                     <% if property[:name][/Screen size|Screen Resolution|OS|HDD|Memory size|CPU Model|Graphics|HDD|SSD|Body Color/i] %>
-                        <li><%= property[:name]%>: <%= property[:text]%></li>
-                     <% end %>
-                <% end %>
-                   </ul>
+                <ul>
+
+                  <% product_property = description[:properties][:property] %>
+
+                  <% product_property.each do |property| %>
+                      <% property %>
+                    <% end %>
+               </ul>
               </p>
 
               <div class="row">
@@ -237,7 +258,7 @@
                 </div>
 
                 <div class="col-xs-12 col-md-6">
-                  <a class="btn btn-success" href="<%= "/#{@category_name.downcase}/#{product.id}" %>">View product</a>
+                  <a class="btn btn-success" href="<%= "/store_mcomputers/#{product.id}" %>">View product</a>
                   <br>
                   <a class="btn btn-success" href="http://www.jquery2dotnet.com">Add to cart</a>
                 </div>
@@ -249,23 +270,4 @@
     <% end %>
   </div>
 </div>
-<div class="pagination-container wow zoomIn mar-b-1x" data-wow-duration="0.5s">
 
-  <ul class="pagination">
-    <li class="pagination-item--wide first">
-      <a class="pagination-link--wide first" href="/<%= "#{@category_name.downcase}/page/#{@page_param.to_i - 1}" %>">Previous</a>
-    </li>
-
-        <% (1..@pages).each do |page|%>
-            <li class="pagination-item">
-              <a class="pagination-link" href="<%= "/#{@category_name.downcase}/page/#{page}" %>"><%= page %></a>
-            </li>
-        <% end %>
-
-
-    <li class="pagination-item--wide last">
-      <a class="pagination-link--wide last" href="<%= "/#{@category_name.downcase}/page/#{@page_param.to_i + 1}" %>">Next</a>
-    </li>
-  </ul>
-
-</div>

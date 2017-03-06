@@ -1,0 +1,76 @@
+<p id="notice"><%= notice %></p>
+
+<h3>Listing Admin Product Features</h3>
+<%= link_to 'New Product feature', new_admin_product_feature_path %>
+<div class="pagination-container wow zoomIn mar-b-1x" data-wow-duration="0.5s">
+
+  <ul class="pagination">
+    <li class="pagination-item--wide first">
+      <% if !@page.nil? %>
+          <% if @page.to_i > 0 %>
+            <a class="pagination-link--wide first" href="/admin/product_features/product=<%= "#{@product_param}/page=#{@page.to_i - 1}" %>">Previous</a>
+          <% end %>
+      <% end %>
+      </li>
+
+    <% (1..@pages).each do |page|%>
+        <li class="pagination-item">
+          <a class="pagination-link" href="<%= "/admin/product_features/product=#{@product_param}/page=#{page}" %>"><%= page %></a>
+        </li>
+    <% end %>
+
+
+    <li class="pagination-item--wide last">
+      <% if !@page.nil? %>
+          <% if @page.to_i < @pages.to_i %>
+            <a class="pagination-link--wide last" href="<%= "/admin/product_features/product=#{@product_param}/page=#{@page.to_i + 1}" %>">Next</a>
+      <% end %>
+    <% end %>
+   </li>
+  </ul>
+
+</div>
+<table class = "table table-bordered table-striped" >
+  <thead>
+    <tr>
+      <th>Category ID</th>
+      <th>Category</th>
+      <th>Product ID</th>
+      <th>Product </th>
+      <th>Description</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @admin_product_features.each do |admin_product_feature| %>
+      <tr>
+        <td><%= admin_product_feature.category_id %></td>
+        <td> <%= Admin::Category.where(id: admin_product_feature.category_id).first.name_cat %></td>
+        <td><%= admin_product_feature.sub_category_id %></td>
+        <td> <%= Admin::SubCategory.where(id: admin_product_feature.sub_category_id).first.name %></td>
+        <td>
+
+           <% #eval(@products.description).deep_symbolize_keys%>
+          <% descript_product = eval(admin_product_feature.description) %>
+            <ul>
+              <li><%= descript_product[:code] %></li>
+              <li><%= descript_product[:product_status] %></li>
+              <li><%= descript_product[:price] %></li>
+              <li><%= descript_product[:currency] %></li>
+              <li><%= descript_product %></li>
+            </ul>
+        </td>
+
+
+        <td><%= link_to 'Show', admin_product_feature %></td>
+        <td><%= link_to 'Edit', edit_admin_product_feature_path(admin_product_feature) %></td>
+        <td><%= link_to 'Destroy', admin_product_feature, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+

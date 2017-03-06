@@ -332,6 +332,26 @@
         <a href="/admin">Admin Dashbord</a>
       </li>
 
+<hr>
+      <li style="font-size: large; font-style: italic">
+        <a href="/admin">Products</a>
+      </li>
+      <% category_buttons.each do |button| %>
+          <li class="dropdown" style="font-size: 16px">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= button.name_cat %><span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <% sub_category_buttons.each do |sub_button| %>
+                  <% if sub_button.category_id == button.id %>
+                      <li style="width: 400px;"><a href="/admin/product_features/product=<%= sub_button.identifier %>"><%= sub_button.name %></a></li>
+                  <% end %>
+              <% end %>
+            </ul>
+      <%  end %>
+      </li>
+
+<hr>
+
+
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Categories<span class="caret"></span></a>
         <ul class="dropdown-menu" role="menu">
@@ -342,14 +362,14 @@
       </li>
 
       <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Products<span class="caret"></span></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Subcategory<span class="caret"></span></a>
         <ul class="dropdown-menu" role="menu">
-          <li class="dropdown-header">Dropdown heading</li>
-          <% category_buttons.each do |button| %>
-              <li style="width: 400px"><a href="/admin/<%= button.name_cat.downcase %>"><%= button.name_cat %></a></li>
-          <% end %>
+          <li class="dropdown-header">Subcategories</li>
+          <li style="width: 400px"><a href="/admin/sub_categories">View Subcategory</a></li>
+          <li style="width: 400px"><a href="/admin/sub_categories/new">Create Subcategory</a></li>
         </ul>
       </li>
+
       <li>
         <a href="/admin/extract_xmls">Extract xml</a></li>
       </li>

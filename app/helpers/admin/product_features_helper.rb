@@ -1,0 +1,2 @@
+module Admin::ProductFeaturesHelper
+end

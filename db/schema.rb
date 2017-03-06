@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170216103111) do
+ActiveRecord::Schema.define(version: 20170301144610) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,60 +30,16 @@ ActiveRecord::Schema.define(version: 20170216103111) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "admin_laptops", force: :cascade do |t|
+  create_table "admin_product_features", force: :cascade do |t|
     t.integer  "category_id"
-    t.string   "code"
-    t.string   "name"
-    t.string   "product_status"
-    t.string   "hashpromo"
-    t.string   "general_description"
-    t.string   "classname"
-    t.string   "price"
-    t.string   "currency"
-    t.text     "main_picture_url"
-    t.string   "manufacturer"
-    t.string   "category"
-    t.string   "partnum"
-    t.text     "gallery"
-    t.string   "vendor_url"
-    t.string   "property_manufacturer"
-    t.string   "property_mnfr_part"
-    t.string   "property_model"
-    t.string   "property_screen_size"
-    t.string   "property_screen_type"
-    t.string   "property_screen_resolution"
-    t.string   "property_memory_size"
-    t.string   "property_memory_type"
-    t.string   "property_cpu"
-    t.string   "model"
-    t.string   "property_graphics"
-    t.string   "property_hdd"
-    t.string   "property_ssd"
-    t.string   "property_disk_specifications"
-    t.string   "property_interface"
-    t.string   "property_camera"
-    t.string   "property_odd"
-    t.string   "property_os"
-    t.string   "property_wi_fi"
-    t.string   "property_audio"
-    t.string   "property_lan"
-    t.string   "property_bluetooth"
-    t.string   "property_body_color"
-    t.string   "property_battery"
-    t.string   "property_dimensions"
-    t.string   "property_weight"
-    t.string   "property_other"
-    t.string   "property_warranty"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.integer  "sub_category_id"
+    t.string   "identifier"
+    t.text     "description"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
-  create_table "admin_notebooks", force: :cascade do |t|
-    t.integer  "category_id"
-    t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
+  add_index "admin_product_features", ["identifier"], name: "index_admin_product_features_on_identifier", using: :btree
 
   create_table "admin_products", force: :cascade do |t|
     t.integer  "category_id"
@@ -91,6 +47,17 @@ ActiveRecord::Schema.define(version: 20170216103111) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "admin_sub_categories", force: :cascade do |t|
+    t.integer  "category_id"
+    t.string   "name"
+    t.string   "identifier"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "admin_sub_categories", ["identifier"], name: "index_admin_sub_categories_on_identifier", using: :btree
+  add_index "admin_sub_categories", ["name"], name: "index_admin_sub_categories_on_name", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username"

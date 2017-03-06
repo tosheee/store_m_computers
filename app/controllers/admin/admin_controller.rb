@@ -9,7 +9,7 @@ class Admin::AdminController < ApplicationController
   end
 
   def admin
-
+   @product_all = Admin::ProductFeature.all
   end
 
 end

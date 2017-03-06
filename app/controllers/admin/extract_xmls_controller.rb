@@ -68,21 +68,70 @@ class Admin::ExtractXmlsController < Admin::AdminController
   def record_products(new_hash)
     new_hash.select do |key|
 
-      product = Admin::Product.new
+      product = Admin::ProductFeature.new
       case
       when key[:classname].to_s.squish[/notebook/i]
-        product.category_id = 1
+        product.category_id = 20
+        product.sub_category_id = 2
+        product.identifier = 'laptops'
         product.description = key
         product.save
       when key[:classname].to_s.squish[/tablet/i]
-        product.category_id = 2
+        product.category_id = 23
+        product.sub_category_id = 4
+        product.identifier = 'tablets'
         product.description = key
         product.save
       when key[:classname].to_s.squish[/Smart Phone/i]
-        product.category_id = 3
+        product.category_id = 23
+        product.sub_category_id = 3
+        product.identifier = 'smartphones'
         product.description = key
         product.save
-      end
+      when key[:classname].to_s.squish[/FAN/i]
+        product.category_id = 31
+        product.sub_category_id = 6
+        product.identifier = 'fan'
+        product.description = key
+        product.save
+      when key[:classname].to_s.squish[/CPU/i]
+        product.category_id = 31
+        product.sub_category_id = 7
+        product.identifier = 'cpu'
+        product.description = key
+        product.save
+      when key[:classname].to_s.squish[/Mainboard/i]
+        product.category_id = 31
+        product.sub_category_id = 8
+        product.identifier = 'mainboard'
+        product.description = key
+        product.save
+      when key[:classname].to_s.squish[/Video Card/i]
+        product.category_id = 31
+        product.sub_category_id = 9
+        product.identifier = 'video_card'
+        product.description = key
+        product.save
+      when key[:classname].to_s.squish[/Case/i]
+        product.category_id = 31
+        product.sub_category_id = 10
+        product.identifier = 'Case'
+        product.description = key
+        product.save
+      when key[:classname].to_s.squish[/HDD/i]
+        product.category_id = 31
+        product.sub_category_id = 11
+        product.identifier = 'hard_disks'
+        product.description = key
+        product.save
+      when key[:classname].to_s.squish[/RAM/i]
+      product.category_id = 31
+      product.sub_category_id = 12
+      product.identifier = 'hard_disks'
+      product.description = key
+      product.save
+    end
+
     end
 
   end

@@ -6,6 +6,15 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :categories
+    resources :sub_categories
+
+
+    controller :product_features do
+      get 'product_features/product=:product', to: 'product_features#index'
+      get 'product_features/product=:product/page=:page', to: 'product_features#index'
+      resources :product_features
+    end
+
 
     resources :extract_xmls do
       post :extract_xml_file, on: :member
@@ -17,10 +26,14 @@ Rails.application.routes.draw do
     resources :products
   end
 
+   resources :store_mcomputers
+
   controller 'store_mcomputers' do
-    get '/:product/page/:page', to: 'store_mcomputers#list'
-    get '/:product', to: 'store_mcomputers#list'
-    get '/:product/:id', to: 'store_mcomputers#show'
+    get '/product=:product', to: 'store_mcomputers#list'
+    get '/product=:product/page=:page', to: 'store_mcomputers#list'
+    #get '/:product/page/:page', to: 'store_mcomputers#list'
+    #get '/:product', to: 'store_mcomputers#list'
+    #get '/:product/:id', to: 'store_mcomputers#show'
   end
 
 
