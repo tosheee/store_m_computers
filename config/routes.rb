@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root 'store_mcomputers#store_mcomputers'
 
   devise_for :users
+  get 'configurator', to: 'configurator#configurator'
 
   namespace :admin do
     resources :categories

@@ -36,7 +36,8 @@
       <th>Category ID</th>
       <th>Category</th>
       <th>Product ID</th>
-      <th>Product </th>
+      <th>Product</th>
+      <th>Identifier</th>
       <th>Description</th>
       <th colspan="3"></th>
     </tr>
@@ -49,6 +50,7 @@
         <td> <%= Admin::Category.where(id: admin_product_feature.category_id).first.name_cat %></td>
         <td><%= admin_product_feature.sub_category_id %></td>
         <td> <%= Admin::SubCategory.where(id: admin_product_feature.sub_category_id).first.name %></td>
+        <td> <%= admin_product_feature.identifier %></td>
         <td>
 
            <% #eval(@products.description).deep_symbolize_keys%>

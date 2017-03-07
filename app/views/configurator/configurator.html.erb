@@ -1,0 +1,118 @@
+<style>
+
+    select {
+        margin: 20px;
+        border: 1px solid #111;
+        background: transparent;
+        width: 600px;
+        padding: 5px 35px 5px 5px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        height: 34px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: url() 96% / 15% no-repeat #eee;
+    }
+
+</style>
+
+
+
+
+
+<h1>Hello configurator</h1>
+
+<table class = "table table-bordered table-striped" >
+
+  <tr>
+    <td></td>
+    <td>Дъна:</td>
+    <td><%= select("post", "mainboards", @mainboards.collect {|c| [  "#{eval(c.description)[:code]}  - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td id="price_main_board">0 лв.</td>
+    <td id="link_main_board"><a href="/store_mcomputers/">info</a></td>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td>Процесори:</td>
+    <td><%= select("post", "cpu", @cpus.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td id="price_cpu">0 лв.</td>
+    <td id="link_cpu"><a href="/store_mcomputers/">info</a></td>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td>Видео карти:</td>
+    <td><%= select("post", "video_cart", @video_cards.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td id="price_video">0 лв.</td>
+    <td id="link_video">info</td>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td>RAM памет:</td>
+    <td><%= select("post", "ram_mem", @rams.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td id="price_ram">0 лв.</td>
+    <td id="link_ram">info</td>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td>Хард дискове:</td>
+    <td><%= select("post", "hard_disk",  @hard_disks.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td id="price_hard_disk">0 лв.</td>
+    <td id="link_hard_disk">info</td>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td>Кутии</td>
+    <td><%= select("post", "case",  @cases.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td id="price_case">0 лв.</td>
+    <td id="link_case">info</td>
+  </tr>
+</table>
+
+Общо:<div id="command-price">
+
+</div>
+
+<script>
+    $("#post_mainboards").change(function(){
+        var value = $(this).val()
+        var val = value.split(':')
+        $('#price_main_board').empty();;
+        $('#price_main_board').append(val[1]).innerHTML
+    });
+
+    $("#post_cpu").change(function(){
+        var value = $(this).val()
+        var val = value.split(':')
+        $('#price_cpu').empty();;
+        $('#price_cpu').append(val[1]).innerHTML
+    });
+
+    $("#post_video_cart").change(function(){
+        var value = $(this).val()
+        var val = value.split(':')
+        $('#price_video').empty();;
+        $('#price_video').append(val[1]).innerHTML
+    });
+
+    $("#post_ram_mem").change(function(){
+        var value = $(this).val()
+        var val = value.split(':')
+        $('#price_ram').empty();;
+        $('#price_ram').append(val[1]).innerHTML
+    });
+
+    $("#post_hard_disk").change(function(){
+        var value = $(this).val()
+        var val = value.split(':')
+        $('#price_hard_disk').empty();;
+        $('#price_hard_disk').append(val[1]).innerHTML
+    });
+
+
+</script>
