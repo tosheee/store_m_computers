@@ -1,5 +1,4 @@
-
-  <% if @products_all %>
+<% if @products_all %>
       <% brands = [] %>
       <%  @products_all.each do |product| %>
           <% description = eval(product.description) %>

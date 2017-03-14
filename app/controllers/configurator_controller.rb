@@ -8,11 +8,5 @@ class ConfiguratorController < ApplicationController
      @cases = Admin::ProductFeature.where(sub_category_id: 10)
      @hard_disks = Admin::ProductFeature.where(sub_category_id: 11)
      @rams = Admin::ProductFeature.where(sub_category_id: 12)
-
-
-    #render text: @components.select do |component|
-     # component
-    #end
-
   end
 end

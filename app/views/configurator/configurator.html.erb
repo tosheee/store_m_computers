@@ -1,10 +1,26 @@
 <style>
+    .sum-p{
+        text-align: center;
+        display: inline;
+    }
+    tr:nth-child(even){
+        background-color: #f2f2f2
+    }
+    td{
+        width: 100px;
+        margin: 50px;
+        font-size: 16px;
+        font-style: oblique;
+        text-align: center;
+        padding: 5px 35px 5px 5px;
+
+    }
 
     select {
-        margin: 20px;
+        margin: 5px;
         border: 1px solid #111;
         background: transparent;
-        width: 600px;
+        width: 800px;
         padding: 5px 35px 5px 5px;
         font-size: 16px;
         border: 1px solid #ccc;
@@ -12,7 +28,7 @@
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-        background: url() 96% / 15% no-repeat #eee;
+       // background: url() 96% / 15% no-repeat #eee;
     }
 
 </style>
@@ -26,93 +42,187 @@
 <table class = "table table-bordered table-striped" >
 
   <tr>
-    <td></td>
-    <td>Дъна:</td>
+    <td>Дънo:</td>
     <td><%= select("post", "mainboards", @mainboards.collect {|c| [  "#{eval(c.description)[:code]}  - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
-    <td id="price_main_board">0 лв.</td>
-    <td id="link_main_board"><a href="/store_mcomputers/">info</a></td>
+    <td id="price_main_board">0</td>
+    <td><a id="link_main_board" href="" target="_blank">info</a></td>
   </tr>
 
   <tr>
-    <td></td>
-    <td>Процесори:</td>
+    <td>Процесор:</td>
     <td><%= select("post", "cpu", @cpus.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
-    <td id="price_cpu">0 лв.</td>
-    <td id="link_cpu"><a href="/store_mcomputers/">info</a></td>
+    <td id="price_cpu">0</td>
+    <td><a id="link_cpu" href="" target="_blank">info</a></td>
   </tr>
 
   <tr>
-    <td></td>
-    <td>Видео карти:</td>
+    <td>Видео картa:</td>
     <td><%= select("post", "video_cart", @video_cards.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
-    <td id="price_video">0 лв.</td>
-    <td id="link_video">info</td>
+    <td id="price_video">0</td>
+    <td><a id="link_video" href="" target="_blank">info</a></td>
   </tr>
 
   <tr>
-    <td></td>
     <td>RAM памет:</td>
     <td><%= select("post", "ram_mem", @rams.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
-    <td id="price_ram">0 лв.</td>
-    <td id="link_ram">info</td>
+    <td id="price_ram">0</td>
+    <td><a id="link_ram" href="" target="_blank">info</a></td>
   </tr>
 
   <tr>
-    <td></td>
-    <td>Хард дискове:</td>
+    <td>Хард диск:</td>
     <td><%= select("post", "hard_disk",  @hard_disks.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
-    <td id="price_hard_disk">0 лв.</td>
-    <td id="link_hard_disk">info</td>
+    <td id="price_hard_disk">0</td>
+    <td><a id="link_hard_disk" href="" target="_blank">info</a></td>
   </tr>
 
   <tr>
-    <td></td>
-    <td>Кутии</td>
+    <td>Кутия:</td>
     <td><%= select("post", "case",  @cases.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
-    <td id="price_case">0 лв.</td>
-    <td id="link_case">info</td>
+    <td id="price_case">0</td>
+    <td><a id="link_case" href="" target="_blank">info</a></td>
   </tr>
 </table>
 
-Общо:<div id="command-price">
-
+<hr>
+<div class="sum-p">
+  <div><strong>Общо:</strong></div><div id="sum-prices"> </div>
 </div>
+<hr>
 
 <script>
     $("#post_mainboards").change(function(){
-        var value = $(this).val()
-        var val = value.split(':')
-        $('#price_main_board').empty();;
-        $('#price_main_board').append(val[1]).innerHTML
+        var value = $(this).val();
+        var val = value.split(':');
+        var mainborad_price = 0;
+
+
+        var link_mainboards = val[0];
+        $('a#link_main_board').attr('href', 'store_mcomputers/' + link_mainboards);
+
+
+        if (isNaN(val[1])){
+            mainborad_price = 0;
+        } else {
+            mainborad_price = val[1];
+        }
+
+        $('#price_main_board').empty();
+        $('#price_main_board').append(mainborad_price).innerHTML;
+        sum_price();
     });
 
     $("#post_cpu").change(function(){
-        var value = $(this).val()
-        var val = value.split(':')
-        $('#price_cpu').empty();;
-        $('#price_cpu').append(val[1]).innerHTML
+        var value = $(this).val();
+        var val = value.split(':');
+        var price_cpu = 0;
+
+        var link_cpu = val[0];
+        $('a#link_cpu').attr('href', 'store_mcomputers/' + link_cpu);
+
+
+        if (isNaN(val[1])){
+             price_cpu = 0;
+        } else {
+            price_cpu = val[1];
+        }
+
+        $('#price_cpu').empty();
+        $('#price_cpu').append(price_cpu).innerHTML;
+        sum_price();
     });
 
     $("#post_video_cart").change(function(){
-        var value = $(this).val()
-        var val = value.split(':')
-        $('#price_video').empty();;
-        $('#price_video').append(val[1]).innerHTML
+        var value = $(this).val();
+        var val = value.split(':');
+        var price_video = 0;
+
+        var link_video_cart = val[0];
+        $('a#link_video').attr('href', 'store_mcomputers/' + link_video_cart);
+
+        if (isNaN(val[1])){
+            price_video = 0;
+        } else {
+            price_video = val[1];
+        }
+
+        $('#price_video').empty();
+        $('#price_video').append(price_video).innerHTML;
+        sum_price();
     });
 
     $("#post_ram_mem").change(function(){
-        var value = $(this).val()
-        var val = value.split(':')
-        $('#price_ram').empty();;
-        $('#price_ram').append(val[1]).innerHTML
+        var value = $(this).val();
+        var val = value.split(':');
+        var price_memory = 0;
+
+        var link_ram_mem = val[0];
+        $('a#link_ram').attr('href', 'store_mcomputers/' + link_ram_mem);
+
+
+        if (isNaN(val[1])){
+            price_memory = 0;
+        } else {
+            price_memory = val[1];
+        }
+
+        $('#price_ram').empty();
+        $('#price_ram').append(price_memory).innerHTML;
+        sum_price();
     });
 
     $("#post_hard_disk").change(function(){
-        var value = $(this).val()
-        var val = value.split(':')
-        $('#price_hard_disk').empty();;
-        $('#price_hard_disk').append(val[1]).innerHTML
+        var value = $(this).val();
+        var val = value.split(':');
+        var price_hard_disk = 0;
+
+        var link_hard_disk = val[0];
+        $('a#link_hard_disk').attr('href', 'store_mcomputers/' + link_hard_disk);
+
+
+        if (isNaN(val[1])){
+            price_hard_disk = 0;
+        } else {
+            price_hard_disk = val[1];
+        }
+
+        $('#price_hard_disk').empty();
+        $('#price_hard_disk').append(price_hard_disk).innerHTML;
+        sum_price();
     });
 
+    $("#post_case").change(function(){
+        var value = $(this).val();
+        var val = value.split(':');
+        var price_case = 0;
 
+        var link_case = val[0];
+        $('a#link_case').attr('href', 'store_mcomputers/' + link_case);
+
+
+        if (isNaN(val[1])){
+            price_case = 0;
+        } else {
+            price_case = val[1];
+        }
+
+        $('#price_case').empty();
+        $('#price_case').append(price_case).innerHTML;
+        sum_price();
+    });
+
+    function sum_price(){
+
+        var p_main_board = parseFloat(document.getElementById('price_main_board').innerHTML);
+        var p_cpu = parseFloat(document.getElementById('price_cpu').innerHTML);
+        var p_video = parseFloat(document.getElementById('price_video').innerHTML);
+        var p_ram = parseFloat(document.getElementById('price_ram').innerHTML);
+        var p_hard = parseFloat(document.getElementById('price_hard_disk').innerHTML);
+        var p_case = parseFloat(document.getElementById('price_case').innerHTML);
+        var result = p_main_board + p_cpu + p_video + p_ram + p_hard + p_case;
+
+        console.log(result);
+        $('#sum-prices').empty();
+        $('#sum-prices').append(result.toFixed( 2 ));
+    }
 </script>

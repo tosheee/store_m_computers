@@ -4,6 +4,8 @@
   <title>StoreMcomputers</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -18,7 +20,7 @@
     </header>
 
     <nav id="nav-vertical">
-      <% render 'shared/right_vertical_meny'%>
+      <%= render 'shared/right_vertical_meny'%>
       <%= render 'admin/admin_shared/admin_vertical_menu' if user_signed_in? && current_user.role == 'super_admin' %>
     </nav>
 
