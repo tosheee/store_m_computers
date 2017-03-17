@@ -3,7 +3,7 @@
     .glyphicon { margin-right:5px; }
     .thumbnail
     {
-        width: 300px;
+        width: 370px;
         height: 700px;
         margin-bottom: 20px;
         padding: 0px;
@@ -26,7 +26,6 @@
 
     .item.list-group-item .list-group-image
     {
-
         margin-right: 10px;
     }
     .item.list-group-item .thumbnail
@@ -228,37 +227,44 @@
         <% description = eval(product.description) %>
         <div class="item col-xs-4 col-lg-4">
 
-          <div class="thumbnail">
-            <a href="<%= "/store_mcomputers/#{product.id}" %>"><img class="group list-group-image" src="<%= description[:main_picture_url] %>" alt="" /></a>
+          <div class="thumbnail" style="">
+            <a href="<%= "/store_mcomputers/#{product.id}" %>"><img style="height: 270px;" class="group list-group-image" src="<%= description[:main_picture_url] %>" alt="" /></a>
             <div class="caption">
 
               <h4 class="group inner list-group-item-heading">
                 <a href="<%= "/store_mcomputers/#{product.id}" %>"><%= description[:code] %></a>
               </h4>
 
-              <p class="group inner list-group-item-text">
-                <ul>
+              <div style="height: 220px;" class="group inner list-group-item-text">
+
 
                   <% product_property = description[:properties][:property] %>
 
                   <% product_property.each do |property| %>
-                      <% property %>
-                    <% end %>
-               </ul>
-              </p>
+                      <% if property.is_a?(Hash) && property[:name][/CPU Model|SSD|HDD|Screen size|Screen Resolution|Memory size|Memory size|Graphics/] %>
+                        <li><%= property[:name] %>: <%= property[:text] %></li>
+                      <% else %>
+                        <% property %>
+                      <% end %>
+                  <% end %>
+
+              </div>
 
               <div class="row">
-                <div class="col-xs-12 col-md-6">
+                <div style="margin-left: 120px;" class="col-xs-12 col-md-6">
 
                   <p class="lead">
                     <%= description[:price] %> <%= description[:currency] %>
                   </p>
                 </div>
 
-                <div class="col-xs-12 col-md-6">
-                  <a class="btn btn-success" href="<%= "/store_mcomputers/#{product.id}" %>">View product</a>
-                  <br>
-                  <a class="btn btn-success" href="http://www.jquery2dotnet.com">Add to cart</a>
+                <div>
+                  <div class="btn-group">
+
+                      <a style="margin: 40px" class="btn btn-success" href="<%= "/store_mcomputers/#{product.id}" %>">View product</a>
+                      <a style="margin: 40px" class="btn btn-success" href="http://www.jquery2dotnet.com">Add to cart</a>
+
+                    </div>
                 </div>
               </div>
             </div>
@@ -269,3 +275,37 @@
   </div>
 </div>
 
+<div class="pagination-container wow zoomIn mar-b-1x" data-wow-duration="0.5s">
+
+  <ul class="pagination">
+    <li class="pagination-item--wide first">
+      <% if !@page.nil? %>
+          <% if @page.to_i > 0 %>
+              <a class="pagination-link--wide first" href="/product=<%= "#{@product_param}/page=#{@page.to_i - 1}" %>">Previous</a>
+          <% end %>
+      <% end %>
+    </li>
+
+    <% (1..@pages).each do |page|%>
+
+        <% if page.to_i == @page.to_i  %>
+            <li class="pagination-item is-active">
+              <a class="pagination-link" href="<%= "/product=#{@product_param}/page=#{page}" %>"><%= page %></a>
+            </li>
+        <% else %>
+            <li class="pagination-item">
+              <a class="pagination-link" href="<%= "/product=#{@product_param}/page=#{page}" %>"><%= page %></a>
+            </li>
+        <% end %>
+
+    <% end %>
+
+
+    <li class="pagination-item--wide last">
+      <% if @page.to_i < @pages.to_i %>
+          <a class="pagination-link--wide last" href="<%= "/product=#{@product_param}/page=#{@page.to_i + 1}" %>">Next</a>
+      <% end %>
+    </li>
+  </ul>
+
+</div>

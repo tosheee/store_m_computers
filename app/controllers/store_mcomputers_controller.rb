@@ -1,6 +1,5 @@
 class StoreMcomputersController < ApplicationController
 
-
   def store_mcomputers
     @categories = Admin::Category.all
   end

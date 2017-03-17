@@ -21,20 +21,11 @@ class Admin::ProductFeaturesController < Admin::AdminController
 
   end
 
-  # unless params[:id].nil?
-  #  @admin_product_features = Admin::ProductFeature.where(sub_category_id: params[:id])
-  #else
-  # @admin_product_features = Admin::ProductFeature.all
-  #end
-
   def show
   end
 
   def new
     @admin_product_feature = Admin::ProductFeature.new
-  end
-
-  def edit
   end
 
   def create
@@ -58,9 +49,12 @@ class Admin::ProductFeaturesController < Admin::AdminController
     end
   end
 
+
+  def edit
+  end
+
   def update
-    #render text: admin_product_params
-    @admin_product_feature.update(admin_product_params)
+   @admin_product_feature.update(admin_product_params)
     if @admin_product_feature.errors.empty?
       redirect_to admin_product_feature_path(@admin_product_feature)
     else
@@ -70,21 +64,16 @@ class Admin::ProductFeaturesController < Admin::AdminController
 
   def destroy
     @admin_product_feature.destroy
-    respond_to do |format|
-      format.html { redirect_to admin_product_features_url, notice: 'Product feature was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to admin_product_feature_path(@admin_product_feature)
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_admin_product_feature
       @admin_product_feature = Admin::ProductFeature.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def admin_product_feature_params
-      #params.require(:admin_product_feature).permit(:category_id, :sub_category_id, :description)
       params.require(:admin_product_feature).permit(:category_id, :sub_category_id).tap do |whitelisted|
         whitelisted[:description] = Hash params[:admin_product][:description].deep_symbolize_keys
       end
