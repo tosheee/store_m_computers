@@ -1,0 +1,34 @@
+<div class="pagination-container wow zoomIn mar-b-1x" data-wow-duration="0.5s">
+
+  <ul class="pagination">
+    <li class="pagination-item--wide first">
+      <% if !@page.nil? %>
+          <% if @page.to_i > 0 %>
+              <a class="pagination-link--wide first" href="/product=<%= "#{@product_param}/page=#{@page.to_i - 1}" %>">Previous</a>
+          <% end %>
+      <% end %>
+    </li>
+
+    <% (1..@pages).each do |page|%>
+
+        <% if page.to_i == @page.to_i  %>
+            <li class="pagination-item is-active">
+              <a class="pagination-link" href="<%= "/product=#{@product_param}/page=#{page}" %>"><%= page %></a>
+            </li>
+        <% else %>
+            <li class="pagination-item">
+              <a class="pagination-link" href="<%= "/product=#{@product_param}/page=#{page}" %>"><%= page %></a>
+            </li>
+        <% end %>
+
+    <% end %>
+
+
+    <li class="pagination-item--wide last">
+      <% if @page.to_i < @pages.to_i %>
+          <a class="pagination-link--wide last" href="<%= "/product=#{@product_param}/page=#{@page.to_i + 1}" %>">Next</a>
+      <% end %>
+    </li>
+  </ul>
+
+</div>

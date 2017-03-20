@@ -19,7 +19,6 @@ class StoreMcomputersController < ApplicationController
     else
       @products = @products_all.limit(product_num).offset(@page)
     end
-
   end
 
   def show
