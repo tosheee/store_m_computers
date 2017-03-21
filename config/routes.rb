@@ -1,9 +1,22 @@
 Rails.application.routes.draw do
 
+  get 'order_items/create'
+
+  get 'order_items/update'
+
+  get 'order_items/destroy'
+
+  get 'carts/show'
+
   root 'store_mcomputers#store_mcomputers'
 
   devise_for :users
   get 'configurator', to: 'configurator#configurator'
+
+  resources :order_items, only: [:create, :update, :destroy]
+
+  resource :cart, only: [:show]
+
 
   namespace :admin do
     resources :categories

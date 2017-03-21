@@ -220,17 +220,16 @@
                 <div style="margin-left: 120px;" class="col-xs-12 col-md-6">
 
                   <p class="lead">
-                    <%= description[:price] %> <%= description[:currency] %>
+                    <%= render "product_row", product: product, order_item: @order_item %>
+                  <div class="btn-group">
+                    <a  class="btn btn-success" href="<%= "/store_mcomputers/#{product.id}" %>">View product</a>
+                  </div>
+                    <% description[:price] %> <% description[:currency] %>
                   </p>
                 </div>
 
                 <div>
-                  <div class="btn-group">
 
-                      <a style="margin: 40px" class="btn btn-success" href="<%= "/store_mcomputers/#{product.id}" %>">View product</a>
-                      <a style="margin: 40px" class="btn btn-success" href="http://www.jquery2dotnet.com">Add to cart</a>
-
-                    </div>
                 </div>
               </div>
             </div>

@@ -5,6 +5,8 @@ class StoreMcomputersController < ApplicationController
   end
 
   def list
+
+    @order_item = current_order.order_items.new
     @page = params[:page]
     @product_param = params[:product]
     @products_all = Admin::ProductFeature.where(identifier: @product_param)
@@ -16,8 +18,10 @@ class StoreMcomputersController < ApplicationController
 
     if @page.nil?
       @products = @products_all.limit(product_num).offset(0)
+      @order_item = current_order.order_items.new
     else
       @products = @products_all.limit(product_num).offset(@page)
+      @order_item = current_order.order_items.new
     end
   end
 
