@@ -3,7 +3,7 @@
           <div class="input-group">
             <%= f.number_field :quantity, value: 1, class: "form-control", min: 1 %>
             <div class="input-group-btn">
-              <%= f.hidden_field :product, value: product.id %>
+              <%= f.hidden_field :admin_product_feature_id, value: product.id %>
               <%= f.submit "Add to Cart", class: "btn btn-primary" %>
             </div>
           </div>

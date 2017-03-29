@@ -187,7 +187,7 @@
     </div>
   </div>
 
-
+  <%= render 'pagination' %>
   <div id="products" class="row list-group">
     <% @products.each do |product| %>
         <% description = eval(product.description) %>
@@ -208,7 +208,11 @@
 
                   <% product_property.each do |property| %>
                       <% if property.is_a?(Hash) && property[:name][/CPU Model|SSD|HDD|Screen size|Screen Resolution|Memory size|Memory size|Graphics/] %>
-                        <li><%= property[:name] %>: <%= property[:text] %></li>
+                        <li style="list-style-type: none; padding: 5px;">
+                          <%= image_tag("tick_icon.png", size: "16") %>
+                          <%= property[:name] %>:
+                          <%= property[:text] %>
+                        </li>
                       <% else %>
                         <% property %>
                       <% end %>

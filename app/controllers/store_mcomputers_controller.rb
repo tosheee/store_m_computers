@@ -26,6 +26,7 @@ class StoreMcomputersController < ApplicationController
   end
 
   def show
+    @order_item = current_order.order_items.new
     unless @products = Admin::ProductFeature.where(id: params[:id]).first
       render text: "Page not found", status: 404
     end

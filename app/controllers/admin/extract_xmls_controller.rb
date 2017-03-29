@@ -69,71 +69,81 @@ class Admin::ExtractXmlsController < Admin::AdminController
     new_hash.select do |key|
 
       product = Admin::ProductFeature.new
+      sub_category = Admin::SubCategory.all
+
       case
       when key[:classname].to_s.squish[/notebook/i]
-        product.category_id = 20
-        product.sub_category_id = 2
+        laptop_data = sub_category.select {|cat| cat.identifier[/laptop/] }.first
+        product.category_id = laptop_data[:category_id]
+        product.sub_category_id = laptop_data[:id]
         product.identifier = 'laptops'
         product.description = key
         product.save
       when key[:classname].to_s.squish[/tablet/i]
-        product.category_id = 23
-        product.sub_category_id = 4
+        tablets_data = sub_category.select {|cat| cat.identifier[/tablets/] }.first
+        product.category_id = tablets_data[:category_id]
+        product.sub_category_id = tablets_data[:id]
         product.identifier = 'tablets'
         product.description = key
         product.save
       when key[:classname].to_s.squish[/Smart Phone/i]
-        product.category_id = 23
-        product.sub_category_id = 3
+        smartphones_data = sub_category.select {|cat| cat.id if cat.identifier[/smartphones/] }.first
+        product.category_id = smartphones_data[:category_id]
+        product.sub_category_id = smartphones_data[:id]
         product.identifier = 'smartphones'
         product.description = key
         product.save
       when key[:classname].to_s.squish[/FAN/i]
-        product.category_id = 31
-        product.sub_category_id = 6
+        fan_data = sub_category.select {|cat| cat.identifier[/fan/] }.first
+        product.category_id = fan_data[:category_id]
+        product.sub_category_id = fan_data[:id]
         product.identifier = 'fan'
         product.description = key
         product.save
       when key[:classname].to_s.squish[/CPU/i]
-        product.category_id = 31
-        product.sub_category_id = 7
+        cpu_data = sub_category.select { |cat| cat.identifier[/cpu/] }.first
+        product.category_id = cpu_data[:category_id]
+        product.sub_category_id = cpu_data[:id]
         product.identifier = 'cpu'
         product.description = key
         product.save
       when key[:classname].to_s.squish[/Mainboard/i]
-        product.category_id = 31
-        product.sub_category_id = 8
+        mainboard_data = sub_category.select { |cat| cat.identifier[/mainboard/] }.first
+        product.category_id = mainboard_data[:category_id]
+        product.sub_category_id = mainboard_data[:id]
         product.identifier = 'mainboard'
         product.description = key
         product.save
       when key[:classname].to_s.squish[/Video Card/i]
-        product.category_id = 31
-        product.sub_category_id = 9
+        video_card_data = sub_category.select { |cat| cat.identifier[/video_card/] }.first
+        product.category_id = video_card_data[:category_id]
+        product.sub_category_id = video_card_data[:id]
         product.identifier = 'video_card'
         product.description = key
         product.save
       when key[:classname].to_s.squish[/Case/i]
-        product.category_id = 31
-        product.sub_category_id = 10
-        product.identifier = 'Case'
+        case_data = sub_category.select { |cat| cat.identifier[/case/] }.first
+        product.category_id = case_data[:category_id]
+        product.sub_category_id = case_data[:id]
+        product.identifier = 'case'
         product.description = key
         product.save
       when key[:classname].to_s.squish[/HDD/i]
-        product.category_id = 31
-        product.sub_category_id = 11
+        hard_disks_data = sub_category.select { |cat| cat.identifier[/hard_disks/] }.first
+        product.category_id = hard_disks_data[:category_id]
+        product.sub_category_id = hard_disks_data[:id]
         product.identifier = 'hard_disks'
         product.description = key
         product.save
       when key[:classname].to_s.squish[/RAM/i]
-      product.category_id = 31
-      product.sub_category_id = 12
-      product.identifier = 'hard_disks'
-      product.description = key
-      product.save
+        ram_data = sub_category.select { |cat| cat.identifier[/ram/] }.first
+        product.category_id = ram_data[:category_id]
+        product.sub_category_id = ram_data[:id]
+        product.identifier = 'ram'
+        product.description = key
+        product.save
+      end
     end
-
-    end
-
   end
 
   private

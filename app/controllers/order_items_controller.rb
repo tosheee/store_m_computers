@@ -2,6 +2,7 @@ class OrderItemsController < ApplicationController
   def create
     @order = current_order
     @order_item = @order.order_items.new(order_item_params)
+    #render text: @order_item
     @order.save
     session[:order_id] = @order.id
   end
@@ -22,6 +23,6 @@ class OrderItemsController < ApplicationController
 
   private
   def order_item_params
-    params.require(:order_item).permit(:quantity, :product_id)
+    params.require(:order_item).permit(:quantity, :admin_product_feature_id)
   end
 end

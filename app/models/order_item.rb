@@ -12,7 +12,7 @@ class OrderItem < ActiveRecord::Base
     if persisted?
       self[:unit_price]
     else
-      product.price
+      (eval(admin_product_feature.description)[:price]).to_f
     end
   end
 
@@ -21,8 +21,8 @@ class OrderItem < ActiveRecord::Base
   end
 
   private
-  def product_present
-    if product.nil?
+  def admin_product_feature_present
+    if admin_product_feature.nil?
       errors.add(:admin_product_feature, "is not valid or is not active.")
     end
   end

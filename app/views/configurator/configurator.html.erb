@@ -37,13 +37,23 @@
 
 
 
-<h1>Hello configurator</h1>
+<h1>Конфигуратор</h1>
 
 <table class = "table table-bordered table-striped" >
 
   <tr>
     <td>Дънo:</td>
-    <td><%= select("post", "mainboards", @mainboards.collect {|c| [  "#{eval(c.description)[:code]}  - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td>
+      <%= select("post", "mainboards", @mainboards.collect {|c|
+                         [  "#{eval(c.description)[:code]}  -
+                             #{eval(c.description)[:price]}
+                             #{eval(c.description)[:currency]}",
+                            "#{c.id}:
+                             #{eval(c.description)[:price]}" ] },
+                              {include_blank: 'Изберете:'}) %>
+    </td>
+
+
     <td id="price_main_board">0</td>
     <td><a id="link_main_board" href="" target="_blank">info</a></td>
   </tr>
@@ -56,17 +66,26 @@
   </tr>
 
   <tr>
+    <td>RAM памет:</td>
+    <td><%= select("post", "ram_mem", @rams.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td id="price_ram">0</td>
+    <td><a id="link_ram" href="" target="_blank">info</a></td>
+  </tr>
+
+
+  <tr>
     <td>Видео картa:</td>
     <td><%= select("post", "video_cart", @video_cards.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
     <td id="price_video">0</td>
     <td><a id="link_video" href="" target="_blank">info</a></td>
   </tr>
 
+
   <tr>
-    <td>RAM памет:</td>
-    <td><%= select("post", "ram_mem", @rams.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
-    <td id="price_ram">0</td>
-    <td><a id="link_ram" href="" target="_blank">info</a></td>
+    <td>Хард диск:</td>
+    <td><%= select("post", "hard_disk",  @hard_disks.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td id="price_hard_disk">0</td>
+    <td><a id="link_hard_disk" href="" target="_blank">info</a></td>
   </tr>
 
   <tr>
@@ -82,20 +101,42 @@
     <td id="price_case">0</td>
     <td><a id="link_case" href="" target="_blank">info</a></td>
   </tr>
+
+  <tr>
+    <td>Захранване:</td>
+    <td><%= select("post", "case",  @cases.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td id="price_case">0</td>
+    <td><a id="link_case" href="" target="_blank">info</a></td>
+  </tr>
 </table>
 
 <hr>
 <div class="sum-p">
   <div><strong>Общо:</strong></div><div id="sum-prices"> </div>
+
+
+  <%= form_for @order_item, remote: true do |f| %>
+
+        <span style="color: green"><%=  %></span></h4>
+
+      <div class="input-group">
+        <div class="input-group-btn">
+          <%= f.submit "Add to Cart", class: "btn btn-primary" %>
+        </div>
+      </div>
+
+
+  <% end %>
+
 </div>
 <hr>
 
 <script>
+  var product_ids = [];
     $("#post_mainboards").change(function(){
         var value = $(this).val();
         var val = value.split(':');
         var mainborad_price = 0;
-
 
         var link_mainboards = val[0];
         $('a#link_main_board').attr('href', 'store_mcomputers/' + link_mainboards);
@@ -118,6 +159,7 @@
         var price_cpu = 0;
 
         var link_cpu = val[0];
+        product_ids.push(link_cpu);
         $('a#link_cpu').attr('href', 'store_mcomputers/' + link_cpu);
 
 
@@ -138,6 +180,7 @@
         var price_video = 0;
 
         var link_video_cart = val[0];
+        product_ids.push(link_video_cart);
         $('a#link_video').attr('href', 'store_mcomputers/' + link_video_cart);
 
         if (isNaN(val[1])){
@@ -157,6 +200,7 @@
         var price_memory = 0;
 
         var link_ram_mem = val[0];
+        product_ids.push(link_ram_mem);
         $('a#link_ram').attr('href', 'store_mcomputers/' + link_ram_mem);
 
 
@@ -177,6 +221,7 @@
         var price_hard_disk = 0;
 
         var link_hard_disk = val[0];
+
         $('a#link_hard_disk').attr('href', 'store_mcomputers/' + link_hard_disk);
 
 
@@ -212,7 +257,6 @@
     });
 
     function sum_price(){
-
         var p_main_board = parseFloat(document.getElementById('price_main_board').innerHTML);
         var p_cpu = parseFloat(document.getElementById('price_cpu').innerHTML);
         var p_video = parseFloat(document.getElementById('price_video').innerHTML);
@@ -220,9 +264,14 @@
         var p_hard = parseFloat(document.getElementById('price_hard_disk').innerHTML);
         var p_case = parseFloat(document.getElementById('price_case').innerHTML);
         var result = p_main_board + p_cpu + p_video + p_ram + p_hard + p_case;
-
-        console.log(result);
+        //console.log(result);
         $('#sum-prices').empty();
         $('#sum-prices').append(result.toFixed( 2 ));
     }
+
+    function param_products(){
+        var main_id = parseInt(document.getElementById('link_main_board').href.split('/')[4])
+        var cpu_id = parseInt(document.getElementById('link_cpu').href.split('/')[4])
+    }
+ 
 </script>

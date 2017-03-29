@@ -42,6 +42,13 @@ ActiveRecord::Schema.define(version: 20170320074554) do
 
   add_index "admin_product_features", ["identifier"], name: "index_admin_product_features_on_identifier", using: :btree
 
+  create_table "admin_products", force: :cascade do |t|
+    t.integer  "category_id"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "admin_sub_categories", force: :cascade do |t|
     t.integer  "category_id"
     t.string   "name"
