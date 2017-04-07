@@ -5,7 +5,6 @@ class StoreMcomputersController < ApplicationController
   end
 
   def list
-
     @order_item = current_order.order_items.new
     @page = params[:page]
     @product_param = params[:product]

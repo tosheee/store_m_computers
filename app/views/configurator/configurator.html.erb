@@ -39,6 +39,8 @@
 
 <h1>Конфигуратор</h1>
 
+<input id="btnHide" class="btn btn-primary" type="button" value="Hide prices"/>
+
 <table class = "table table-bordered table-striped" >
 
   <tr>
@@ -54,21 +56,21 @@
     </td>
 
 
-    <td id="price_main_board">0</td>
+    <td id="price_main_board" class="price_item" >0</td>
     <td><a id="link_main_board" href="" target="_blank">info</a></td>
   </tr>
 
   <tr>
     <td>Процесор:</td>
     <td><%= select("post", "cpu", @cpus.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
-    <td id="price_cpu">0</td>
+    <td id="price_cpu" class="price_item" >0</td>
     <td><a id="link_cpu" href="" target="_blank">info</a></td>
   </tr>
 
   <tr>
     <td>RAM памет:</td>
     <td><%= select("post", "ram_mem", @rams.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
-    <td id="price_ram">0</td>
+    <td id="price_ram" class="price_item" >0</td>
     <td><a id="link_ram" href="" target="_blank">info</a></td>
   </tr>
 
@@ -76,7 +78,7 @@
   <tr>
     <td>Видео картa:</td>
     <td><%= select("post", "video_cart", @video_cards.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
-    <td id="price_video">0</td>
+    <td id="price_video" class="price_item" >0</td>
     <td><a id="link_video" href="" target="_blank">info</a></td>
   </tr>
 
@@ -84,28 +86,28 @@
   <tr>
     <td>Хард диск:</td>
     <td><%= select("post", "hard_disk",  @hard_disks.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
-    <td id="price_hard_disk">0</td>
+    <td id="price_hard_disk" class="price_item" >0</td>
     <td><a id="link_hard_disk" href="" target="_blank">info</a></td>
   </tr>
 
   <tr>
     <td>Хард диск:</td>
     <td><%= select("post", "hard_disk",  @hard_disks.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
-    <td id="price_hard_disk">0</td>
+    <td id="price_hard_disk" class="price_item" >0</td>
     <td><a id="link_hard_disk" href="" target="_blank">info</a></td>
   </tr>
 
   <tr>
     <td>Кутия:</td>
     <td><%= select("post", "case",  @cases.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
-    <td id="price_case">0</td>
+    <td id="price_case" class="price_item" >0</td>
     <td><a id="link_case" href="" target="_blank">info</a></td>
   </tr>
 
   <tr>
     <td>Захранване:</td>
     <td><%= select("post", "case",  @cases.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
-    <td id="price_case">0</td>
+    <td id="price_case" class="price_item">0</td>
     <td><a id="link_case" href="" target="_blank">info</a></td>
   </tr>
 </table>
@@ -113,26 +115,46 @@
 <hr>
 <div class="sum-p">
   <div><strong>Общо:</strong></div><div id="sum-prices"> </div>
-
-
-  <%= form_for @order_item, remote: true do |f| %>
-
-        <span style="color: green"><%=  %></span></h4>
-
-      <div class="input-group">
-        <div class="input-group-btn">
-          <%= f.submit "Add to Cart", class: "btn btn-primary" %>
-        </div>
-      </div>
-
-
-  <% end %>
-
+  <span style="color: green"><%=  %></span></h4>
+  <div class="input-group">
+    <div class="input-group-btn">
+      <button id="product_ids" class="btn btn-primary" >add to cart</button>
+    </div>
+</div>
 </div>
 <hr>
 
 <script>
-  var product_ids = [];
+
+
+    $(document).ready(function() {
+        $('#btnHide').click(function() {
+            $('.price_item').hide();
+            // if your table has header(th), use this
+            //$('td:nth-child(2),th:nth-child(2)').hide();
+        });
+    });
+
+
+   $(document).ready(function(){
+       $("button#product_ids").click(function(){
+           var $product_ids = $('#link_main_board, #link_cpu, #link_video, #link_hard_disk, #link_hard_disk, #link_case');
+           var obj = {};
+           $product_ids.each(function(){
+               obj[this.id] = $(this).attr('href').split('/')[1];
+           });
+           var json = JSON.stringify(obj);
+
+           $.ajax({
+               url: "/configurator/ids=" + json,
+               type: 'post',
+               data: json
+           });
+       });
+   });
+
+
+
     $("#post_mainboards").change(function(){
         var value = $(this).val();
         var val = value.split(':');
@@ -159,7 +181,6 @@
         var price_cpu = 0;
 
         var link_cpu = val[0];
-        product_ids.push(link_cpu);
         $('a#link_cpu').attr('href', 'store_mcomputers/' + link_cpu);
 
 
@@ -180,7 +201,7 @@
         var price_video = 0;
 
         var link_video_cart = val[0];
-        product_ids.push(link_video_cart);
+
         $('a#link_video').attr('href', 'store_mcomputers/' + link_video_cart);
 
         if (isNaN(val[1])){
@@ -200,7 +221,6 @@
         var price_memory = 0;
 
         var link_ram_mem = val[0];
-        product_ids.push(link_ram_mem);
         $('a#link_ram').attr('href', 'store_mcomputers/' + link_ram_mem);
 
 
@@ -269,9 +289,15 @@
         $('#sum-prices').append(result.toFixed( 2 ));
     }
 
+
     function param_products(){
-        var main_id = parseInt(document.getElementById('link_main_board').href.split('/')[4])
-        var cpu_id = parseInt(document.getElementById('link_cpu').href.split('/')[4])
+        var main_id = document.getElementById('link_main_board').href.split('/')[4]
+        var cpu_id =  document.getElementById('link_cpu').href.split('/')[4]
     }
+
+    if (document.getElementById('#product_ids')!= null){
+      document.getElementById('#product_ids').value = param_products();
+    }
+
  
 </script>

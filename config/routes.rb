@@ -2,9 +2,13 @@ Rails.application.routes.draw do
 
   root 'store_mcomputers#store_mcomputers'
 
-  devise_for :users
+    devise_for :users
 
-  get 'configurator', to: 'configurator#configurator'
+      post 'configurator/ids=:ids', to: 'configurator#items_to_cart'
+      get 'configurator', to: 'configurator#configurator'
+
+
+
 
   resources :order_items, only: [:create, :update, :destroy]
 
@@ -38,9 +42,6 @@ Rails.application.routes.draw do
   controller 'store_mcomputers' do
     get '/product=:product', to: 'store_mcomputers#list'
     get '/product=:product/page=:page', to: 'store_mcomputers#list'
-    #get '/:product/page/:page', to: 'store_mcomputers#list'
-    #get '/:product', to: 'store_mcomputers#list'
-    #get '/:product/:id', to: 'store_mcomputers#show'
   end
 
 
