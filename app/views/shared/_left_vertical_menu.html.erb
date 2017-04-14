@@ -1,0 +1,59 @@
+<style>
+    #container-vertical{
+        width: 200px;
+    }
+</style>
+
+
+<script>
+
+
+    $(document).ready(function(){
+        $('#main-box-vertical-menu ul li a').click(function(e){
+            e.preventDefault();
+            if ($(this).children('ul').is(":visible")){
+                $(this).children('ul').hide()
+            }
+            else
+            {
+                $(this).children('ul').show()
+            }
+        });
+    });
+
+</script>
+
+<div id="container-vertical">
+  <div class="row-vertical">
+    <div id="left" class="span3">
+
+      <ul id="main-box-vertical-menu">
+        <li><a href="#" >Всички продукти</a>
+
+          <ul id="ul-inner-element">
+            <% category_buttons.each_with_index do |button| %>
+
+
+            <li><a href="#"><%= button.name_cat %></a></li>
+
+              <ul>
+
+                <% sub_category_buttons.each_with_index do |sub_button| %>
+                    <% if sub_button.category_id == button.id %>
+                        <li><a><%= sub_button.name %></a></li>
+                    <% end %>
+                <% end %>
+
+
+              </ul>
+
+            <%  end %>
+
+
+          </ul>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>

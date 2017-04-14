@@ -33,13 +33,11 @@
 
 </style>
 
-
-
-
-
 <h1>Конфигуратор</h1>
 
 <input id="btnHide" class="btn btn-primary" type="button" value="Hide prices"/>
+<br>
+<br>
 
 <table class = "table table-bordered table-striped" >
 
@@ -128,10 +126,17 @@
 
 
     $(document).ready(function() {
+
         $('#btnHide').click(function() {
-            $('.price_item').hide();
-            // if your table has header(th), use this
-            //$('td:nth-child(2),th:nth-child(2)').hide();
+            if ($(".price_item").is(":visible"))
+            {
+               $('.price_item').hide();
+               $('#btnHide').attr('value', 'Show prices');
+            }else{
+                $('.price_item').show();
+                $('#btnHide').attr('value', 'Hide prices');
+            }
+
         });
     });
 

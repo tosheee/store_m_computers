@@ -187,7 +187,8 @@
     </div>
   </div>
 
-  <%= render 'pagination' %>
+  <%= render 'shared/pagination' %>
+
   <div id="products" class="row list-group">
     <% @products.each do |product| %>
         <% description = eval(product.description) %>
@@ -203,21 +204,21 @@
 
               <div style="height: 220px;" class="group inner list-group-item-text">
 
+                 <% unless (description[:properties]).nil? %>
+                      <% product_property = description[:properties][:property] %>
 
-                  <% product_property = description[:properties][:property] %>
-
-                  <% product_property.each do |property| %>
-                      <% if property.is_a?(Hash) && property[:name][/CPU Model|SSD|HDD|Screen size|Screen Resolution|Memory size|Memory size|Graphics/] %>
-                        <li style="list-style-type: none; padding: 5px;">
-                          <%= image_tag("tick_icon.png", size: "16") %>
-                          <%= property[:name] %>:
-                          <%= property[:text] %>
-                        </li>
-                      <% else %>
-                        <% property %>
+                      <% product_property.each do |property| %>
+                          <% if property.is_a?(Hash) && property[:name][/CPU Model|SSD|HDD|Screen size|Screen Resolution|Memory size|Memory size|Graphics/] %>
+                            <li style="list-style-type: none; padding: 5px;">
+                              <%= image_tag("tick_icon.png", size: "16") %>
+                              <%= property[:name] %>:
+                              <%= property[:text] %>
+                            </li>
+                          <% else %>
+                            <% property %>
+                          <% end %>
                       <% end %>
-                  <% end %>
-
+                 <% end %>
               </div>
 
               <div class="row">
@@ -243,4 +244,4 @@
     <% end %>
   </div>
 </div>
-<%= render 'pagination' %>
+<%= render 'shared/pagination' %>

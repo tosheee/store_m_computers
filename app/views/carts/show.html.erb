@@ -1,3 +1,48 @@
+<style>
+    #order-box {
+        list-style-type: none;
+        text-decoration: none;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 20px;
+        padding: 20px;
+    }
+    ul {
+        list-style-type: none;
+       }
+</style>
+
 <div class="shopping-cart">
+
+  <div id="order-box">
+    <p style="font-size: 30px">Твоята поръчка</p>
+    <hr>
+    <ul>
+        <li><strong>ID: </strong> <%=  " #{current_order.id}" %></li>
+        <li><strong>Брой продукти: </strong> <%=  " #{current_order.order_items.size}" %></li>
+        <li><strong>Обща стойност: </strong><%= " #{ current_order.subtotal} " %></li>
+        <li>
+          <h4 class="group inner list-group-item-heading">
+          <a href="/cart/sale_id=<%=current_order.id%>">Купи</a>
+        </h4>
+        </li>
+
+    </ul>
+  </div>
+<br>
+
   <%= render "shopping_cart" %>
 </div>
+
+<script>
+   // $(document).ready(function(){
+     //   $("button#sale_id").click(function(){
+       //     var order_id = $(this).val()
+            //alert(order_id)
+         //   $.ajax({
+           //     url: "/cart/sale_id=" + order_id ,
+             //   type: 'post',
+           // });
+        //});
+    //});
+</script>

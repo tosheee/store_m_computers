@@ -1,13 +1,7 @@
 class ConfiguratorController < ApplicationController
 
   def configurator
-    #дъно, процесор, рам, видео, хард х 2, цд-ром, кутия, захранване, монитор, кавиатура, мишка, виндос(софтваре)
-    # може да се помисли за едит
-    # динамично меню
-    # hidden button for price products
-
-
-    sub_cat = Admin::SubCategory.all
+     sub_cat = Admin::SubCategory.all
     @fans = Admin::ProductFeature.where(sub_category_id: sub_cat.map { |cat| cat.id if cat.identifier[/fan/] }.join.to_i)
     @cpus = Admin::ProductFeature.where(sub_category_id: sub_cat.map { |cat| cat.id if cat.identifier[/cpu/] }.join.to_i)
     @mainboards = Admin::ProductFeature.where(sub_category_id: sub_cat.map { |cat| cat.id if cat.identifier[/mainboard/] }.join.to_i)
@@ -18,17 +12,12 @@ class ConfiguratorController < ApplicationController
   end
 
   def items_to_cart
-
-      eval(params[:ids]).map do |k, v|
-        @order_item = current_order.order_items.new
-        @order_item.quantity = 1
-        @order_item.admin_product_feature_id = v.to_i
-        @order_item.save
+    eval(params[:ids]).map do |k, v|
+      @order_item = current_order.order_items.new
+      @order_item.quantity = 1
+      @order_item.admin_product_feature_id = v.to_i
+      @order_item.save
       end
     redirect_to :back
-
   end
-
-
-
 end

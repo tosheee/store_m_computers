@@ -40,11 +40,11 @@ class Admin::SubCategoriesController < Admin::AdminController
   end
 
   private
-    def set_admin_sub_category
-      @admin_sub_category = Admin::SubCategory.find(params[:id])
-    end
+  def set_admin_sub_category
+    @admin_sub_category = Admin::SubCategory.find(params[:id])
+  end
 
-    def admin_sub_category_params
-      params.require(:admin_sub_category).permit(:category_id, :name, :identifier)
-    end
+  def admin_sub_category_params
+    params.require(:admin_sub_category).permit(:category_id, :name, :identifier)
+  end
 end

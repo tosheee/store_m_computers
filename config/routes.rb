@@ -2,30 +2,26 @@ Rails.application.routes.draw do
 
   root 'store_mcomputers#store_mcomputers'
 
-    devise_for :users
+  devise_for :users
 
-      post 'configurator/ids=:ids', to: 'configurator#items_to_cart'
-      get 'configurator', to: 'configurator#configurator'
-
-
-
+  post 'configurator/ids=:ids', to: 'configurator#items_to_cart'
+  get 'configurator', to: 'configurator#configurator'
 
   resources :order_items, only: [:create, :update, :destroy]
 
-  resource :cart, only: [:show]
-
+  get 'cart/sale_id=:sale_id', to: 'carts#sale'
+  resource :cart
 
   namespace :admin do
     resources :categories
     resources :sub_categories
-
+    resources :sales
 
     controller :product_features do
       get 'product_features/product=:product', to: 'product_features#index'
       get 'product_features/product=:product/page=:page', to: 'product_features#index'
       resources :product_features
     end
-
 
     resources :extract_xmls do
       post :extract_xml_file, on: :member
@@ -37,7 +33,7 @@ Rails.application.routes.draw do
     resources :products
   end
 
-   resources :store_mcomputers
+  resources :store_mcomputers
 
   controller 'store_mcomputers' do
     get '/product=:product', to: 'store_mcomputers#list'

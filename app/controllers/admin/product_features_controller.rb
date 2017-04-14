@@ -18,7 +18,6 @@ class Admin::ProductFeaturesController < Admin::AdminController
     else
       @admin_product_features = Admin::ProductFeature.all
     end
-
   end
 
   def show
@@ -29,34 +28,21 @@ class Admin::ProductFeaturesController < Admin::AdminController
   end
 
   def create
-    #@admin_product_feature = Admin::ProductFeature.new(admin_product_feature_params)
-    #render text: @admin_product
-    #@admin_product = Admin::Product.new(admin_product_params)
-    #render text: params[:admin_product][:description].inspect
-    @admin_product_feature.category_id = params[:admin_product][:category_id]
-    @admin_product_feature.category_id = params[:admin_product][:sub_category_id]
-    @admin_product_feature.description = params[:admin_product][:description]
-
-    @admin_product_feature.save
-    respond_to do |format|
-      if @admin_product_feature.save
-        format.html { redirect_to @admin_product_feature, notice: 'Product feature was successfully created.' }
-        format.json { render :show, status: :created, location: @admin_product_feature }
-      else
-        format.html { render :new }
-        format.json { render json: @admin_product_feature.errors, status: :unprocessable_entity }
-      end
+    @admin_product_feature = Admin::ProductFeature.create(admin_product_feature_params)
+    if @admin_product_feature.errors.empty?
+        redirect_to admin_product_feature_patch(@admin_product_feature)
+    else
+      render 'new'
     end
   end
-
 
   def edit
   end
 
   def update
-   @admin_product_feature.update(admin_product_params)
+   @admin_product_feature.update(admin_product_feature_params)
     if @admin_product_feature.errors.empty?
-      redirect_to admin_product_feature_path(@admin_product_feature)
+      redirect_to action: 'index'
     else
       render :edit
     end
@@ -68,14 +54,13 @@ class Admin::ProductFeaturesController < Admin::AdminController
   end
 
   private
+  def set_admin_product_feature
+    @admin_product_feature = Admin::ProductFeature.find(params[:id])
+  end
 
-    def set_admin_product_feature
-      @admin_product_feature = Admin::ProductFeature.find(params[:id])
+  def admin_product_feature_params
+    params.require(:admin_product_feature).permit(:category_id, :sub_category_id, :identifier).tap do |whitelisted|
+      whitelisted[:description] = Hash params[:admin_product][:description].deep_symbolize_keys
     end
-
-    def admin_product_feature_params
-      params.require(:admin_product_feature).permit(:category_id, :sub_category_id).tap do |whitelisted|
-        whitelisted[:description] = Hash params[:admin_product][:description].deep_symbolize_keys
-      end
-    end
+  end
 end

@@ -34,8 +34,8 @@ class Admin::CategoriesController < Admin::AdminController
   end
 
   def destroy
-    @admin_category.destroy
-    redirect_to admin_categories_path(@admin_category)
+    @admin_category.delete
+    redirect_to action: 'index'
   end
 
   private

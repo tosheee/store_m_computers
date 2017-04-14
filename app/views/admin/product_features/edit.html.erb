@@ -53,6 +53,13 @@
         <%= f.collection_select(:sub_category_id, Admin::SubCategory.all, :id, :name, :prompt => "Select Product") %>
       </div>
 
+      <div class="field">
+        <%= f.label :identifier %><br>
+        <%= f.collection_select(:identifier, Admin::SubCategory.all, :id, :identifier, :prompt => "Select Identifier") %>
+      </div>
+
+
+
       <% desription = eval(@admin_product_feature['description']) %>
 
       <% desription.each do |key_1, val_1| %>

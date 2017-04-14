@@ -1,0 +1,64 @@
+<%= form_for(@sale) do |f| %>
+    <% if @sale.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@sale.errors.count, "error") %> prohibited this admin_category from being saved:</h2>
+
+          <ul>
+            <% @sale.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label :order_id %><br>
+      <%= f.text_field :order_id %>
+    </div>
+
+    <div class="field">
+      <%= f.label :user_id %><br>
+      <%= f.text_field :user_id %>
+    </div>
+
+    <div class="field">
+      <%= f.label :full_name %><br>
+      <%= f.text_field :full_name %>
+    </div>
+
+    <div class="field">
+      <%= f.label :phone %><br>
+      <%= f.text_field :phone %>
+    </div>
+
+    <div class="field">
+      <%= f.label :email %><br>
+      <%= f.text_field :email %>
+    </div>
+
+    <div class="field">
+      <%= f.label :domain %><br>
+      <%= f.text_field :domain %>
+    </div>
+
+    <div class="field">
+      <%= f.label :city %><br>
+      <%= f.text_field :city %>
+    </div>
+
+    <div class="field">
+      <%= f.label :addres %><br>
+      <%= f.text_field :addres %>
+    </div>
+
+    <div class="field">
+      <%= f.label :comment %><br>
+      <%= f.number_field :comment %>
+    </div>
+
+
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+<% end %>
