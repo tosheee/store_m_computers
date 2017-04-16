@@ -1,4 +1,5 @@
 class Admin::ExtractXmlsController < Admin::AdminController
+
   def index
     @extract_xmls = Admin::ExtractXml.all
   end
@@ -10,6 +11,7 @@ class Admin::ExtractXmlsController < Admin::AdminController
   def create
     @extract_xml = Admin::ExtractXml.new(extract_xml_params)
     if @extract_xml.save
+      flash[:notice] = "XML file is ready!"
       redirect_to action: 'index'
     else
       render 'new'
@@ -19,17 +21,24 @@ class Admin::ExtractXmlsController < Admin::AdminController
   def destroy
     @extract_xml = Admin::ExtractXml.find(params[:id])
     @extract_xml.destroy
+    flash[:notice] = "XML file is ready!"
+    redirect_to action: 'index'
+  end
+
+  def delete_all_products
+    Admin::ProductFeature.delete_all
+    flash[:notice] = "XML file is ready!"
     redirect_to action: 'index'
   end
 
   def extract_xml_file
     @extract_xml = Admin::ExtractXml.find(params[:id])
     content = File.read("#{Rails.root}/public#{@extract_xml.attachment}")
-    xml_hash = Hash.from_xml_custom(content).first
+    xml_hash = from_xml_custom(content).first
 
     new_hash = filter_hash(xml_hash)
-    #render text: new_hash
     record_products(new_hash)
+    flash[:notice] = "XML file is ready!"
     redirect_to action: 'index'
   end
 
@@ -151,4 +160,56 @@ class Admin::ExtractXmlsController < Admin::AdminController
     params.require(:admin_extract_xml).permit(:name, :attachment)
   end
 
+  def from_xml_custom(xml_io)
+    begin
+      result = Nokogiri::XML(xml_io)
+      return { result.root.name.to_sym => xml_node_to_hash(result.root)}
+    rescue Exception => e
+      # raise your custom exception here
+    end
+  end
+
+  def xml_node_to_hash(node)
+    # If we are at the root of the document, start the hash
+    if node.element?
+      result_hash = {}
+      if node.attributes != {}
+        attributes = {}
+        node.attributes.keys.each do |key|
+          attributes[node.attributes[key].name.to_sym] = node.attributes[key].value
+        end
+      end
+      if node.children.size > 0
+        node.children.each do |child|
+          result = xml_node_to_hash(child)
+
+          if child.name == "text"
+            unless child.next_sibling || child.previous_sibling
+              return result unless attributes
+              result_hash[child.name.to_sym] = result
+            end
+          elsif result_hash[child.name.to_sym]
+
+            if result_hash[child.name.to_sym].is_a?(Array)
+              result_hash[child.name.to_sym] << result
+            else
+              result_hash[child.name.to_sym] = [result_hash[child.name.to_sym]] << result
+            end
+          else
+            result_hash[child.name.to_sym] = result
+          end
+        end
+        if attributes
+          #add code to remove non-data attributes e.g. xml schema, namespace here
+          #if there is a collision then node content supersets attributes
+          result_hash = attributes.merge(result_hash)
+        end
+        return result_hash
+      else
+        return attributes
+      end
+    else
+      return node.content.to_s
+    end
+  end
 end

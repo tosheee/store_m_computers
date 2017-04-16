@@ -28,10 +28,14 @@ class Admin::ProductFeaturesController < Admin::AdminController
     end
 
     def create
-      @admin_product_feature = Admin::ProductFeature.create(admin_product_feature_params)
+      #render text: admin_product_feature_params
+      data = admin_product_feature_params.deep_symbolize_keys
+      @admin_product_feature = Admin::ProductFeature.create(data)
       if @admin_product_feature.errors.empty?
-          redirect_to admin_product_feature_patch(@admin_product_feature)
+        flash[:notice] = "Product successfully created!"
+        redirect_to action: 'index', product: data[:identifier]
       else
+        flash[:notice] = "You made mistakes in your form! Please correct them"
         render 'new'
       end
     end
@@ -43,25 +47,33 @@ class Admin::ProductFeaturesController < Admin::AdminController
       data = admin_product_feature_params.deep_symbolize_keys
       @admin_product_feature.update(data)
       if @admin_product_feature.errors.empty?
+        flash[:notice] = "Product successfully updated!"
         redirect_to action: 'index', product: data[:identifier]
       else
+        flash[:error] = "You made mistakes in your form! Please correct them"
         render :edit
       end
     end
 
     def destroy
       @admin_product_feature.delete
+      flash[:notice] = "Product successfully deleted!"
       redirect_to :back
     end
 
-    private
     def set_admin_product_feature
       @admin_product_feature = Admin::ProductFeature.find(params[:id])
     end
 
     def admin_product_feature_params
-      params.require(:admin_product_feature).permit(:category_id, :sub_category_id, :identifier).tap do |whitelisted|
-        whitelisted[:description] = Hash params[:admin_product][:description].deep_symbolize_keys
+      if params[:admin_product][:description].is_a?(Hash)
+        params.require(:admin_product_feature).permit(:category_id, :sub_category_id, :identifier).tap do |whitelisted|
+          whitelisted[:description] = Hash params[:admin_product][:description].deep_symbolize_keys
+        end
+      else
+        params.require(:admin_product_feature).permit(:category_id, :sub_category_id, :identifier).tap do |whitelisted|
+          whitelisted[:description] = params[:admin_product][:description]
+        end
       end
     end
 end

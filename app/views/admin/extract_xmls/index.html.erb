@@ -1,12 +1,14 @@
-<% if !flash[:notice].blank? %>
-    <div class = "alert alert-info">
-      <%= flash[:notice] %>
-    </div>
-<% end %>
+<script>
 
-<br />
+  $('#delete_all_buttons').click(function(){
+     confirm("ВНИМАНИЕ! Това ще изтрие всички продукти!")
+  });
+
+</script>
 
 <%= link_to "New xml file", new_admin_extract_xml_path, class: "btn btn-primary" %>
+<a href="/admin/extract_xmls/delete_all_products" id="delete_all_buttons" class="btn btn-danger" >Delete all products</a>
+
 <br />
 <br />
 

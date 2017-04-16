@@ -25,6 +25,7 @@ Rails.application.routes.draw do
 
     resources :extract_xmls do
       post :extract_xml_file, on: :member
+      get  :delete_all_products, on: :collection
     end
 
     get '', to: 'admin#admin'

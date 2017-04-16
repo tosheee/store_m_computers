@@ -120,7 +120,7 @@
 
       <label>
         <span>Identifier:</span>
-        <%= f.collection_select(:identifier, Admin::SubCategory.all, :identifier, :identifier, :prompt => "Select Identifier") %>
+        <%=f.collection_select(:identifier, Admin::SubCategory.all, :identifier, :identifier, :prompt => "Select Identifier") %>
       </label>
 
       <% desription = eval(@admin_product_feature['description']) %>

@@ -5,11 +5,12 @@
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   border-radius: 0px;
+  min-height: 750px;//size of product_box
 }
 
 .thumbnail.item.list-group-item {
   width: 370px;
-  height: 100px;
+  min-height: 100px;
   margin-bottom: 20px;
   padding: 0px;
   -webkit-border-radius: 0px;

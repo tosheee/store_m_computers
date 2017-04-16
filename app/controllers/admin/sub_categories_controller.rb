@@ -15,8 +15,10 @@ class Admin::SubCategoriesController < Admin::AdminController
   def create
     @admin_sub_category = Admin::SubCategory.create(admin_sub_category_params)
     if @admin_sub_category.errors.empty?
+      flash[:notice] = "Product name successfully created!"
       redirect_to admin_sub_categories_path(@admin_sub_category)
     else
+      flash.now[:error] = "Product name is not created!"
       render 'new'
     end
   end
@@ -27,16 +29,18 @@ class Admin::SubCategoriesController < Admin::AdminController
   def update
     @admin_sub_category.update(admin_sub_category_params)
     if @admin_sub_category.errors.empty?
+      flash[:notice] = "Product name successfully updated!"
       redirect_to admin_sub_category_path(@admin_sub_category)
     else
+      flash.now[:error] = "Product name is not updated!"
       render 'new'
     end
   end
 
   def destroy
     @admin_sub_category.destroy
-   redirect_to action: :index
-
+    flash[:notice] = "Product name is deleted"
+    redirect_to action: :index
   end
 
   private

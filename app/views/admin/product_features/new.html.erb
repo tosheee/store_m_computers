@@ -1,63 +1,234 @@
 <h4>New Product</h4>
 
+<style>
+    .basic-grey {
+        margin-left:auto;
+        margin-right:auto;
+        max-width: 100%;
+        background: #F7F7F7;
+        padding: 25px 15px 25px 10px;
+        font: 16px Georgia, "Times New Roman", Times, serif;
+        color: #888;
+        text-shadow: 1px 1px 1px #FFF;
+        border:1px solid #E4E4E4;
+    }
+    .basic-grey h1 {
+        font-size: 25px;
+        padding: 0px 0px 10px 40px;
+        display: block;
+        border-bottom:1px solid #E4E4E4;
+        margin: -10px -15px 30px -10px;;
+        color: #888;
+    }
+    .basic-grey h1>span {
+        display: block;
+        font-size: 16px;
+    }
+    .basic-grey label {
+        display: block;
+        margin: 0px;
+    }
+    .basic-grey label>span {
+        float: left;
+        width: 20%;
+        text-align: right;
+        padding-right: 10px;
+        margin-top: 10px;
+        color: #888;
+    }
+    .basic-grey input[type="text"], .basic-grey input[type="email"], .basic-grey textarea, .basic-grey select {
+        border: 1px solid #DADADA;
+        color: #888;
+        height: 30px;
+        margin-bottom: 16px;
+        margin-right: 6px;
+        margin-top: 2px;
+        outline: 0 none;
+        padding: 3px 3px 3px 5px;
+        width: 70%;
+        font-size: 16px;
+        line-height:15px;
+        box-shadow: inset 0px 1px 4px #ECECEC;
+        -moz-box-shadow: inset 0px 1px 4px #ECECEC;
+        -webkit-box-shadow: inset 0px 1px 4px #ECECEC;
+    }
+    .basic-grey textarea{
+        padding: 5px 3px 3px 5px;
+    }
+    .basic-grey select {
+        appearance:none;
+        -webkit-appearance:none;
+        -moz-appearance: none;
+        text-indent: 0.01px;
+        text-overflow: '';
+        width: 70%;
+        height: 35px;
+        line-height: 25px;
+    }
+    .basic-grey textarea{
+        height:100px;
+    }
+    .basic-grey .button {
+        background: #E27575;
+        border: none;
+        padding: 10px 25px 10px 25px;
+        color: #FFF;
+        box-shadow: 1px 1px 5px #B6B6B6;
+        border-radius: 3px;
+        text-shadow: 1px 1px 1px #9E3F3F;
+        cursor: pointer;
+    }
+    .basic-grey .button:hover {
+        background: #CF7A7A
+    }
+</style>
+
+
 <%= link_to 'Show', @admin_product_feature %> |
 <%= link_to 'Back', admin_product_features_path %>
 
 <div class="container">
+    <div class="basic-grey">
   <%= form_for(@admin_product_feature) do |f| %>
       <% if @admin_product_feature.errors.any? %>
           <div id="error_explanation">
             <h2><%= pluralize(@admin_product_feature.errors.count, "error") %> prohibited this admin_product from being saved:</h2>
 
             <ul>
-
               <% @admin_product_feature.errors.full_messages.each do |message| %>
                   <li><%= message %></li>
               <% end %>
-
             </ul>
 
           </div>
       <% end %>
 
-
-
-      <div class="field">
-        <%= f.label :category_id %><br>
+      <label>
+        <span>Категория:</span>
         <%= f.collection_select(:category_id, Admin::Category.all, :id, :name_cat, :prompt => "Select Category") %>
-      </div>
+      </label>
 
-      <div class="field">
-        <%= f.label :product_id %><br>
+      <label>
+        <span>Продукт:</span>
         <%= f.collection_select(:sub_category_id, Admin::SubCategory.all, :id, :name, :prompt => "Select Product") %>
-      </div>
+      </label>
 
-      <div class="field">
-        <%= f.label :identifier %><br>
-        <%= f.collection_select(:identifier, Admin::SubCategory.all, :id, :identifier, :prompt => "Select Identifier") %>
-      </div>
-
-
+      <label>
+        <span>Identifier:</span>
+        <%=f.collection_select(:identifier, Admin::SubCategory.all, :identifier, :identifier, :prompt => "Select Identifier") %>
+      </label>
 
 
+          <label>
+            <span>Article id:</span>
+            <input type="text" name="admin_product[description][id]" value="" id="admin_product_description" class="label-values"/>
+          </label>
 
+      <label>
+          <span>Name product:</span>
+          <input type="text" name="admin_product[description][code]" value="" id="admin_product_description" class="label-values"/>
+      </label>
 
+          <label>
+            <span>Product status:</span>
+            <input type="text" name="admin_product[description][product_status]" value="" id="admin_product_description" class="label-values"/>
+          </label>
 
+          <label>
+            <span>Product description</span>
+            <input type="text" name="admin_product[description][general_description]" value="" id="admin_product_description" class="label-values"/>
+          </label>
 
+          <label>
+            <span>Price:</span>
+            <input type="text" name="admin_product[description][price]" value="" id="admin_product_description" class="label-values"/>
+          </label>
 
+          <label>
+            <span>Currency:</span>
+            <input type="text" name="admin_product[description][currency]" value="" id="admin_product_description" class="label-values"/>
+          </label>
 
+          <label>
+            <span>Basic image</span>
+            <input type="text" name="admin_product[description][main_picture_url]" value="" id="admin_product_description" class="label-values"/>
+          </label>
 
+          <div class="input_fields_wrap">
+            <button class="add_field_button">Add gallery</button>
+            <div>
+              <label>
+                <span>Product galery:</span>
+                <input type="text" name="admin_product[description][gallery][picture][][picture_url]">
+              </label>
+            </div>
+          </div>
 
+          <div class="specification_fields_wrap">
+            <button class="add_spec_field_button">Add specification</button>
+            <div>
+              <label>
+                <input style="width: 200px" type="text" name="admin_product[description][properties][property][][name]" id="admin_product_description" class="label-names">
+                <input type="text" name="admin_product[description][properties][property][][text]" id="admin_product_description" class="label-values">
+              </label>
+            </div>
+          </div>
 
-
-
-
-
-
-
-      <div class="actions">
+          <div class="actions">
         <%= f.submit class: "btn btn-default"%>
       </div>
 
   <% end %>
 </div>
+</div>
+<script>
+
+    $(document).ready(function() {
+        var max_fields      = 20; //maximum input boxes allowed
+        var wrapper         = $(".specification_fields_wrap"); //Fields wrapper
+        var add_button      = $(".add_spec_field_button"); //Add button ID
+        var x = 1; //initlal text box count
+
+        $(add_button).click(function(e){ //on add input button click
+            e.preventDefault();
+            if(x < max_fields){ //max input box allowed
+                x++; //text box increment
+                $(wrapper).append(
+                        '<div class="fields" ><label>' +
+                        '<input style="width: 200px" type="text" name="admin_product[description][properties][property][][name]" id="admin_product_description" class="label-names">' +
+                        '  <input type="text" name="admin_product[description][properties][property][][text]" id="admin_product_description" class="label-values">' +
+                        '<a href="#" class="remove_field">Remove</a>' +
+                        '</label></div>'); //add input box
+            }
+        });
+
+        $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+            e.preventDefault(); $(this).parent('div.fields').remove(); x--;
+        })
+    });
+
+
+    $(document).ready(function() {
+        var max_fields      = 5; //maximum input boxes allowed
+        var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+        var add_button      = $(".add_field_button"); //Add button ID
+        var x = 1; //initlal text box count
+
+        $(add_button).click(function(e){ //on add input button click
+            e.preventDefault();
+            if(x < max_fields){ //max input box allowed
+                x++; //text box increment
+            $(wrapper).append(
+                    '<div class="fields" ><label><span>Product galery:</span>' +
+                    '<input type="text" name="admin_product[description][gallery][picture][][picture_url]"/>' +
+                    '<a href="#" class="remove_field">Remove</a>' +
+                    '</label></div>'); //add input box
+            }
+        });
+
+        $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+            e.preventDefault(); $(this).parent('div.fields').remove(); x--;
+        })
+    });
+
+</script>
