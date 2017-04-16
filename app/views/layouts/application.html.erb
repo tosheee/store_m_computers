@@ -23,6 +23,7 @@
 
     <nav id="nav-vertical">
       <%= render 'shared/left_vertical_menu'%>
+      <%= render 'shared/right_vertical_meny'%>
       <%= render 'admin/admin_shared/admin_vertical_menu' if user_signed_in? && current_user.role == 'super_admin' %>
     </nav>
 

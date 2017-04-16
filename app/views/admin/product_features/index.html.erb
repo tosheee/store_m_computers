@@ -1,9 +1,9 @@
 <p id="notice"><%= notice %></p>
 
-<h3>Listing Admin Product Features</h3>
-<%= link_to 'New Product feature', new_admin_product_feature_path %>
+<h3>Продукти</h3>
+<%= link_to 'Нов продукт', new_admin_product_feature_path %>
 
-<%= render "shared/pagination" %>
+<%= render "admin/admin_shared/admin_pagination" %>
 
 <table class = "table table-bordered table-striped" >
   <thead>
@@ -30,12 +30,10 @@
 
            <% #eval(@products.description).deep_symbolize_keys%>
           <% descript_product = eval(admin_product_feature.description) %>
-            <ul>
+            <ul style="list-style-type: none">
               <li><%= descript_product[:code] %></li>
               <li><%= descript_product[:product_status] %></li>
-              <li><%= descript_product[:price] %></li>
-              <li><%= descript_product[:currency] %></li>
-              <li><% descript_product %></li>
+              <li><strong><%= descript_product[:price] %></strong> <%= descript_product[:currency] %> </li>
             </ul>
         </td>
 
@@ -50,5 +48,5 @@
 
 <br>
 
-<%= render "shared/pagination" %>
+<%= render "admin/admin_shared/admin_pagination" %>
 

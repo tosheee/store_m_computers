@@ -1,1 +1,0 @@
-json.array! @admin_sub_categories, partial: 'admin_sub_categories/admin_sub_category', as: :admin_sub_category

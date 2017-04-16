@@ -9,7 +9,7 @@
 
 
     $(document).ready(function(){
-        $('#main-box-vertical-menu ul li a').click(function(e){
+        $('#main-box-vertical-menu ul').click(function(e){
             e.preventDefault();
             if ($(this).children('ul').is(":visible")){
                 $(this).children('ul').hide()

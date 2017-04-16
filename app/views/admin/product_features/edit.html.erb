@@ -6,27 +6,92 @@
 <%= link_to 'Back', admin_product_features_path %>
 
 <style>
-    .label-names{
+    .basic-grey {
+        margin-left:auto;
+        margin-right:auto;
+        max-width: 100%;
+        background: #F7F7F7;
+        padding: 25px 15px 25px 10px;
+        font: 16px Georgia, "Times New Roman", Times, serif;
+        color: #888;
+        text-shadow: 1px 1px 1px #FFF;
+        border:1px solid #E4E4E4;
+    }
+    .basic-grey h1 {
+        font-size: 25px;
+        padding: 0px 0px 10px 40px;
+        display: block;
+        border-bottom:1px solid #E4E4E4;
+        margin: -10px -15px 30px -10px;;
+        color: #888;
+    }
+    .basic-grey h1>span {
+        display: block;
+        font-size: 16px;
+    }
+    .basic-grey label {
+        display: block;
+        margin: 0px;
+    }
+    .basic-grey label>span {
+        float: left;
         width: 20%;
-        padding: 6px 6px;
-        background-color: #3CBC8D;
-        font-size: 16px;
-        color: white;
-        border-radius: 4px;
+        text-align: right;
+        padding-right: 10px;
+        margin-top: 10px;
+        color: #888;
     }
-    .label-values{
-        width: 50%;
-        padding: 6px 6px;
-        background-color: rgba(0, 119, 255, 0.22);
+    .basic-grey input[type="text"], .basic-grey input[type="email"], .basic-grey textarea, .basic-grey select {
+        border: 1px solid #DADADA;
+        color: #888;
+        height: 30px;
+        margin-bottom: 16px;
+        margin-right: 6px;
+        margin-top: 2px;
+        outline: 0 none;
+        padding: 3px 3px 3px 5px;
+        width: 70%;
         font-size: 16px;
-        color: white;
-        border-radius: 4px;
+        line-height:15px;
+        box-shadow: inset 0px 1px 4px #ECECEC;
+        -moz-box-shadow: inset 0px 1px 4px #ECECEC;
+        -webkit-box-shadow: inset 0px 1px 4px #ECECEC;
     }
-
+    .basic-grey textarea{
+        padding: 5px 3px 3px 5px;
+    }
+    .basic-grey select {
+        background: #FFF url('down-arrow.png') no-repeat right;
+        background: #FFF url('down-arrow.png') no-repeat right);
+        appearance:none;
+        -webkit-appearance:none;
+        -moz-appearance: none;
+        text-indent: 0.01px;
+        text-overflow: '';
+        width: 70%;
+        height: 35px;
+        line-height: 25px;
+    }
+    .basic-grey textarea{
+        height:100px;
+    }
+    .basic-grey .button {
+        background: #E27575;
+        border: none;
+        padding: 10px 25px 10px 25px;
+        color: #FFF;
+        box-shadow: 1px 1px 5px #B6B6B6;
+        border-radius: 3px;
+        text-shadow: 1px 1px 1px #9E3F3F;
+        cursor: pointer;
+    }
+    .basic-grey .button:hover {
+        background: #CF7A7A
+    }
 </style>
 
 <div class="container">
-
+<div class="basic-grey">
   <%= form_for(@admin_product_feature) do |f| %>
       <% if @admin_product_feature.errors.any? %>
           <div id="error_explanation">
@@ -43,22 +108,20 @@
           </div>
       <% end %>
 
-      <div class="field">
-        <%= f.label :category_id %><br>
+      <label>
+        <span>Категория:</span>
         <%= f.collection_select(:category_id, Admin::Category.all, :id, :name_cat, :prompt => "Select Category") %>
-      </div>
+      </label>
 
-      <div class="field">
-        <%= f.label :product_id %><br>
+      <label>
+        <span>Продукт:</span>
         <%= f.collection_select(:sub_category_id, Admin::SubCategory.all, :id, :name, :prompt => "Select Product") %>
-      </div>
+      </label>
 
-      <div class="field">
-        <%= f.label :identifier %><br>
-        <%= f.collection_select(:identifier, Admin::SubCategory.all, :id, :identifier, :prompt => "Select Identifier") %>
-      </div>
-
-
+      <label>
+        <span>Identifier:</span>
+        <%= f.collection_select(:identifier, Admin::SubCategory.all, :identifier, :identifier, :prompt => "Select Identifier") %>
+      </label>
 
       <% desription = eval(@admin_product_feature['description']) %>
 
@@ -69,24 +132,26 @@
 
                   <% if val_2.is_a?(Hash)  %>
                       <% val_2.each do |value_h| %>
-                          <br>
-                          <strong><% val_2 %></strong>
-                          <input type="text" name="admin_product[description][<%= key_1 %>][<%= key_2 %>][<%= value_h.each{|k,v| k}.first %>]" value="<%= value_h.each{|k,v| v}.last %>" id="admin_product_description" class="label-values"/>
+                          <label>
+                              <span><%= val_2 %>:</span>
+                              <input type="text" name="admin_product[description][<%= key_1 %>][<%= key_2 %>][<%= value_h.each{|k,v| k}.first %>]" value="<%= value_h.each{|k,v| v}.last %>" id="admin_product_description" class="label-values"/>
+                          </label>
                       <% end %>
                   <% elsif val_2.is_a?(Array)  %>
                       <% i = 0 %>
                       <% val_2.each do |value_a| %>
-                          <br>
-                          <input type="text" name="admin_product[description][<%= key_1 %>][<%= key_2 %>][<%= value_a[i] %>][<%= value_a.map { |k,| k }.first %>]" value="<%= value_a.map { |k, v| v }.first %>" id="admin_product_description" class="label-names"/>
-                          <input type="text" name="admin_product[description][<%= key_1 %>][<%= key_2 %>][<%= value_a[i] %>][<%= value_a.map { |k,| k }.last %>]" value="<%= value_a.map { |k, v| v }.last.squish %>" id="admin_product_description" class="label-values"/>
-                          <% i += 1 %>
+                          <label>
+                              <input style="width: 200px" type="text" name="admin_product[description][<%= key_1 %>][<%= key_2 %>][<%= value_a[i] %>][<%= value_a.map { |k,| k }.first %>]" value="<%= value_a.map { |k, v| v }.first %>" id="admin_product_description" class="label-names"/>
+                              <input type="text" name="admin_product[description][<%= key_1 %>][<%= key_2 %>][<%= value_a[i] %>][<%= value_a.map { |k,| k }.last %>]" value="<%= value_a.map { |k, v| v }.last.squish %>" id="admin_product_description" class="label-values"/>
+                              <% i += 1 %>
+                          </label>
                       <% end %>
                   <% end %>
 
               <% end %>
           <% else %>
-
-              <strong><%= key_1 %></strong>
+              <label>
+              <span><%= key_1 %>:</span>
 
               <% if key_1[/general_description/] %>
                   <textarea class="form-control" rows="20"  name="admin_product[description][<%= key_1 %>]" id="admin_product_description"><%= val_1 %></textarea>
@@ -94,6 +159,7 @@
                   <input type="text" name="admin_product[description][<%= key_1 %>]" value="<%= val_1 %>" id="admin_product_description" class="label-values"/>
               <% end %>
           <% end %>
+          </label>
       <% end %>
 
       <div class="actions">
@@ -101,4 +167,5 @@
       </div>
 
   <% end %>
+  </div>
 </div>

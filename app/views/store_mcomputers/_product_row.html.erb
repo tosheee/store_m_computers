@@ -1,5 +1,5 @@
 <%= form_for order_item, remote: true do |f| %>
-          <h4 class="text-right">Unit Price: <span style="color: green"><%= number_to_currency eval(product.description)[:price] %></span></h4>
+          <% product_description = eval(product.description) %>
           <div class="input-group">
             <%= f.number_field :quantity, value: 1, class: "form-control", min: 1 %>
             <div class="input-group-btn">
@@ -7,5 +7,7 @@
               <%= f.submit "Add to Cart", class: "btn btn-primary" %>
             </div>
           </div>
-      <% end %>
+    <h4 class="text-right"><strong>Цена:</strong> <span style="color: green"><%= "#{product_description[:price]}  #{product_description[:currency]}" %></span></h4>
+
+<% end %>
 
