@@ -31,6 +31,7 @@
            <% #eval(@products.description).deep_symbolize_keys%>
           <% descript_product = eval(admin_product_feature.description) %>
             <ul style="list-style-type: none">
+              <li><%= descript_product[:id] %></li>
               <li><%= descript_product[:code] %></li>
               <li><%= descript_product[:product_status] %></li>
               <li><strong><%= descript_product[:price] %></strong> <%= descript_product[:currency] %> </li>

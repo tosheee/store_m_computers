@@ -22,7 +22,8 @@
               </div>
             </div>
           </div>
-          <h4 class="text-right">Total Price: <span style="color: green"><%=  order_item.total_price %></span></h4>
+          <% price = order_item.total_price %>
+          <h4 class="text-right">Total Price: <span style="color: green"><%= "#{order_item.total_price}" %></span></h4>
       <% end %>
     </div>
 

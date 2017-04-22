@@ -6,11 +6,18 @@
 
 </script>
 
+<% if !flash[:notice].blank? %>
+    <div class = "alert alert-info">
+      <%= flash[:notice] %>
+    </div>
+<% end %>
+
 <%= link_to "New xml file", new_admin_extract_xml_path, class: "btn btn-primary" %>
 <a href="/admin/extract_xmls/delete_all_products" id="delete_all_buttons" class="btn btn-danger" >Delete all products</a>
 
 <br />
 <br />
+
 
 <table class = "table table-bordered table-striped">
   <thead>
@@ -19,6 +26,7 @@
     <th>Date</th>
     <th>Download Link</th>
     <th>Extract File</th>
+    <th>Update Products</th>
     <th>Delete </th>
   </tr>
   </thead>
@@ -31,7 +39,8 @@
         <td><%= extr_xml.created_at %></td>
         <td><%= link_to 'View File', extr_xml.attachment_url %></td>
 
-        <td><%= link_to 'Extract File', "extract_xmls/#{extr_xml.id}/extract_xml_file", method: :extract_xml_file, class: "btn btn-success", data:{confirm: "Are you sure that you wish to delete #{extr_xml.name}?"} %></td>
+        <td><%= link_to 'Extract File', "extract_xmls/#{extr_xml.id}/extract_xml_file", method: :extract_xml_file, class: "btn btn-success", data:{confirm: "Наливане на продукти в базата #{extr_xml.name}?"} %></td>
+        <td><%= link_to 'Update Products', "extract_xmls/#{extr_xml.id}/update_products", method: :update_products, class: "btn btn-success", data:{confirm: "Update products #{extr_xml.name}?"} %></td>
         <td><%= link_to 'Delete',  extr_xml, method: :delete, class: "btn btn-danger", data: {confirm: "Are you sure that you wish to delete #{extr_xml.name}?"} %></td>
 
       </tr>

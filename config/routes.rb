@@ -25,6 +25,7 @@ Rails.application.routes.draw do
 
     resources :extract_xmls do
       post :extract_xml_file, on: :member
+      post :update_products, on: :member
       get  :delete_all_products, on: :collection
     end
 

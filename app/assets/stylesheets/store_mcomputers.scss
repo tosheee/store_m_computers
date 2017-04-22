@@ -128,3 +128,304 @@
   content: "\E766";
   margin-left: 0.5em;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//vertical menu
+
+
+$S:     480px;
+$M:     600px;
+$L:     1170px;
+
+// media queries
+
+@mixin MQ($canvas) {
+  @if $canvas == S {
+    @media only screen and (min-width: $S) { @content; }
+  }
+  @else if $canvas == M {
+    @media only screen and (min-width: $M) { @content; }
+  }
+  @else if $canvas == L {
+    @media only screen and (min-width: $L) { @content; }
+  }
+}
+
+////////////////////////////////////////
+
+
+
+@mixin font-smoothing {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+$color-1: #4d5158; // Abbey
+$color-2: #a0f6aa; // Gossip
+$color-3: #ffffff; // White
+
+// fonts
+
+$primary-font: 'Jaldi', sans-serif;
+
+// this variable modifies the size of all items
+
+$item-padding-S: 18px;
+$item-padding-M: 24px;
+
+///////////////////////////
+.cd-accordion-menu {
+  width: 90%;
+  max-width: $M;
+  background: $color-1;
+  margin: 4em auto;
+  box-shadow: 0 4px 40px shade($color-2, 30%);
+
+  ul {
+    /* by default hide all sub menus */
+    display: none;
+  }
+
+  li {
+    @include user-select(none);
+  }
+
+  input[type=checkbox] {
+    /* hide native checkbox */
+    position: absolute;
+    opacity: 0;
+  }
+
+  label, a {
+    position: relative;
+    display: block;
+    padding: $item-padding-S $item-padding-S $item-padding-S ($item-padding-S * 3) + 10px;
+    background: $color-1;
+    box-shadow: inset 0 -1px tint($color-1, 5%);
+    color: $color-3;
+    font-size: 1.6rem;
+
+    .no-touch &:hover {
+      background: tint($color-1, 3%);
+    }
+  }
+
+  label::before, label::after, a::after {
+    /* icons */
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 50%;
+
+  }
+
+  label {
+    cursor: pointer;
+
+    &::before, &::after {
+      background-image: url(../img/cd-icons.svg);
+      background-repeat: no-repeat;
+    }
+
+    &::before {
+      /* arrow icon */
+      left: $item-padding-S;
+      background-position: 0 0;
+      
+    }
+
+    &::after {
+      /* folder icons */
+      left: ($item-padding-S * 2) + 5px;
+      background-position: -16px 0;
+    }
+  }
+
+  a::after {
+    /* image icon */
+    left: $item-padding-S * 2;
+    background: url(../img/cd-icons.svg) no-repeat -48px 0;
+  }
+
+  input[type=checkbox]:checked + label::before {
+    /* rotate arrow */
+
+  }
+
+  input[type=checkbox]:checked + label::after {
+    /* show open folder icon if item is checked */
+    background-position: -32px 0;
+  }
+
+  input[type=checkbox]:checked + label + ul,
+  input[type=checkbox]:checked + label:nth-of-type(n) + ul {
+    /* use label:nth-of-type(n) to fix a bug on safari (<= 8.0.8) with multiple adjacent-sibling selectors*/
+    /* show children when item is checked */
+    display: block;
+  }
+
+  ul label,
+  ul a {
+    background: darken($color-1, 10%);
+    box-shadow: inset 0 -1px darken($color-1, 5%);
+    padding-left: ($item-padding-S * 4) + 10px;
+
+    .no-touch &:hover {
+      background: darken($color-1, 7%);
+    }
+  }
+
+  > li:last-of-type > label,
+  > li:last-of-type > a,
+  > li > ul > li:last-of-type label,
+  > li > ul > li:last-of-type a {
+    box-shadow: none;
+  }
+
+  ul label::before {
+    left: $item-padding-S * 2;
+  }
+
+  ul label::after,
+  ul a::after {
+    left: ($item-padding-S * 3) + 5px;
+  }
+
+  ul ul label,
+  ul ul a {
+    padding-left: ($item-padding-S * 5) + 10px;
+  }
+
+  ul ul label::before {
+    left: $item-padding-S * 3;
+  }
+
+  ul ul label::after,
+  ul ul a::after {
+    left: ($item-padding-S * 4) + 5px;
+  }
+
+  ul ul ul label,
+  ul ul ul a {
+    padding-left: ($item-padding-S * 6) + 10px;
+  }
+
+  ul ul ul label::before {
+    left: $item-padding-S * 4;
+  }
+
+  ul ul ul label::after,
+  ul ul ul a::after {
+    left: ($item-padding-S * 5) + 5px;
+  }
+
+  @include MQ(M) {
+    label, a {
+      padding: $item-padding-M $item-padding-M $item-padding-M ($item-padding-M * 3) + 10px;
+      font-size: 1.9rem;
+    }
+
+    label::before {
+      left: $item-padding-M;
+    }
+
+    label::after {
+      left: ($item-padding-M * 2) + 5px;
+    }
+
+    ul label,
+    ul a {
+      padding-left: ($item-padding-M * 4) + 10px;
+    }
+
+    ul label::before {
+      left: $item-padding-M * 2;
+    }
+
+    ul label::after,
+    ul a::after {
+      left: ($item-padding-M * 3) + 5px;
+    }
+
+    ul ul label,
+    ul ul a {
+      padding-left: ($item-padding-M * 5) + 10px;
+    }
+
+    ul ul label::before {
+      left: $item-padding-M * 3;
+    }
+
+    ul ul label::after,
+    ul ul a::after {
+      left: ($item-padding-M * 4) + 5px;
+    }
+
+    ul ul ul label,
+    ul ul ul a {
+      padding-left: ($item-padding-M * 6) + 10px;
+    }
+
+    ul ul ul label::before {
+      left: $item-padding-M * 4;
+    }
+
+    ul ul ul label::after,
+    ul ul ul a::after {
+      left: ($item-padding-M * 5) + 5px;
+    }
+  }
+
+  &.animated label::before {
+    /* this class is used if you're using jquery to animate the accordion */;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -27,24 +27,95 @@ class Admin::ExtractXmlsController < Admin::AdminController
 
   def delete_all_products
     Admin::ProductFeature.delete_all
-    flash[:notice] = "XML file is ready!"
+    flash[:notice] = "Database items deleted"
     redirect_to action: 'index'
   end
 
-  def extract_xml_file
-    @extract_xml = Admin::ExtractXml.find(params[:id])
-    content = File.read("#{Rails.root}/public#{@extract_xml.attachment}")
-    xml_hash = from_xml_custom(content).first
+  def update_products
+    new_hash = extract_helper_xml_file
+    all_products = Admin::ProductFeature.all
 
-    new_hash = filter_hash(xml_hash)
+    check_and_change_prices(new_hash,  all_products)
+    product_ids = all_products.map { |old_product|  eval(old_product.description)[:id] }
+    xml_product_ids = new_hash.map { |new_product|  new_product[:id] }
+    new_products = xml_product_ids - product_ids
+    products_for_deleted = product_ids - xml_product_ids
+
+    record_new_products(new_hash, product_ids) if new_products.any?
+    delete_old_products(products_for_deleted, all_products) if products_for_deleted.any?
+
+     flash[:notice] = "Database updated successfully!   | New products: #{@new_products_counter} | Delete products: #{products_for_deleted.size.to_i} | Price: #{@price_counter} |"
+     redirect_to action: 'index'
+  end
+
+
+  def delete_old_products(products_for_deleted, all_products)
+    products_for_deleted.select do |id|
+      product = all_products.select { |product| eval(product.description)[:id] == id }
+      old_product =  Admin::ProductFeature.find(product.first.id)
+      old_product.delete
+    end
+  end
+
+
+  def record_new_products(new_hash, product_ids)
+    products_for_record = []
+    @new_products_counter = 0
+    new_hash.select do |xml_product|
+      if !product_ids.include?(xml_product[:id])
+        @new_products_counter += 1
+        products_for_record << xml_product
+      end
+    end
+    record_products(products_for_record)
+  end
+
+  def check_and_change_prices(new_hash, all_products)
+    new_product_ids = new_hash.map {|xml_product| xml_product[:id]}
+    new_product_prices = new_hash.map {|xml_product| xml_product[:price]}
+
+    new_product_data = new_product_ids.zip(new_product_prices)
+
+    old_product_ids = all_products.map { |product| eval(product.description)[:id] }
+    old_product_prices = all_products.map { |product| eval(product.description)[:price] }
+
+    old_product_data = old_product_ids.zip(old_product_prices)
+
+    product_different_price = []
+
+    new_product_data.select do |n_id, n_price|
+      old_product_data.select do |o_id, o_price|
+        if n_id == o_id && n_price != o_price
+          product_different_price <<  [n_id, n_price]
+        end
+      end
+    end
+    @price_counter = 0
+    product_different_price.select do |id, price|
+      product = all_products.select { |product| eval(product.description)[:id] == id }
+      old_product =  Admin::ProductFeature.find(product.first.id)
+      old_product.description = product.first.description.gsub(/(?<=price=>\").*?(?=\")/, "#{price}")
+      @price_counter += 1
+      old_product.save
+    end
+  end
+
+  def extract_xml_file
+    new_hash = extract_helper_xml_file
     record_products(new_hash)
     flash[:notice] = "XML file is ready!"
     redirect_to action: 'index'
   end
 
+  def extract_helper_xml_file
+    @extract_xml = Admin::ExtractXml.find(params[:id])
+    content = File.read("#{Rails.root}/public#{@extract_xml.attachment}")
+    xml_hash = from_xml_custom(content).first
+    filter_hash(xml_hash)
+  end
+
   def filter_hash(xml_hash)
     hashes = xml_hash.last[:productlist][:product]
-
     new_hashes = hashes.map do |hash|
       hash.select do |key, value|
         key.to_s[/^id$|code|product_status|general_description|classname$|price|currency|main_picture_url|gallery|properties/]

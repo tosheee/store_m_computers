@@ -16,10 +16,10 @@ class StoreMcomputersController < ApplicationController
     @products = @products_all
 
     if @page.nil?
-      @products = @products_all.limit(product_num).offset(0)
+      @products = @products_all
       @order_item = current_order.order_items.new
     else
-      @products = @products_all.limit(product_num).offset(@page)
+      @products = @products_all
       @order_item = current_order.order_items.new
     end
   end

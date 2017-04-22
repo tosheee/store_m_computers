@@ -7,7 +7,8 @@
               <%= f.submit "Add to Cart", class: "btn btn-primary" %>
             </div>
           </div>
-    <h4 class="text-right"><strong>Цена:</strong> <span style="color: green"><%= "#{product_description[:price]}  #{product_description[:currency]}" %></span></h4>
+    <% price = "#{product_description[:price]}  #{product_description[:currency]}" %>
+    <h4 class="text-right"><strong>Цена:</strong> <span style="color: green"><%= "#{convert_price(price)} лв. #{price}" %></span></h4>
 
 <% end %>
 
