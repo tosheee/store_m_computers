@@ -12,12 +12,17 @@ class ConfiguratorController < ApplicationController
   end
 
   def items_to_cart
-    eval(params[:ids]).map do |k, v|
-      @order_item = current_order.order_items.new
-      @order_item.quantity = 1
-      @order_item.admin_product_feature_id = v.to_i
-      @order_item.save
+    products = eval(params[:ids].gsub('(', '[').gsub(')', ']'))#.map do |product|  #|{|k,v| k['id']}
+
+    products.map do |k, v|
+      unless k['id'] == 'undefined'
+        @order_item = current_order.order_items.new
+        @order_item.quantity = k['quantity'].to_i
+        @order_item.admin_product_feature_id = k['id'].to_i
+        @order_item.save
+        end
       end
     redirect_to :back
   end
+
 end

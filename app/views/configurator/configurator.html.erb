@@ -31,7 +31,89 @@
        // background: url() 96% / 15% no-repeat #eee;
     }
 
+    .quantity {
+        position: relative;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button
+    {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number]
+    {
+        -moz-appearance: textfield;
+    }
+
+    .quantity input {
+        width: 70px;
+        height: 42px;
+        line-height: 1.65;
+        float: left;
+        display: block;
+        padding: 0;
+        margin: 0;
+        padding-left: 20px;
+        border: 1px solid #eee;
+    }
+
+    .quantity input:focus {
+        outline: 0;
+    }
+
+    .quantity-nav {
+        float: left;
+        position: relative;
+        height: 42px;
+    }
+
+    .quantity-button {
+        position: relative;
+        cursor: pointer;
+        border-left: 1px solid #eee;
+        width: 20px;
+        text-align: center;
+        color: #333;
+        font-size: 13px;
+        font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+        line-height: 1.7;
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+    }
+
+    .quantity-button.quantity-up {
+        position: absolute;
+        height: 50%;
+        top: 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .quantity-button.quantity-down {
+        position: absolute;
+        bottom: -1px;
+        height: 50%;
+    }
+
 </style>
+
+<script>
+
+
+
+
+</script>
+
+
+
+
+
 
 <h1>Конфигуратор</h1>
 
@@ -41,70 +123,102 @@
 
 <table class = "table table-bordered table-striped" >
 
-  <tr>
+  <tr class="row-config">
     <td>Дънo:</td>
     <td>
-      <%= select("post", "mainboards", @mainboards.collect {|c|
-                         [  "#{eval(c.description)[:code]}  -
-                             #{eval(c.description)[:price]}
-                             #{eval(c.description)[:currency]}",
-                            "#{c.id}:
-                             #{eval(c.description)[:price]}" ] },
-                              {include_blank: 'Изберете:'}) %>
+      <%= select("post", "mainboards", @mainboards.collect {|c| [  "#{eval(c.description)[:code]}  -#{eval(c.description)[:price]}#{eval(c.description)[:currency]}", "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %>
     </td>
 
+    <td class="quantity">
+      <input value="1" class="form-control" min="1" type="number" id="quantity_main_board">
+    </td>
 
     <td id="price_main_board" class="price_item" >0</td>
     <td><a id="link_main_board" href="" target="_blank">info</a></td>
   </tr>
 
-  <tr>
+  <tr class="row-config">
     <td>Процесор:</td>
     <td><%= select("post", "cpu", @cpus.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+
+    <td class="quantity">
+      <input value="1" class="form-control" min="1" type="number" id="quantity_cpu">
+    </td>
+
     <td id="price_cpu" class="price_item" >0</td>
     <td><a id="link_cpu" href="" target="_blank">info</a></td>
   </tr>
 
-  <tr>
+  <tr class="row-config">
     <td>RAM памет:</td>
     <td><%= select("post", "ram_mem", @rams.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+
+    <td class="quantity">
+      <input value="1" class="form-control" min="1" type="number" id="quantity_ram">
+    </td>
+
     <td id="price_ram" class="price_item" >0</td>
     <td><a id="link_ram" href="" target="_blank">info</a></td>
   </tr>
 
 
-  <tr>
+  <tr class="row-config">
     <td>Видео картa:</td>
     <td><%= select("post", "video_cart", @video_cards.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+
+    <td class="quantity">
+      <input value="1" class="form-control" min="1" type="number" id="quantity_video">
+    </td>
+
     <td id="price_video" class="price_item" >0</td>
     <td><a id="link_video" href="" target="_blank">info</a></td>
   </tr>
 
 
-  <tr>
+  <tr class="row-config">
     <td>Хард диск:</td>
     <td><%= select("post", "hard_disk",  @hard_disks.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+
+    <td class="quantity">
+      <input value="1" class="form-control" min="1" type="number" id="quantity_hard_disk">
+    </td>
+
     <td id="price_hard_disk" class="price_item" >0</td>
     <td><a id="link_hard_disk" href="" target="_blank">info</a></td>
   </tr>
 
-  <tr>
+  <tr class="row-config">
     <td>Хард диск:</td>
     <td><%= select("post", "hard_disk",  @hard_disks.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+
+    <td class="quantity">
+      <input value="1" class="form-control" min="1" type="number" id="quantity_hard_disk">
+    </td>
+
     <td id="price_hard_disk" class="price_item" >0</td>
     <td><a id="link_hard_disk" href="" target="_blank">info</a></td>
   </tr>
 
-  <tr>
+  <tr class="row-config">
     <td>Кутия:</td>
     <td><%= select("post", "case",  @cases.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+
+    <td class="quantity">
+      <input value="1" class="form-control" min="1" type="number" id="quantity_case">
+    </td>
+
     <td id="price_case" class="price_item" >0</td>
     <td><a id="link_case" href="" target="_blank">info</a></td>
   </tr>
 
-  <tr>
+  <tr class="row-config">
     <td>Захранване:</td>
     <td><%= select("post", "case",  @cases.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+
+    <td class="quantity">
+      <input value="1" class="form-control" min="1" type="number" id="quantity_case">
+    </td>
+
     <td id="price_case" class="price_item">0</td>
     <td><a id="link_case" href="" target="_blank">info</a></td>
   </tr>
@@ -124,46 +238,61 @@
 
 <script>
 
+    $('<div class="quantity-nav"><div class="quantity-button quantity-up" >+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
+    $('.quantity').each(function() {
+        var spinner = $(this),
+                input = spinner.find('input[type="number"]'),
+                btnUp = spinner.find('.quantity-up'),
+                btnDown = spinner.find('.quantity-down'),
+                min = input.attr('min'),
+                max = input.attr('max');
 
-    $(document).ready(function() {
-
-        $('#btnHide').click(function() {
-            if ($(".price_item").is(":visible"))
-            {
-               $('.price_item').hide();
-               $('#btnHide').attr('value', 'Show prices');
-            }else{
-                $('.price_item').show();
-                $('#btnHide').attr('value', 'Hide prices');
+        btnUp.click(function() {
+            var oldValue = parseFloat(input.val());
+            if (oldValue >= max) {
+                var newVal = oldValue;
+            } else {
+                var newVal = oldValue + 1;
+                var row = $(this).parent().parent().parent();
+                var price = row.children('td:nth-child(2)').children('select').val().split(':')[1];
+                if (typeof price != 'undefined') {
+                    var new_price = price * newVal;
+                    row.children('td:nth-child(4)').html() == '';
+                    row.children('td:nth-child(4)').html(new_price);
+                    sum_price();
+                }
             }
+            spinner.find("input").val(newVal);
+            spinner.find("input").trigger("change");
 
         });
+
+        btnDown.click(function() {
+            var oldValue = parseFloat(input.val());
+            if (oldValue <= min) {
+                var newVal = oldValue;
+            } else {
+                var newVal = oldValue - 1;
+                var row = $(this).parent().parent().parent();
+                var price = row.children('td:nth-child(2)').children('select').val().split(':')[1];
+                if (typeof price != 'undefined') {
+                    var new_price = price * newVal;
+                    row.children('td:nth-child(4)').html() == '';
+                    row.children('td:nth-child(4)').html(new_price);
+                    sum_price();
+                }
+            }
+            spinner.find("input").val(newVal);
+            spinner.find("input").trigger("change");
+        });
+
     });
-
-
-   $(document).ready(function(){
-       $("button#product_ids").click(function(){
-           var $product_ids = $('#link_main_board, #link_cpu, #link_video, #link_hard_disk, #link_hard_disk, #link_case');
-           var obj = {};
-           $product_ids.each(function(){
-               obj[this.id] = $(this).attr('href').split('/')[1];
-           });
-           var json = JSON.stringify(obj);
-
-           $.ajax({
-               url: "/configurator/ids=" + json,
-               type: 'post',
-               data: json
-           });
-       });
-   });
-
-
 
     $("#post_mainboards").change(function(){
         var value = $(this).val();
         var val = value.split(':');
-        var mainborad_price = 0;
+         mainborad_price = 0;
+        var q_mainboard = $('#quantity_main_board').val()
 
         var link_mainboards = val[0];
         $('a#link_main_board').attr('href', 'store_mcomputers/' + link_mainboards);
@@ -172,7 +301,7 @@
         if (isNaN(val[1])){
             mainborad_price = 0;
         } else {
-            mainborad_price = val[1];
+            mainborad_price = val[1] * q_mainboard;
         }
 
         $('#price_main_board').empty();
@@ -288,6 +417,7 @@
         var p_ram = parseFloat(document.getElementById('price_ram').innerHTML);
         var p_hard = parseFloat(document.getElementById('price_hard_disk').innerHTML);
         var p_case = parseFloat(document.getElementById('price_case').innerHTML);
+
         var result = p_main_board + p_cpu + p_video + p_ram + p_hard + p_case;
         //console.log(result);
         $('#sum-prices').empty();
@@ -304,5 +434,61 @@
       document.getElementById('#product_ids').value = param_products();
     }
 
+
+    $(document).ready(function(){
+        $("button#product_ids").click(function(){
+            var $product_ids =      $('#link_main_board,     #link_cpu,     #link_ram,     #link_video,     #link_hard_disk,     #link_hard_disk,     #link_case');
+            var $product_quantity = $('#quantity_main_board, #quantity_cpu, #quantity_ram, #quantity_video, #quantity_hard_disk, #quantity_hard_disk, #quantity_case, #quantity_case');
+
+            var obj_ids = {};
+            var obj_quantity = {};
+            var products = [];
+            var i = 0;
+
+            $('.row-config').each(function(){
+
+                var ids = $(this).children('td:nth-child(5)').children('a').attr('href').split('/')[1];
+                var quantity = $(this).children('td:nth-child(3)').children('input').val();
+                products.push('{"id"=>"'+ ids + '", "quantity"=>"' + quantity+ '"}');
+                i ++;
+            });
+
+
+            $product_ids.each(function(){
+                obj_ids[this.id] = $(this).attr('href').split('/')[1];
+            });
+
+            $product_quantity.each(function(){
+                obj_quantity[this.id] = $(this).val();
+            });
+
+            var json_ids = JSON.stringify(obj_ids);
+            var json_quantity = JSON.stringify(obj_quantity);
+            var pro = JSON.stringify(products);
+
+            $.ajax({
+                url: "/configurator/ids=(" + products + ")",
+                type: 'post',
+            });
+        });
+    });
+
+
+
+
+    $(document).ready(function() {
+
+        $('#btnHide').click(function() {
+            if ($(".price_item").is(":visible"))
+            {
+                $('.price_item').hide();
+                $('#btnHide').attr('value', 'Show prices');
+            }else{
+                $('.price_item').show();
+                $('#btnHide').attr('value', 'Hide prices');
+            }
+
+        });
+    });
  
 </script>

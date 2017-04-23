@@ -202,8 +202,8 @@
             }
         });
 
-        $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-            e.preventDefault(); $(this).parent('div.fields').remove(); x--;
+        $(wrapper).on("click", ".remove_field", function(e){ //user click on remove text
+            e.preventDefault(); $(this).parent('div.fields label').remove(); x--;
         })
     });
 
@@ -227,7 +227,7 @@
         });
 
         $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-            e.preventDefault(); $(this).parent('div.fields').remove(); x--;
+            e.preventDefault(); $(this).parent('div.fields label').remove(); x--;
         })
     });
 
