@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @admin_currency.name %>
+</p>
+
+<p>
+  <strong>Identifier:</strong>
+  <%= @admin_currency.identifier %>
+</p>
+
+<p>
+  <strong>Rate equals:</strong>
+  <%= @admin_currency.rate_equals %>
+</p>
+
+<%= link_to 'Edit', edit_admin_currency_path(@admin_currency) %> |
+<%= link_to 'Back', admin_currencies_path %>

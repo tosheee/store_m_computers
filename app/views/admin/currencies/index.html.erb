@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Admin Currencies</h1>
+<%= link_to 'New Currency', new_admin_currency_path %>
+<table class = "table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Identifier</th>
+      <th>Rate equals</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @admin_currencies.each do |admin_currency| %>
+      <tr>
+        <td><%= admin_currency.name %></td>
+        <td><%= admin_currency.identifier %></td>
+        <td><%= admin_currency.rate_equals %></td>
+        <td><%= link_to 'Show', admin_currency %></td>
+        <td><%= link_to 'Edit', edit_admin_currency_path(admin_currency) %></td>
+        <td><%= link_to 'Destroy', admin_currency, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+

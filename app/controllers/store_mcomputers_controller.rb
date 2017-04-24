@@ -1,10 +1,12 @@
 class StoreMcomputersController < ApplicationController
 
   def store_mcomputers
+    @currency = Admin::Currency.all
     @categories = Admin::Category.all
   end
 
   def list
+    @currency = Admin::Currency.all
     @order_item = current_order.order_items.new
     @page = params[:page]
     @product_param = params[:product]
@@ -25,6 +27,7 @@ class StoreMcomputersController < ApplicationController
   end
 
   def show
+    @currency = Admin::Currency.all
     @order_item = current_order.order_items.new
     unless @products = Admin::ProductFeature.where(id: params[:id]).first
       render text: "Page not found", status: 404

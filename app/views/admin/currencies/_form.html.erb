@@ -1,0 +1,29 @@
+<%= form_for(@admin_currency) do |f| %>
+  <% if @admin_currency.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@admin_currency.errors.count, "error") %> prohibited this admin_currency from being saved:</h2>
+
+      <ul>
+      <% @admin_currency.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :identifier %><br>
+    <%= f.text_field :identifier %>
+  </div>
+  <div class="field">
+    <%= f.label :rate_equals %><br>
+    <%= f.text_field :rate_equals %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

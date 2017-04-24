@@ -1,6 +1,7 @@
 class ConfiguratorController < ApplicationController
 
   def configurator
+    @currency = Admin::Currency.all
      sub_cat = Admin::SubCategory.all
     @fans = Admin::ProductFeature.where(sub_category_id: sub_cat.map { |cat| cat.id if cat.identifier[/fan/] }.join.to_i)
     @cpus = Admin::ProductFeature.where(sub_category_id: sub_cat.map { |cat| cat.id if cat.identifier[/cpu/] }.join.to_i)
@@ -12,6 +13,7 @@ class ConfiguratorController < ApplicationController
   end
 
   def items_to_cart
+
     products = eval(params[:ids].gsub('(', '[').gsub(')', ']'))#.map do |product|  #|{|k,v| k['id']}
 
     products.map do |k, v|

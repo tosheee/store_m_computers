@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  namespace :admin do
+    resources :currencies
+  end
   root 'store_mcomputers#store_mcomputers'
 
   devise_for :users
