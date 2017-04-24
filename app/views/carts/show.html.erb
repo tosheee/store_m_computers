@@ -13,6 +13,11 @@
 </style>
 
 <div class="shopping-cart">
+  <div id="printableArea">
+    <h1>Print me</h1>
+
+
+  <input type="button" onclick="printDiv('printableArea')" value="print a div!" />
 
   <div id="order-box">
     <p style="font-size: 30px">Твоята поръчка</p>
@@ -23,7 +28,7 @@
         <li><strong>Обща стойност: </strong><%= " #{ current_order.subtotal} " %></li>
         <li>
           <h4 class="group inner list-group-item-heading">
-          <a href="/cart/sale_id=<%=current_order.id%>">Купи</a>
+          <a href="/cart/sale_id=<%= current_order.id %>">Купи</a>
         </h4>
         </li>
 
@@ -32,17 +37,18 @@
 <br>
 
   <%= render "shopping_cart" %>
+  </div>
 </div>
 
 <script>
-   // $(document).ready(function(){
-     //   $("button#sale_id").click(function(){
-       //     var order_id = $(this).val()
-            //alert(order_id)
-         //   $.ajax({
-           //     url: "/cart/sale_id=" + order_id ,
-             //   type: 'post',
-           // });
-        //});
-    //});
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+    }
 </script>

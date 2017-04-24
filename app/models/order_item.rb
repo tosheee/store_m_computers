@@ -12,7 +12,19 @@ class OrderItem < ActiveRecord::Base
     if persisted?
       self[:unit_price]
     else
-      (eval(admin_product_feature.description)[:price]).to_f
+      price = eval(admin_product_feature.description)[:price]
+      currency = eval(admin_product_feature.description)[:currency]
+      convert_price([price, currency].join)
+    end
+  end
+
+  def convert_price(price)
+    if price[/EUR/i]
+      (price.to_f * 1.96).round(2)
+    elsif price[/USD/i]
+      (price.to_f * 1.84).round(2)
+    else
+      price.gsub(/BGN/i, '')
     end
   end
 

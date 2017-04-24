@@ -20,7 +20,7 @@ module ApplicationHelper
     elsif price[/USD/i]
       (price.to_f * 1.84).round(2)
     else
-      price
+      price.gsub(/BGN/i, '')
     end
   end
 end

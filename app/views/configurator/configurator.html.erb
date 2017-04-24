@@ -126,7 +126,7 @@
   <tr class="row-config">
     <td>Дънo:</td>
     <td>
-      <%= select("post", "mainboards", @mainboards.collect {|c| [  "#{eval(c.description)[:code]}  -#{eval(c.description)[:price]}#{eval(c.description)[:currency]}", "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %>
+      <%= select("post", "mainboards", @mainboards.collect {|c| [  "#{eval(c.description)[:code]} -" + " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.", "#{c.id}:"+ " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}" ] }, {include_blank: 'Изберете:'}) %>
     </td>
 
     <td class="quantity">
@@ -139,7 +139,7 @@
 
   <tr class="row-config">
     <td>Процесор:</td>
-    <td><%= select("post", "cpu", @cpus.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td><%= select("post", "cpu", @cpus.collect {|c| [  "#{eval(c.description)[:code]} -" + " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.", "#{c.id}:"+ " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}" ] }, {include_blank: 'Изберете:'}) %></td>
 
     <td class="quantity">
       <input value="1" class="form-control" min="1" type="number" id="quantity_cpu">
@@ -151,7 +151,7 @@
 
   <tr class="row-config">
     <td>RAM памет:</td>
-    <td><%= select("post", "ram_mem", @rams.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td><%= select("post", "ram_mem", @rams.collect {|c| [  "#{eval(c.description)[:code]} -" + " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.", "#{c.id}:"+ " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}" ] }, {include_blank: 'Изберете:'}) %></td>
 
     <td class="quantity">
       <input value="1" class="form-control" min="1" type="number" id="quantity_ram">
@@ -164,7 +164,7 @@
 
   <tr class="row-config">
     <td>Видео картa:</td>
-    <td><%= select("post", "video_cart", @video_cards.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td><%= select("post", "video_cart", @video_cards.collect {|c| [  "#{eval(c.description)[:code]} -" + " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.", "#{c.id}:"+ " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}" ] }, {include_blank: 'Изберете:'}) %></td>
 
     <td class="quantity">
       <input value="1" class="form-control" min="1" type="number" id="quantity_video">
@@ -177,7 +177,7 @@
 
   <tr class="row-config">
     <td>Хард диск:</td>
-    <td><%= select("post", "hard_disk",  @hard_disks.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td><%= select("post", "hard_disk",  @hard_disks.collect {|c| [  "#{eval(c.description)[:code]} -" + " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.", "#{c.id}:"+ " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}" ] }, {include_blank: 'Изберете:'}) %></td>
 
     <td class="quantity">
       <input value="1" class="form-control" min="1" type="number" id="quantity_hard_disk">
@@ -189,7 +189,7 @@
 
   <tr class="row-config">
     <td>Хард диск:</td>
-    <td><%= select("post", "hard_disk",  @hard_disks.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td><%= select("post", "hard_disk",  @hard_disks.collect {|c| [  "#{eval(c.description)[:code]} -" + " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.", "#{c.id}:"+ " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}" ] }, {include_blank: 'Изберете:'}) %></td>
 
     <td class="quantity">
       <input value="1" class="form-control" min="1" type="number" id="quantity_hard_disk">
@@ -201,7 +201,7 @@
 
   <tr class="row-config">
     <td>Кутия:</td>
-    <td><%= select("post", "case",  @cases.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td><%= select("post", "case",  @cases.collect {|c| [  "#{eval(c.description)[:code]} - " + " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.", "#{c.id}:"+ " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}" ] }, {include_blank: 'Изберете:'}) %></td>
 
     <td class="quantity">
       <input value="1" class="form-control" min="1" type="number" id="quantity_case">
@@ -213,7 +213,7 @@
 
   <tr class="row-config">
     <td>Захранване:</td>
-    <td><%= select("post", "case",  @cases.collect {|c| [  "#{eval(c.description)[:code]} - #{eval(c.description)[:price]} #{eval(c.description)[:currency]}",  "#{c.id}:#{eval(c.description)[:price]}" ] }, {include_blank: 'Изберете:'}) %></td>
+    <td><%= select("post", "case",  @cases.collect {|c| [  "#{eval(c.description)[:code]} -" + " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.", "#{c.id}:"+ " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}" ] }, {include_blank: 'Изберете:'}) %></td>
 
     <td class="quantity">
       <input value="1" class="form-control" min="1" type="number" id="quantity_case">
