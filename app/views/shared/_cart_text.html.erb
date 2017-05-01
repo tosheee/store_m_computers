@@ -1,1 +1,38 @@
-<%= link_to "#{current_order.order_items.size} Items in Cart ( #{ current_order.subtotal} )", cart_path, class: "btn btn-link" %>
+<style>
+  #backet-box{
+      left: 92%;
+      margin: 10px;
+      position: relative;
+      display: inline-block;
+  }
+  #backet-icon{
+      width: 40px;
+      display: block;
+      max-width: 100%;
+      height: auto;
+  }
+
+  #backet-box a strong{
+      font-size: 35px;
+      color: #ff3709;
+      position: absolute;
+      text-align: center;
+      width: 100%;
+      height: 0%;
+      margin: auto;
+      top: -80px;
+      left: 12px;
+      bottom: 0;
+      right: 0;
+      z-index: 51;
+  }
+
+</style>
+
+<div id="backet-box">
+    <a class="btn btn-link" href="/cart">
+      <strong><%= "#{current_order.order_items.size}" %></strong>
+      <%= image_tag 'backet_icon', :id=> "backet-icon" %>
+      <p><%= "#{ current_order.subtotal} лв." %></p>
+    </a>
+</div>

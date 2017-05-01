@@ -1,72 +1,90 @@
 <style>
     #container-vertical{
-        width: 200px;
+        width: 250px;
     }
+    ul.ul-vertical-menu{
+        list-style-type: none;
+        padding: 5px;
+        width: 250px;
+    }
+    li.li-vertical-menu{
+        margin: 2px;
+
+    }
+
+    a.sub-cat-button{
+
+        padding: 5px;
+        width: 250px;
+        border: solid 1px;
+        text-decoration: none;
+
+    }
+
 </style>
+
+<script type="text/javascript" charset="utf-8">
+    $('#main-box-vertical-menu').parent().first().children('ul').hide()
+</script>
 
 
 <script>
+    $(document).ready(function(){
+    $('#main-box-vertical-menu').click(function(e){
+            e.preventDefault();
+            var all_product_button = $(this).parent().children('ul');
+            if (all_product_button.is(":visible")){
+                all_product_button.hide('slow');
+            }
+            else {
+                all_product_button.show('slow');
+            }
+        });
+
+    });
 
     $(document).ready(function(){
-        $('#main-box-vertical-menu').click(function(e){
+        $('.sub-cat-button').click(function(e){
             e.preventDefault();
-            if ($('.ul-inner-element').is(":visible")){
-            $('.ul-inner-element').hide()
+            if ($(this).parent().children('ul').is(":visible")){
+                var button = $(this).parent()
+                button.first().children('ul').hide();
             }
-            else
-            {
-                $('.ul-inner-element').show()
+            else{
+                var button = $(this).parent()
+                button.first().children('ul').show();
             }
         });
     });
 
-    $(document).ready(function(){
-
-        $('li.inner-button').click(function(e){
-            var $clicked = $(this);
-            e.preventDefault();
-
-                if ($clicked.children('.final-button').is(":visible")) {
-                    $clicked.children('.final-button').hide()
-                } else {
-                    $clicked.children('.final-button').hide()
-                }
-        });
-
-    });
 </script>
 
 <div id="container-vertical">
   <div class="row-vertical">
     <div id="left" class="span3">
 
-      <ul>
-        <li><a href="#" id="main-box-vertical-menu">Всички продукти</a>
+      <ul class="ul-vertical-menu">
+        <li class="li-vertical-menu"><a href="#" id="main-box-vertical-menu">Всички продукти</a>
 
-          <ul class="ul-inner-element">
-            <% category_buttons.each_with_index do |button,i| %>
-
-
-            <li id="inner-button<%= i%>" class="inner-button"><a href="#"><%= button.name_cat %></a></li>
-
-              <ul class="ul-inner-element">
-
+          <ul class="ul-vertical-menu">
+            <% category_buttons.each do |button| %>
+            <li class="li-vertical-menu">
+              <a class="sub-cat-button" href="#"><%= button.name_cat %></a>
+              <ul class="ul-vertical-menu">
                 <% sub_category_buttons.each_with_index do |sub_button| %>
                     <% if sub_button.category_id == button.id %>
-                        <li class="final-button"><a><%= sub_button.name %></a></li>
+                        <li class="li-vertical-menu"><a href="/product=<%= sub_button.identifier%>" ><%= sub_button.name %></a></li>
                     <% end %>
                 <% end %>
-
-
               </ul>
-
             <%  end %>
-
-
+            </li>
           </ul>
         </li>
       </ul>
 
     </div>
   </div>
+
+  <%= render 'shared/filter_products'%>
 </div>

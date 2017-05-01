@@ -13,7 +13,7 @@
           <ul class="dropdown-menu">
             <% sub_category_buttons.each do |sub_category| %>
                 <% if sub_category.category_id == category.id %>
-                    <li class="menu-item"><a href="/product=<%= sub_category.identifier %><% %>" ><%= sub_category.name %></a>
+                    <li class="menu-item"><a href="/product=<%= sub_category.identifier %>"><%= sub_category.name %></a>
                 <% end %>
             <% end %>
           </ul>
@@ -22,12 +22,6 @@
         <li><a href="/configurator">Конфигуратор</a></li>
       </ul>
 
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
       <ul class="nav navbar-nav navbar-right">
         <ul class="nav navbar-nav navbar-right">
           <%= check_user %>
