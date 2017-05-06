@@ -4,6 +4,22 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   helper_method :current_order
+  helper_method :product_all
+  helper_method :currency
+  helper_method :category
+
+
+  def currency
+    Admin::Currency.all
+  end
+
+  def category
+    Admin::Category.all
+  end
+
+  def product_all
+    Admin::ProductFeature.all
+  end
 
   def current_order
     if !session[:order_id].nil?

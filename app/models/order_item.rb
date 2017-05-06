@@ -19,11 +19,13 @@ class OrderItem < ActiveRecord::Base
   end
 
   def convert_price(price)
-
+    currency = Admin::Currency.all
     if price[/EUR/i]
-      (price.to_f * @currency.select{|v| v.identifier[/EUR/]}.first.rate_equals).round(2)
+      #price.to_f * 1.96
+      (price.to_f * (currency.select{|v| v.identifier[/EUR/]}.first.rate_equals.to_f)).round(2)
     elsif price[/USD/i]
-      (price.to_f * @currency.select{|v| v.identifier[/USD/]}.first.rate_equals).round(2)
+      #price.to_f * 1.84
+      (price.to_f * (currency.select{|v| v.identifier[/USD/]}.first.rate_equals.to_f)).round(2)
     else
       price.gsub(/BGN/i, '')
     end

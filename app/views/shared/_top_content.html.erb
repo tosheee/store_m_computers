@@ -14,7 +14,7 @@
 
     <form class="navbar-form navbar-left">
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search" style="width: 600px;">
+        <input type="text" name="search" class="form-control" placeholder="Search" style="width: 600px;">
         <div class="input-group-btn">
           <button class="btn btn-default" type="submit">
             <i class="glyphicon glyphicon-search"></i>
@@ -24,10 +24,27 @@
     </form>
 
     <ul class="nav navbar-nav navbar-right">
+      <%= check_user %>
+      <li>
+        <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
+          <span class="hamb-top"></span>
+          <span class="hamb-middle"></span>
+          <span class="hamb-bottom"></span>
+        </button>
+      </li>
+
+      <% if user_signed_in? %>
+          <li><%= link_to current_user.email,edit_user_registration_path %></li>
+          <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
+      <% else %>
+          <li><%= link_to "Sing Up", new_user_registration_path %></li>
+          <li><%= link_to "Login", new_user_session_path%></li>
+      <% end %>
+
       <li>
           <a href="/cart">
             <span class="glyphicon glyphicon-shopping-cart"></span>
-            <%= "#{current_order.order_items.size}" %>
+            <strong style="color: #ff3709;"><%= "#{current_order.order_items.size}" %></strong>
           </a>
       </li>
       <li>

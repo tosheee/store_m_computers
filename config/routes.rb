@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :currencies
   end
-  root 'store_mcomputers#store_mcomputers'
+
 
   devise_for :users
 
@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   resources :store_mcomputers
 
   controller 'store_mcomputers' do
+    get '/:search(.:format)', to: 'store_mcomputers#list' , constraints: {search: /\?/}
     get '/product=:product', to: 'store_mcomputers#list'
     get '/product=:product/page=:page', to: 'store_mcomputers#list'
   end
@@ -107,4 +108,6 @@ Rails.application.routes.draw do
   #     # Directs /admin/products/* to Admin::ProductsController
   #     # (app/controllers/admin/products_controller.rb)
   #     #   end
+
+  root 'store_mcomputers#store_mcomputers'
 end
