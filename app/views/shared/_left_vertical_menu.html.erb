@@ -70,4 +70,13 @@
     </div>
   </div>
 </div>
-
+<% if @product_param.present? %>
+<% @filters.each do |k, v|%>
+    <%= k %>
+    <ul>
+   <% v.each do |val| %>
+          <li><a href="/product=<%= @product_param %>/filter=<%= val %>"><%= val %></li>
+          <% end %>
+    </ul>
+<% end %>
+<% end %>

@@ -41,8 +41,9 @@ Rails.application.routes.draw do
   resources :store_mcomputers
 
   controller 'store_mcomputers' do
-    get '/:search(.:format)', to: 'store_mcomputers#list' , constraints: {search: /\?/}
+    get '/search/', to: 'store_mcomputers#list'
     get '/product=:product', to: 'store_mcomputers#list'
+    get '/product=:product/filter=:filter', to: 'store_mcomputers#list'
     get '/product=:product/page=:page', to: 'store_mcomputers#list'
   end
 
