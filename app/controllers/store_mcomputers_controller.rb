@@ -6,23 +6,35 @@ class StoreMcomputersController < ApplicationController
 
 
   def filters_product(products_all)
+    gen_prod_filter = {}
     properties = products_all.map { |prod| eval(prod.description)[:properties][:property]}
+    prod_filter_names = eval(products_all.first.description)[:properties][:property].map{|d| d[:name]}
 
-      brands = properties.map { |property| property.map { |p| p[:text].gsub(/Hewlett-Packard|HP ZBook Studio G3/, 'HP') if p.is_a?(Hash) && p[:name]== 'Manufacturer' }.join.squish }.uniq
-      brands = brands.reject { |c| c.empty? }
-      #render text: brand.reject { |c| c.empty? }
+    prod_filter_names.map do |name|
+      if name[/Manufacturer|Screen size|Screen Resolution|Memory size|CPU Model/]
+        gen_prod_filter[name] = properties.map do |property|
+          property.map { |p| clean_value_filter(name, p[:text].squish) if p.is_a?(Hash) && p[:name] == name  }.join
+        end.reject { |c| c.empty? }.uniq.sort
+      end
+    end
 
-      cpu_filter = /Intel (Core|Atom) (i\d+|Pentium|Xeon|M|Atom|Celeron)?/
-      cpus = properties.map { |property| property.map { |p| p[:text][cpu_filter] if p.is_a?(Hash) && p[:name]== 'CPU Model' }.join.squish }.uniq
-      cpus = cpus.reject { |c| c.empty? }.sort
-      # cpu, ram, video, diagonal ,resolution, hard, os
-      {'Производител' => brands, 'Процесори'=> cpus}
-
+    gen_prod_filter
   end
 
-  def list_test
-    items = product_all.where(identifier: 'laptops')
-    render text: filters_product(items).map {|k, v| }
+  def clean_value_filter(name, value)
+    if name[/Manufacturer/]
+      value
+    elsif name[/Screen size/]
+      value[/\d+.\d|\d+/]
+    elsif name[/Screen Resolution/]
+      value.gsub(' ', '')[/[0-9]{4}x[0-9]{3,4}/]
+    elsif name[/Memory size/]
+      value[/\d+\sGB/i].to_s
+    elsif name[/CPU Model/]
+      value[/(AMD|intel)\s(\w\d|core|atom|celeron|dual-core|pentium)\si\d/i]
+    else
+      value
+    end
   end
 
   def list
@@ -30,6 +42,8 @@ class StoreMcomputersController < ApplicationController
     @page = params[:page].to_i
     @product_param = params[:product]
     product_num = 10
+
+    @prod_filter_names = eval(product_all.where(identifier: params[:product]).first.description)[:properties][:property].map{|d| d[:name]}
 
     if params[:search].present?
       items = search(params[:search], product_all)
