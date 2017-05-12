@@ -36,6 +36,10 @@
     });
 </script>
 
+<%  filster_translate = {'Manufacturer' => 'Производител', 'Screen size' => 'Размер на екрана', 'Screen Resolution' => 'Резолюция', 'Memory size' => 'RAM Памет', 'CPU Model' => 'Процесори' } %>
+
+
+
 <div id="container-vertical">
   <div class="row-vertical">
     <div id="left" class="span3">
@@ -74,7 +78,7 @@
 
 <% if @product_param.present? %>
 <% @filters.each do |k, v|%>
-   <li><%= k %>
+   <li><%= filster_translate[k] %>
     <ul>
       <% unless v.nil? %>
         <% v.each do |val| %>
