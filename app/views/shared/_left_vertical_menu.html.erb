@@ -1,6 +1,15 @@
 <style>
     #container-vertical{
         width: 200px;
+
+    }
+
+    ul.filters-names{
+        list-style-type: none;
+        font-size: 16px;
+    }
+    input[type=checkbox] {
+        transform: scale(1.5);
     }
 </style>
 
@@ -74,19 +83,66 @@
     </div>
   </div>
 </div>
-<ul>
 
-<% if @product_param.present? %>
-<% @filters.each do |k, v|%>
-   <li><%= filster_translate[k] %>
-    <ul>
-      <% unless v.nil? %>
-        <% v.each do |val| %>
-          <li><a href="/product=<%= @product_param %>/filter=<%= val %>"><%= val %></a></li>
+
+<style>
+
+</style>
+
+
+<ul>
+  <% if @product_param.present? %>
+    <% @filters.each do |k, v|%>
+       <li class="filters-names" id="<%= k %>" ><%= filster_translate[k] %>
+        <ul>
+          <% unless v.nil? %>
+            <% v.each do |val| %>
+              <li>
+                <input type="checkbox" class="filters-values" value="<%= val %>">
+                <%= val %>
+              </li>
+              <% end %>
           <% end %>
-      <% end %>
-    </ul>
-          <li>
-<% end.first %>
+        </ul>
+              <li>
+    <% end.first %>
       </ul>
+      <div id="button-filter">
+          <input id="hidden-filters" type="hidden" value="">
+          <input id="filter-button" class="btn btn-primary" type="button" value="Филтрирай"/>
+          <a id="filter-button" href="" >info</a>
+      </div>
 <% end %>
+
+
+  <script>
+      $(document).ready(function() {
+          $('#filter-button').click(function() {
+              var filter_data = {};
+              var filter_value = [];
+              var obj_val = {};
+              $('.filters-names').each(function(index1){
+                  var name_filter = $(this).attr('id');
+                  filter_value = [];
+                  $(this).find('.filters-values').each(function(index2){
+                      if ($(this).is(':checked')){
+                          filter_value.push( $(this).val());
+                          filter_data[name_filter] = filter_value;
+                      }
+                  });
+              });
+              var filters = JSON.stringify(filter_data).replace(/\[/g, '(').replace(/\]/g, ')');
+
+              $('#filter-button').attr('href', "/product=laptops/filter=" + filters);
+
+              $.ajax({
+                  url: "/product=laptops/filter=" + filters,
+                  type: 'get',
+                  data: filters,
+                  success: (data)
+              });
+
+          });
+
+      });
+  </script>
