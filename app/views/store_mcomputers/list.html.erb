@@ -21,7 +21,7 @@
     </div>
   </div>
 
-
+  <%= render 'shared/pagination' %>
 
   <div id="products" class="row list-group">
     <% @products.each do |product| %>
@@ -76,4 +76,4 @@
     <% end %>
   </div>
 </div>
-
+<%= render 'shared/pagination' %>
