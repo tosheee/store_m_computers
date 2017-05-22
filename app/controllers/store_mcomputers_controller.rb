@@ -2,6 +2,7 @@ class StoreMcomputersController < ApplicationController
 
   def store_mcomputers
     @categories = category
+    @products = product_all
   end
 
   def show
@@ -83,7 +84,7 @@ class StoreMcomputersController < ApplicationController
 
   def filter_result(param, products_data)
     filter_param = JSON.parse(param.gsub('(', '[').gsub(')', ']'))
-    #products = products_data.map { |d| eval(d.description)[:properties][:property] }
+
     filtered_products = []
 
     unless filter_param.map { |k, v| k[/Manufacturer/] }.join.empty?
