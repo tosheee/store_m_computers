@@ -4,8 +4,56 @@
     <a href="<%= category.name_cat.downcase %>"><%= category.name_cat %></a>
 <% end %>
 
-<% @products.each do |product| %>
+<div id="products" class="row list-group">
+  <% @products.each do |product| %>
+      <% description = eval(product.description) %>
+      <div class="item col-xs-4 col-lg-4">
 
-    <%= product%>
+        <div class="thumbnail" style="">
+          <a href="<%= "/store_mcomputers/#{product.id}" %>"><img style="height: 270px;" class="group list-group-image" src="<%= description[:main_picture_url] %>" alt="" /></a>
+          <div class="caption">
 
-<% end %>
+            <h4 class="group inner list-group-item-heading">
+              <a href="<%= "/store_mcomputers/#{product.id}" %>"><%= description[:code] %></a>
+            </h4>
+
+            <div style="height: 220px;" class="group inner list-group-item-text">
+
+              <% unless (description[:properties]).nil? %>
+                  <% product_property = description[:properties][:property] %>
+
+                  <% product_property.select.with_index do |property, i| %>
+                      <% common_filter = /Manufacturer|Accessories|Screen type|Brand|Warranty|Other|Interfac|Wi-Fi|Mnfr Part|Model|Camera|ODD|Bluetooth|Audio|LAN|Body Color|Weight|Dimensions|Battery|Interface/i%>
+                      <% if property.is_a?(Hash) %>
+                          <li style="list-style-type: none; padding: 5px;">
+                            <% image_tag("tick_icon.png", size: "16") %>
+                            <strong><%= property[:name] %>:</strong>
+                            <%= property[:text].to_s[0..20] %>
+                            <% break if i == 8%>
+                          </li>
+                      <% else %>
+                          <% property %>
+                      <% end %>
+                  <% end %>
+              <% end %>
+            </div>
+
+            <div class="row">
+              <div style="margin-left: 120px;" class="col-xs-12 col-md-6">
+                <div class="button-list-group">
+                  <p class="">
+
+                    <br>
+                    <a  class="btn btn-success" href="<%= "/store_mcomputers/#{product.id}" %>">Виж още</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+  <% end %>
+</div>
+</div>
