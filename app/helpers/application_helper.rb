@@ -8,6 +8,10 @@ module ApplicationHelper
     Admin::SubCategory.all
   end
 
+  def currency
+    Admin::Currency.all
+  end
+
   def check_user
      if user_signed_in? && current_user.role == 'super_admin'
       '<li><a href="/admin">Admin</a></li>'.html_safe
@@ -16,9 +20,9 @@ module ApplicationHelper
 
   def convert_price(price)
     if price[/EUR/i]
-       (price.to_f * @currency.select{|v| v.identifier[/EUR/]}.first.rate_equals).round(2)
+       (price.to_f * currency.select { |v| v.identifier[/EUR/] }.first.rate_equals.to_f).round(2)
     elsif price[/USD/i]
-      (price.to_f * @currency.select{|v| v.identifier[/USD/]}.first.rate_equals).round(2)
+      (price.to_f * currency.select { |v| v.identifier[/USD/] }.first.rate_equals.to_f).round(2)
     else
       price.gsub(/BGN/i, '')
     end

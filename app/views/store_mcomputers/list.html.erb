@@ -56,12 +56,12 @@
                     <% end %>
                 <% end %>
               </div>
-
+                <br>
               <div class="row">
                 <div style="margin-left: 120px;" class="col-xs-12 col-md-6">
                   <div class="button-list-group">
-                  <p><%= render "product_row", product: product, order_item: @order_item %>
-                    <br>
+                  <p>
+                    <%= render "product_row", product: product, order_item: @order_item %>
                     <a  class="btn btn-success" href="<%= "/store_mcomputers/#{product.id}" %>">Виж още</a>
                   </p>
                   </div>
