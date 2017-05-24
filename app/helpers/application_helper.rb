@@ -23,4 +23,8 @@ module ApplicationHelper
       price.gsub(/BGN/i, '')
     end
   end
+
+  def veiw_convert_hash(convert)
+    eval(convert)
+  end
 end

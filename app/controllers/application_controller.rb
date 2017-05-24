@@ -7,10 +7,15 @@ class ApplicationController < ActionController::Base
   helper_method :product_all
   helper_method :currency
   helper_method :category
-
+  helper_method :sub_cat
+  helper_method :convert_to_hash
 
   def currency
     Admin::Currency.all
+  end
+
+  def sub_cat
+    Admin::SubCategory.all
   end
 
   def category
@@ -27,5 +32,9 @@ class ApplicationController < ActionController::Base
     else
       Order.new
     end
+  end
+
+  def convert_to_hash(convert)
+    eval(convert)
   end
 end

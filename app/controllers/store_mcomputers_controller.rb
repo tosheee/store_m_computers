@@ -6,10 +6,10 @@ class StoreMcomputersController < ApplicationController
   end
 
   def show
-    @currency = currency # method app controller
+    @currency = currency
     @order_item = current_order.order_items.new
-    unless @products = Admin::ProductFeature.where(id: params[:id]).first
-      render text: "Page not found", status: 404
+    unless @products = product_all.where(id: params[:id]).first
+      render text: 'Page not found', status: 404
     end
   end
 
@@ -18,7 +18,7 @@ class StoreMcomputersController < ApplicationController
     @page = params[:page].to_i
     @product_param = params[:product]
     product_num = 10
-    @prod_filter_names = eval(product_all.where(identifier: params[:product]).first.description)[:properties][:property].map{|d| d[:name]}
+    @prod_filter_names = convert_to_hash(product_all.where(identifier: params[:product]).first.description)[:properties][:property].map{|d| d[:name]}
 
     if params[:search].present?
       items = search(params[:search], product_all)
@@ -47,19 +47,19 @@ class StoreMcomputersController < ApplicationController
   end
 
   def filters_product(products_all)
-    gen_prod_filter = {}
-    properties = products_all.map { |prod| eval(prod.description)[:properties][:property]}
+    product_filters = {}
+    properties = products_all.map { |prod| convert_to_hash(prod.description)[:properties][:property]}
     prod_filter_names = product_filter_name(products_all)
 
     prod_filter_names.map do |name|
       if name[/Manufacturer|Screen size|Screen Resolution|Memory size|CPU Model/]
-        gen_prod_filter[name] = properties.map do |property|
+        product_filters[name] = properties.map do |property|
           property.map { |p| clean_value_filter(name, p[:text].squish) if p.is_a?(Hash) && p[:name] == name  }.join
         end.reject { |c| c.empty? }.uniq.sort
       end
     end
 
-    gen_prod_filter
+    product_filters
   end
 
   def clean_value_filter(name, value)
@@ -79,7 +79,7 @@ class StoreMcomputersController < ApplicationController
   end
 
   def product_filter_name(products_all)
-    eval(products_all.first.description)[:properties][:property].map{|d| d[:name]}
+    convert_to_hash(products_all.first.description)[:properties][:property].map{|d| d[:name]}
   end
 
   def filter_result(param, products_data)
@@ -90,13 +90,13 @@ class StoreMcomputersController < ApplicationController
     unless filter_param.map { |k, v| k[/Manufacturer/] }.join.empty?
       filter_param.map do |keys, values|
         products_data.select do |product|
-          eval(product.description)[:properties][:property].each do |product_val|
+          convert_to_hash(product.description)[:properties][:property].each do |product_val|
             if product_val.is_a?(Hash) &&  product_val[:name][/Manufacturer/i]
               if product_val[:name][/#{keys}/i]
                 values.map do |value|
                   removed = /(\(|,).*/i
                   if product_val[:text].gsub(removed, '')[/#{value}/i]
-                    puts product_val[:text].gsub(removed, '')
+                    #puts product_val[:text].gsub(removed, '')
                     filtered_products << product
                   end
                 end
@@ -108,7 +108,7 @@ class StoreMcomputersController < ApplicationController
     else
       filter_param.map do |keys, values|
         products_data.select do |product|
-          eval(product.description)[:properties][:property].each do |product_val|
+          convert_to_hash(product.description)[:properties][:property].each do |product_val|
             if product_val.is_a?(Hash)
               if product_val[:name][/#{keys}/i]
                 values.map do |value|
@@ -132,7 +132,7 @@ class StoreMcomputersController < ApplicationController
     regex = search_text.split.join('|')
 
     all_products.select do |product|
-      if eval(product.description)[:code].to_s[/#{regex}/i]
+      if convert_to_hash(product.description)[:code].to_s[/#{regex}/i]
         q_product << product
       end
     end
@@ -140,7 +140,7 @@ class StoreMcomputersController < ApplicationController
     if q_product.size > 0
       q_product
     else
-      flash[:error] = "Няма намерени резултати"
+      flash[:error] = 'Няма намерени резултати'
       all_products
     end
   end

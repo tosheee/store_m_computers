@@ -118,6 +118,7 @@
   <script>
       $(document).ready(function() {
           $('#filter-button').click(function() {
+
               var filter_data = {};
               var filter_value = [];
               var obj_val = {};
@@ -132,15 +133,20 @@
                   });
               });
               var filters = JSON.stringify(filter_data).replace(/\[/g, '(').replace(/\]/g, ')');
-
+              set_new_items
               $('#filter-button').attr('href', "/product=laptops/filter=" + filters);
 
               $.ajax({
-                  url: "/product=laptops/filter=" + filters,
-                  type: 'get',
-                  data: filters,
-                  success: (data)
+                  url:    "/product=<%= @product_param %>/filter=" + filters,
+                  type:   'get',
+                  success: set_new_items
+
               });
+             function set_new_items(data){
+                 $('#products .item').remove();
+                 $('#products').append($(data).find('#products').html())
+                 //$('#products').replaceWith($(data).find('#products').html());
+             }
 
           });
 
