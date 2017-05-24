@@ -4,12 +4,26 @@
 
     }
 
-    ul.filters-names{
+    .filters-names{
         list-style-type: none;
         font-size: 16px;
     }
     input[type=checkbox] {
         transform: scale(1.5);
+    }
+
+    summary {
+        margin-left: 30px;
+        color: #666666;
+        padding: 2px;
+        font-size: 16px;
+        outline: none;
+    }
+    .final-button{
+        text-decoration: none;
+        padding: 2px;
+        font-size: 16px;
+        margin-left: 70px;
     }
 </style>
 
@@ -52,80 +66,54 @@
 <div id="container-vertical">
   <div class="row-vertical">
     <div id="left" class="span3">
-
-      <ul>
-        <li><a href="#" id="main-box-vertical-menu">Всички продукти</a>
-
-          <ul class="ul-inner-element">
-            <% category_buttons.each_with_index do |button,i| %>
-
-
-            <li id="inner-button<%= i%>" class="inner-button"><a href="#"><%= button.name_cat %></a></li>
-
-              <ul class="ul-inner-element">
-
+      <hr>
+      <% category_buttons.each_with_index do |button,i| %>
+          <details class="ul-inner-element" >
+            <summary id="inner-button<%= i%>" class="inner-button" ><%= button.name_cat %></summary>
                 <% sub_category_buttons.each_with_index do |sub_button| %>
-                    <% if sub_button.category_id == button.id %>
-                        <li class="final-button"><a><%= sub_button.name %></a></li>
-                    <% end %>
+                  <% if sub_button.category_id == button.id %>
+                      <a href="/product=<%=sub_button.identifier %>" class="final-button"><%= sub_button.name %></a>
+                    <br>
+                  <% end %>
                 <% end %>
-
-
-              </ul>
-
-            <%  end %>
-
-
-          </ul>
-        </li>
-      </ul>
-
+          </details>
+            <% end %>
     </div>
   </div>
 </div>
+<hr>
 
-
-<style>
-
-</style>
-
-
-<ul>
   <% if @product_param.present? %>
-    <% @filters.each do |k, v|%>
-       <li class="filters-names" id="<%= k %>" ><%= filster_translate[k] %>
-        <ul>
+
+      <% @filters.each do |k, v|%>
+      <details class="ul-inner-element" >
+        <summary id="<%= k %>" class="filters-names" ><%= filster_translate[k] %></summary>
+
           <% unless v.nil? %>
             <% v.each do |val| %>
-              <li>
-                <input type="checkbox" class="filters-values" value="<%= val %>">
-                <%= val %>
-              </li>
+                <div class="final-button"><input type="checkbox" class="filters-values" value="<%= val %>">  <%= val %>  </div>
               <% end %>
           <% end %>
-        </ul>
-              <li>
+      </details>
     <% end.first %>
-      </ul>
-      <div id="button-filter">
-          <input id="hidden-filters" type="hidden" value="">
-          <input id="filter-button" class="btn btn-primary" type="button" value="Филтрирай"/>
-          <a id="filter-button" href="" >info</a>
-      </div>
-<% end %>
 
+    <div id="button-filter">
+      <input id="hidden-filters" type="hidden" value="">
+      <input id="filter-button" class="btn btn-primary" type="button" value="Филтрирай"/>
+    </div>
+  <% end %>
 
-  <script>
+   <script>
       $(document).ready(function() {
           $('#filter-button').click(function() {
 
               var filter_data = {};
               var filter_value = [];
               var obj_val = {};
-              $('.filters-names').each(function(index1){
+              $('.filters-names').each(function(){
                   var name_filter = $(this).attr('id');
                   filter_value = [];
-                  $(this).find('.filters-values').each(function(index2){
+                  $(this).parent().find('.filters-values').each(function(){
                       if ($(this).is(':checked')){
                           filter_value.push( $(this).val());
                           filter_data[name_filter] = filter_value;
@@ -145,7 +133,6 @@
              function set_new_items(data){
                  $('#products .item').remove();
                  $('#products').append($(data).find('#products').html())
-                 //$('#products').replaceWith($(data).find('#products').html());
              }
 
           });

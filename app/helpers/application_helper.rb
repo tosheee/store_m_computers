@@ -24,7 +24,7 @@ module ApplicationHelper
     elsif price[/USD/i]
       con_price =  price.to_f * select_currency('USD')
     else
-      con_price = price
+      con_price = price.to_f
     end
     con_price.ceil.to_f
   end

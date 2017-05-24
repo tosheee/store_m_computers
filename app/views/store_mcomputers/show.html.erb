@@ -17,7 +17,7 @@
               <h3 style="margin-top:0px;">
               <span style="color: green">
                 <% price = "#{product[:price]} #{product[:currency]}" %>
-                <%= "#{convert_price(price)} лв. #{price}" %></span></h3>
+                <%= "#{convert_price(price)} лв." %></span></h3>
             <div class="input-group">
               <%= f.number_field :quantity, value: 1, class: "form-control", min: 1 %>
 

@@ -1,6 +1,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "store_mcomputers";
+@import "configurator";
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 body{
 
@@ -44,14 +45,6 @@ background-color: #DADADA;
       text-align: center;
       background-color: #ff3709;
     }
-
-
-
-
-
-
-
-
 
   }
 }

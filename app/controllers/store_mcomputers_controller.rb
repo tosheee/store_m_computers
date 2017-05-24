@@ -17,7 +17,7 @@ class StoreMcomputersController < ApplicationController
     @currency = currency
     @page = params[:page].to_i
     @product_param = params[:product]
-    product_num = 10
+    product_num = 9
     @prod_filter_names = convert_to_hash(product_all.where(identifier: params[:product]).first.description)[:properties][:property].map{|d| d[:name]}
 
     if params[:search].present?
