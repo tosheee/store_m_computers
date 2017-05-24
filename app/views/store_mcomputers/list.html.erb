@@ -69,9 +69,9 @@
 
 
 
-                        <% product_description = veiw_convert_hash(product.description) %>
 
-                        <% price = "#{product_description[:price]}  #{product_description[:currency]}" %>
+
+                        <% price = "#{description[:price]}  #{description[:currency]}" %>
                         <h4 class="text-right"><strong>Цена:</strong> <span style="color: green"><%= "#{convert_price(price)} лв. #{price}" %></span></h4>
 
 
