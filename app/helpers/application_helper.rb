@@ -21,11 +21,11 @@ module ApplicationHelper
   def convert_price(price)
     result_price = 0.00
     if price[/EUR/i]
-      result_price = price.to_f * select_currency('EUR')
+      result_price = price
     elsif price[/USD/i]
-      result_price = price.to_f * select_currency('USD')
+      result_price = price
     else
-      result_price = price.gsub(/BGN/i, '')
+      result_price = price
     end
     result_price.to_f.round(2)
   end
