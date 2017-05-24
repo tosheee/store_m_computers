@@ -21,9 +21,9 @@ module ApplicationHelper
   def convert_price(price)
     result_price = 0.00
     if price[/EUR/i]
-      result_price = price.to_f * 1.95
+      result_price = price.to_f * select_currency('EUR')
     elsif price[/USD/i]
-      result_price = price.to_f * 1.84
+      result_price = price.to_f * select_currency('USD')
     else
       result_price = price
     end
@@ -31,7 +31,7 @@ module ApplicationHelper
   end
 
   def select_currency(curr)
-    currency.select { |v| v.identifier[/#{curr}/i] }.first.rate_equals.to_f
+    currency.where(identifier: curr).first.rate_equals.to_f
   end
 
   def veiw_convert_hash(convert)
