@@ -19,15 +19,13 @@ module ApplicationHelper
   end
 
   def convert_price(price)
-    result_price = 0.00
     if price[/EUR/i]
-      result_price = price.to_f * select_currency('EUR')
+      price.to_f * select_currency('EUR')
     elsif price[/USD/i]
-      result_price = price.to_f * select_currency('USD')
+      price.to_f * select_currency('USD')
     else
-      result_price = price
+      price
     end
-    result_price.to_f.round(2)
   end
 
   def select_currency(curr)
