@@ -19,13 +19,19 @@ module ApplicationHelper
   end
 
   def convert_price(price)
+    result_price = 0.00
     if price[/EUR/i]
-       (price.to_f * currency.select { |v| v.identifier[/EUR/] }.first.rate_equals.to_f).round(2)
+      result_price = price.to_f * select_currency('EUR')
     elsif price[/USD/i]
-      (price.to_f * currency.select { |v| v.identifier[/USD/] }.first.rate_equals.to_f).round(2)
+      result_price = price.to_f * select_currency('USD')
     else
-      price.gsub(/BGN/i, '')
+      result_price = price.gsub(/BGN/i, '')
     end
+    result_price.to_f.round(2)
+  end
+
+  def select_currency(curr)
+    currency.select { |v| v.identifier[/#{curr}/i] }.first.rate_equals.to_f
   end
 
   def veiw_convert_hash(convert)
