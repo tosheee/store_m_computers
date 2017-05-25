@@ -73,12 +73,9 @@ class Admin::ExtractXmlsController < Admin::AdminController
   def check_and_change_prices(new_hash, all_products)
     new_product_ids = new_hash.map {|xml_product| xml_product[:id]}
     new_product_prices = new_hash.map {|xml_product| xml_product[:price]}
-
     new_product_data = new_product_ids.zip(new_product_prices)
-
     old_product_ids = all_products.map { |product| eval(product.description)[:id] }
     old_product_prices = all_products.map { |product| eval(product.description)[:price] }
-
     old_product_data = old_product_ids.zip(old_product_prices)
 
     product_different_price = []
@@ -147,84 +144,24 @@ class Admin::ExtractXmlsController < Admin::AdminController
 
   def record_products(new_hash)
     new_hash.select do |key|
-
       product = Admin::ProductFeature.new
-      sub_category = Admin::SubCategory.all
+      sub_categories = Admin::SubCategory.all
 
-      case
-      when key[:classname].to_s.squish[/notebook/i]
-        laptop_data = sub_category.select {|cat| cat.identifier[/laptop/] }.first
-        product.category_id = laptop_data[:category_id]
-        product.sub_category_id = laptop_data[:id]
-        product.identifier = 'laptops'
-        product.description = key
-        product.save
-      when key[:classname].to_s.squish[/tablet/i]
-        tablets_data = sub_category.select {|cat| cat.identifier[/tablets/] }.first
-        product.category_id = tablets_data[:category_id]
-        product.sub_category_id = tablets_data[:id]
-        product.identifier = 'tablets'
-        product.description = key
-        product.save
-      when key[:classname].to_s.squish[/Smart Phone/i]
-        smartphones_data = sub_category.select {|cat| cat.id if cat.identifier[/smartphones/] }.first
-        product.category_id = smartphones_data[:category_id]
-        product.sub_category_id = smartphones_data[:id]
-        product.identifier = 'smartphones'
-        product.description = key
-        product.save
-      when key[:classname].to_s.squish[/FAN/i]
-        fan_data = sub_category.select {|cat| cat.identifier[/fan/] }.first
-        product.category_id = fan_data[:category_id]
-        product.sub_category_id = fan_data[:id]
-        product.identifier = 'fan'
-        product.description = key
-        product.save
-      when key[:classname].to_s.squish[/CPU/i]
-        cpu_data = sub_category.select { |cat| cat.identifier[/cpu/] }.first
-        product.category_id = cpu_data[:category_id]
-        product.sub_category_id = cpu_data[:id]
-        product.identifier = 'cpu'
-        product.description = key
-        product.save
-      when key[:classname].to_s.squish[/Mainboard/i]
-        mainboard_data = sub_category.select { |cat| cat.identifier[/mainboard/] }.first
-        product.category_id = mainboard_data[:category_id]
-        product.sub_category_id = mainboard_data[:id]
-        product.identifier = 'mainboard'
-        product.description = key
-        product.save
-      when key[:classname].to_s.squish[/Video Card/i]
-        video_card_data = sub_category.select { |cat| cat.identifier[/video_card/] }.first
-        product.category_id = video_card_data[:category_id]
-        product.sub_category_id = video_card_data[:id]
-        product.identifier = 'video_card'
-        product.description = key
-        product.save
-      when key[:classname].to_s.squish[/Case/i]
-        case_data = sub_category.select { |cat| cat.identifier[/case/] }.first
-        product.category_id = case_data[:category_id]
-        product.sub_category_id = case_data[:id]
-        product.identifier = 'case'
-        product.description = key
-        product.save
-      when key[:classname].to_s.squish[/HDD/i]
-        hard_disks_data = sub_category.select { |cat| cat.identifier[/hard_disks/] }.first
-        product.category_id = hard_disks_data[:category_id]
-        product.sub_category_id = hard_disks_data[:id]
-        product.identifier = 'hard_disks'
-        product.description = key
-        product.save
-      when key[:classname].to_s.squish[/RAM/i]
-        ram_data = sub_category.select { |cat| cat.identifier[/ram/] }.first
-        product.category_id = ram_data[:category_id]
-        product.sub_category_id = ram_data[:id]
-        product.identifier = 'ram'
-        product.description = key
-        product.save
+      sub_categories.map do |sub_cat|
+        class_name = key[:classname].to_s.squish.tr(' ', '_').downcase
+        if class_name[/\b#{sub_cat.identifier}\b/i]
+          product_data = sub_categories.select {|cat| cat.identifier[/#{sub_cat.identifier}/] }.first
+          product.category_id = product_data[:category_id]
+          product.sub_category_id = product_data[:id]
+          product.identifier = sub_cat.identifier
+          product.description = key.to_s.squish
+          product.save
+        end
       end
     end
   end
+
+
 
   private
   def extract_xml_params

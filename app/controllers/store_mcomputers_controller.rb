@@ -52,11 +52,11 @@ class StoreMcomputersController < ApplicationController
     prod_filter_names = product_filter_name(products_all)
 
     prod_filter_names.map do |name|
-      if name[/Manufacturer|Screen size|Screen Resolution|Memory size|CPU Model/]
+      #if name[/Manufacturer|Screen size|Screen Resolution|Memory size|CPU Model/i]
         product_filters[name] = properties.map do |property|
           property.map { |p| clean_value_filter(name, p[:text].squish) if p.is_a?(Hash) && p[:name] == name  }.join
         end.reject { |c| c.empty? }.uniq.sort
-      end
+      #end
     end
 
     product_filters

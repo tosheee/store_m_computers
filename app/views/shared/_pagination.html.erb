@@ -4,7 +4,10 @@
     <li class="pagination-item--wide first">
       <% if !@page.nil? %>
           <% if @page.to_i > 0 %>
-              <a class="pagination-link--wide first" href="/product=<%= "#{@product_param}/page=#{@page.to_i - 1}" %>"><</a>
+              <a class="pagination-link--wide first" href="/product=<%= "#{@product_param}/page=#{@page.to_i - 1}" %>">
+                <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
+
+              </a>
           <% else %>
               <a class="pagination-link--wide first" ></a>
           <% end %>

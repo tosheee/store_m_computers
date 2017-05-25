@@ -13,6 +13,7 @@
     }
 
     summary {
+        cursor:pointer;
         margin-left: 30px;
         color: #666666;
         padding: 2px;
@@ -27,44 +28,10 @@
     }
 </style>
 
-
-<script>
-
-    $(document).ready(function(){
-        $('#main-box-vertical-menu').click(function(e){
-            e.preventDefault();
-            if ($('.ul-inner-element').is(":visible")){
-            $('.ul-inner-element').hide()
-            }
-            else
-            {
-                $('.ul-inner-element').show()
-            }
-        });
-    });
-
-    $(document).ready(function(){
-
-        $('li.inner-button').click(function(e){
-            var $clicked = $(this);
-            e.preventDefault();
-
-                if ($clicked.children('.final-button').is(":visible")) {
-                    $clicked.children('.final-button').hide()
-                } else {
-                    $clicked.children('.final-button').hide()
-                }
-        });
-
-    });
-</script>
-
-<%  filster_translate = {'Manufacturer' => 'Производител', 'Screen size' => 'Размер на екрана', 'Screen Resolution' => 'Резолюция', 'Memory size' => 'RAM Памет', 'CPU Model' => 'Процесори' } %>
-
-
+<% filster_translate = {'Manufacturer' => 'Производител', 'Screen size' => 'Размер на екрана', 'Screen Resolution' => 'Резолюция', 'Memory size' => 'RAM Памет', 'CPU Model' => 'Процесори' } %>
 
 <div id="container-vertical">
-  <div class="row-vertical">
+
     <div id="left" class="span3">
       <hr>
       <% category_buttons.each_with_index do |button,i| %>
@@ -79,7 +46,6 @@
           </details>
             <% end %>
     </div>
-  </div>
 </div>
 <hr>
 
@@ -87,19 +53,20 @@
 
       <% @filters.each do |k, v|%>
       <details class="ul-inner-element" >
-        <summary id="<%= k %>" class="filters-names" ><%= filster_translate[k] %></summary>
+        <summary id="<%= k %>" class="filters-names" ><%= k %></summary>
 
           <% unless v.nil? %>
             <% v.each do |val| %>
-                <div class="final-button"><input type="checkbox" class="filters-values" value="<%= val %>">  <%= val %>  </div>
+                <div class="final-button"><input type="checkbox" class="filters-values" value="<%= val %>">  <%= val[0..10] %>  </div>
               <% end %>
           <% end %>
       </details>
     <% end.first %>
 
     <div id="button-filter">
-      <input id="hidden-filters" type="hidden" value="">
-      <input id="filter-button" class="btn btn-primary" type="button" value="Филтрирай"/>
+      <button id="filter-button" type="button" aria-label="Left Align">
+      <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+      </button>
     </div>
   <% end %>
 
