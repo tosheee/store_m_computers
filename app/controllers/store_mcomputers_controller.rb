@@ -18,7 +18,6 @@ class StoreMcomputersController < ApplicationController
     @page = params[:page].to_i
     @product_param = params[:product]
     product_num = 9
-    @prod_filter_names = convert_to_hash(product_all.where(identifier: params[:product]).first.description)[:properties][:property].map{|d| d[:name]}
 
     if params[:search].present?
       items = search(params[:search], product_all)
@@ -41,25 +40,35 @@ class StoreMcomputersController < ApplicationController
     end
 
     @pages = num_all_products / product_num
-    @filters = filters_product(product_all.where(identifier: @product_param)) if @product_param.present?
+    @navigation_filters = nav_filters_product(product_all.where(identifier: @product_param)) if @product_param.present?
     @products = items
     @order_item = current_order.order_items.new
   end
 
-  def filters_product(products_all)
+  def nav_filters_product(products_all)
     product_filters = {}
     properties = products_all.map { |prod| convert_to_hash(prod.description)[:properties][:property]}
-    prod_filter_names = product_filter_name(products_all)
+    prod_filter_names = nav_filter_name(properties)
 
     prod_filter_names.map do |name|
-      #if name[/Manufacturer|Screen size|Screen Resolution|Memory size|CPU Model/i]
         product_filters[name] = properties.map do |property|
-          property.map { |p| clean_value_filter(name, p[:text].squish) if p.is_a?(Hash) && p[:name] == name  }.join
+          property.map do |p|
+            if p.is_a?(Hash) && p[:name] == name &&  !p[:text].nil?
+              clean_value_filter(name, p[:text].squish)
+            end
+          end.join
         end.reject { |c| c.empty? }.uniq.sort
-      #end
     end
-
     product_filters
+  end
+
+  def nav_filter_name(properties)
+    property = properties.first
+    if property.is_a?(Hash)
+      []
+    else
+      property.map{|d| d[:name]}
+    end
   end
 
   def clean_value_filter(name, value)
@@ -76,10 +85,6 @@ class StoreMcomputersController < ApplicationController
     else
       value
     end
-  end
-
-  def product_filter_name(products_all)
-    convert_to_hash(products_all.first.description)[:properties][:property].map{|d| d[:name]}
   end
 
   def filter_result(param, products_data)

@@ -49,9 +49,9 @@
 </div>
 <hr>
 
-  <% if @product_param.present? %>
+  <% if @product_param.present? && @navigation_filters.present? %>
 
-      <% @filters.each do |k, v|%>
+      <% @navigation_filters.each do |k, v|%>
       <details class="ul-inner-element" >
         <summary id="<%= k %>" class="filters-names" ><%= k %></summary>
 
