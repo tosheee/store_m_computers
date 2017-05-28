@@ -1,111 +1,33 @@
-
 <h1>Конфигуратор</h1>
-
 <input id="btnHide" class="btn btn-primary" type="button" value="Hide prices"/>
 <br>
 <br>
-
 <table class = "table table-bordered table-striped" >
 
-  <tr class="row-config">
-    <td>Дънo:</td>
-    <td>
-      <%= select("post", "mainboards", @mainboard.collect {|c| [  "#{eval(c.description)[:code]} -" + " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.", "#{c.id}:"+ " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}" ] }, {include_blank: 'Изберете:'}) %>
-    </td>
+  <% @products_identifiers.map do |identifier| %>
 
-    <td class="quantity">
-      <input value="1" class="form-control" min="1" type="number" id="quantity_main_board">
-    </td>
+      <tr class="row-config">
+        <td><%= identifier %></td>
+        <td>
+          <%= select("post", "#{identifier}", instance_variable_get("@#{identifier}").collect do |c|
+              [
+                   " #{eval(c.description)[:code]} -" +
+                   " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.",
+                   " #{c.id}:"+
+                   " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}"
+               ]
+           end, {include_blank: 'Изберете:'}) %>
+        </td>
 
-    <td id="price_main_board" class="price_item" >0</td>
-    <td><a id="link_main_board" href="" target="_blank">info</a></td>
-  </tr>
+        <td class="quantity">
+          <input value="1" class="form-control" min="1" type="number" id="quantity_<%= identifier %>">
+        </td>
 
-  <tr class="row-config">
-    <td>Процесор:</td>
-    <td><%= select("post", "cpu", @cpu.collect {|c| [  "#{eval(c.description)[:code]} -" + " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.", "#{c.id}:"+ " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}" ] }, {include_blank: 'Изберете:'}) %></td>
+        <td id="price_<%= identifier %>" class="price_item" >0</td>
+        <td><a id="link_<%= identifier %>" href="" target="_blank">info</a></td>
+      </tr>
+  <% end %>
 
-    <td class="quantity">
-      <input value="1" class="form-control" min="1" type="number" id="quantity_cpu">
-    </td>
-
-    <td id="price_cpu" class="price_item" >0</td>
-    <td><a id="link_cpu" href="" target="_blank">info</a></td>
-  </tr>
-
-  <tr class="row-config">
-    <td>RAM памет:</td>
-    <td><%= select("post", "ram_mem", @ram.collect {|c| [  "#{eval(c.description)[:code]} -" + " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.", "#{c.id}:"+ " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}" ] }, {include_blank: 'Изберете:'}) %></td>
-
-    <td class="quantity">
-      <input value="1" class="form-control" min="1" type="number" id="quantity_ram">
-    </td>
-
-    <td id="price_ram" class="price_item" >0</td>
-    <td><a id="link_ram" href="" target="_blank">info</a></td>
-  </tr>
-
-
-  <tr class="row-config">
-    <td>Видео картa:</td>
-    <td><%= select("post", "video_cart", @video_card.collect {|c| [  "#{eval(c.description)[:code]} -" + " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.", "#{c.id}:"+ " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}" ] }, {include_blank: 'Изберете:'}) %></td>
-
-    <td class="quantity">
-      <input value="1" class="form-control" min="1" type="number" id="quantity_video">
-    </td>
-
-    <td id="price_video" class="price_item" >0</td>
-    <td><a id="link_video" href="" target="_blank">info</a></td>
-  </tr>
-
-
-  <tr class="row-config">
-    <td>Хард диск:</td>
-    <td><%= select("post", "hard_disk",  @hdd.collect {|c| [  "#{eval(c.description)[:code]} -" + " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.", "#{c.id}:"+ " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}" ] }, {include_blank: 'Изберете:'}) %></td>
-
-    <td class="quantity">
-      <input value="1" class="form-control" min="1" type="number" id="quantity_hard_disk">
-    </td>
-
-    <td id="price_hard_disk" class="price_item" >0</td>
-    <td><a id="link_hard_disk" href="" target="_blank">info</a></td>
-  </tr>
-
-  <tr class="row-config">
-    <td>Хард диск:</td>
-    <td><%= select("post", "hard_disk",  @hdd.collect {|c| [  "#{eval(c.description)[:code]} -" + " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.", "#{c.id}:"+ " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}" ] }, {include_blank: 'Изберете:'}) %></td>
-
-    <td class="quantity">
-      <input value="1" class="form-control" min="1" type="number" id="quantity_hard_disk">
-    </td>
-
-    <td id="price_hard_disk" class="price_item" >0</td>
-    <td><a id="link_hard_disk" href="" target="_blank">info</a></td>
-  </tr>
-
-  <tr class="row-config">
-    <td>Кутия:</td>
-    <td><%= select("post", "case",  @case.collect {|c| [  "#{eval(c.description)[:code]} - " + " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.", "#{c.id}:"+ " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}" ] }, {include_blank: 'Изберете:'}) %></td>
-
-    <td class="quantity">
-      <input value="1" class="form-control" min="1" type="number" id="quantity_case">
-    </td>
-
-    <td id="price_case" class="price_item" >0</td>
-    <td><a id="link_case" href="" target="_blank">info</a></td>
-  </tr>
-
-  <tr class="row-config">
-    <td>Захранване:</td>
-    <td><%= select("post", "case",  @case.collect {|c| [  "#{eval(c.description)[:code]} -" + " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")} ЛВ.", "#{c.id}:"+ " #{convert_price("#{eval(c.description)[:price]} #{eval(c.description)[:currency]}")}" ] }, {include_blank: 'Изберете:'}) %></td>
-
-    <td class="quantity">
-      <input value="1" class="form-control" min="1" type="number" id="quantity_case">
-    </td>
-
-    <td id="price_case" class="price_item">0</td>
-    <td><a id="link_case" href="" target="_blank">info</a></td>
-  </tr>
 </table>
 
 <hr>
@@ -121,7 +43,7 @@
 <hr>
 
 <script>
-
+   // ready
     $('<div class="quantity-nav"><div class="quantity-button quantity-up" >+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
     $('.quantity').each(function() {
         var spinner = $(this),
@@ -171,179 +93,56 @@
         });
 
     });
+//ready
+    $('select').change(function(){
+        var id_price_value = $(this).val();
+        var arr_id_price = id_price_value.split(':');
+        var row_product =  $(this).parent().parent();
+        var quantity_product = row_product.find('.quantity input').val()
+        var id_product = $.trim(arr_id_price[0]);
+        var price_product = arr_id_price[1];
 
-    $("#post_mainboards").change(function(){
-        var value = $(this).val();
-        var val = value.split(':');
-         mainborad_price = 0;
-        var q_mainboard = $('#quantity_main_board').val()
+        row_product.find('td a').attr('href', 'store_mcomputers/' + id_product);
 
-        var link_mainboards = val[0];
-        $('a#link_main_board').attr('href', 'store_mcomputers/' + link_mainboards);
-
-
-        if (isNaN(val[1])){
-            mainborad_price = 0;
+        if (isNaN(price_product)){
+            price_product = 0;
         } else {
-            mainborad_price = val[1] * q_mainboard;
+            price_product = arr_id_price[1] * quantity_product;
         }
 
-        $('#price_main_board').empty();
-        $('#price_main_board').append(mainborad_price).innerHTML;
+        var cell_price = row_product.find('td.price_item')
+        cell_price.empty();
+
+        cell_price.append(price_product).innerHtml;
         sum_price();
     });
 
-    $("#post_cpu").change(function(){
-        var value = $(this).val();
-        var val = value.split(':');
-        var price_cpu = 0;
-
-        var link_cpu = val[0];
-        $('a#link_cpu').attr('href', 'store_mcomputers/' + link_cpu);
-
-
-        if (isNaN(val[1])){
-             price_cpu = 0;
-        } else {
-            price_cpu = val[1];
-        }
-
-        $('#price_cpu').empty();
-        $('#price_cpu').append(price_cpu).innerHTML;
-        sum_price();
-    });
-
-    $("#post_video_cart").change(function(){
-        var value = $(this).val();
-        var val = value.split(':');
-        var price_video = 0;
-
-        var link_video_cart = val[0];
-
-        $('a#link_video').attr('href', 'store_mcomputers/' + link_video_cart);
-
-        if (isNaN(val[1])){
-            price_video = 0;
-        } else {
-            price_video = val[1];
-        }
-
-        $('#price_video').empty();
-        $('#price_video').append(price_video).innerHTML;
-        sum_price();
-    });
-
-    $("#post_ram_mem").change(function(){
-        var value = $(this).val();
-        var val = value.split(':');
-        var price_memory = 0;
-
-        var link_ram_mem = val[0];
-        $('a#link_ram').attr('href', 'store_mcomputers/' + link_ram_mem);
-
-
-        if (isNaN(val[1])){
-            price_memory = 0;
-        } else {
-            price_memory = val[1];
-        }
-
-        $('#price_ram').empty();
-        $('#price_ram').append(price_memory).innerHTML;
-        sum_price();
-    });
-
-    $("#post_hard_disk").change(function(){
-        var value = $(this).val();
-        var val = value.split(':');
-        var price_hard_disk = 0;
-
-        var link_hard_disk = val[0];
-
-        $('a#link_hard_disk').attr('href', 'store_mcomputers/' + link_hard_disk);
-
-
-        if (isNaN(val[1])){
-            price_hard_disk = 0;
-        } else {
-            price_hard_disk = val[1];
-        }
-
-        $('#price_hard_disk').empty();
-        $('#price_hard_disk').append(price_hard_disk).innerHTML;
-        sum_price();
-    });
-
-    $("#post_case").change(function(){
-        var value = $(this).val();
-        var val = value.split(':');
-        var price_case = 0;
-
-        var link_case = val[0];
-        $('a#link_case').attr('href', 'store_mcomputers/' + link_case);
-
-
-        if (isNaN(val[1])){
-            price_case = 0;
-        } else {
-            price_case = val[1];
-        }
-
-        $('#price_case').empty();
-        $('#price_case').append(price_case).innerHTML;
-        sum_price();
-    });
-
+//ready
     function sum_price(){
-        var p_main_board = parseFloat(document.getElementById('price_main_board').innerHTML);
-        var p_cpu = parseFloat(document.getElementById('price_cpu').innerHTML);
-        var p_video = parseFloat(document.getElementById('price_video').innerHTML);
-        var p_ram = parseFloat(document.getElementById('price_ram').innerHTML);
-        var p_hard = parseFloat(document.getElementById('price_hard_disk').innerHTML);
-        var p_case = parseFloat(document.getElementById('price_case').innerHTML);
+        var sum_prices = 0;
 
-        var result = p_main_board + p_cpu + p_video + p_ram + p_hard + p_case;
-        //console.log(result);
-        $('#sum-prices').empty();
-        $('#sum-prices').append(result.toFixed( 2 ));
+        $('.price_item').each(function() {
+            sum_prices += parseFloat($(this).html())
+        });
+
+        var commonPrices = $('#sum-prices')
+        commonPrices.empty();
+        commonPrices.append(sum_prices);
     }
 
-
-    function param_products(){
-        var main_id = document.getElementById('link_main_board').href.split('/')[4]
-        var cpu_id =  document.getElementById('link_cpu').href.split('/')[4]
-    }
-
-    if (document.getElementById('#product_ids')!= null){
-      document.getElementById('#product_ids').value = param_products();
-    }
-
-
+// ready ?
     $(document).ready(function(){
         $("button#product_ids").click(function(){
-            var $product_ids =      $('#link_main_board,     #link_cpu,     #link_ram,     #link_video,     #link_hard_disk,     #link_hard_disk,     #link_case');
-            var $product_quantity = $('#quantity_main_board, #quantity_cpu, #quantity_ram, #quantity_video, #quantity_hard_disk, #quantity_hard_disk, #quantity_case, #quantity_case');
-
             var obj_ids = {};
             var obj_quantity = {};
             var products = [];
             var i = 0;
 
             $('.row-config').each(function(){
-
                 var ids = $(this).children('td:nth-child(5)').children('a').attr('href').split('/')[1];
                 var quantity = $(this).children('td:nth-child(3)').children('input').val();
                 products.push('{"id"=>"'+ ids + '", "quantity"=>"' + quantity+ '"}');
                 i ++;
-            });
-
-
-            $product_ids.each(function(){
-                obj_ids[this.id] = $(this).attr('href').split('/')[1];
-            });
-
-            $product_quantity.each(function(){
-                obj_quantity[this.id] = $(this).val();
             });
 
             var json_ids = JSON.stringify(obj_ids);
@@ -357,8 +156,7 @@
         });
     });
 
-
-
+// ready
 
     $(document).ready(function() {
 
