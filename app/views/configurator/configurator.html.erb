@@ -36,7 +36,7 @@
   <span style="color: green"><%=  %></span></h4>
   <div class="input-group">
     <div class="input-group-btn">
-      <a href="" id="button-offer" class="btn btn-primary" >Покажи оферта</a>
+      <a id="button-offer" class="btn btn-primary" target="_blank" >Покажи оферта</a>
       <button id="product_ids" class="btn btn-success" >Добави в количката</button>
     </div>
 </div>
@@ -180,7 +180,7 @@
 
             if (!$.trim( sumPrice ).length)
             {
-                $('#button-offer').attr('href', '#');
+
             }else{
                 $('#button-offer').attr('href', '/configurator/show_offer/ids=' + '(' + products + ')/sum_price=' + sumPrice);
             }
