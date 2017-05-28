@@ -64,7 +64,8 @@ class StoreMcomputersController < ApplicationController
 
   def nav_filter_name(properties)
     property = properties.first
-    if property.is_a?(Hash)
+    if property.is_a?(Hash) || property.nil?
+      flash[:error] = 'Няма намерени резултати'
       []
     else
       property.map{|d| d[:name]}

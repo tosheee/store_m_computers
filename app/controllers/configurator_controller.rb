@@ -2,7 +2,23 @@
 class ConfiguratorController < ApplicationController
   def configurator
     @currency = currency
-    @products_identifiers = ['cpu', 'fan', 'mainboard', 'ram', 'hdd', 'monitor', 'video_card', 'odd_internal', 'ssd', 'internal', 'case', 'power_supply', 'keyboard', 'mouse', 'sound_card_internal', 'software', 'lan_card']
+    @products_identifiers = ['cpu',
+                             'fan',
+                             'mainboard',
+                             'ram',
+                             'hdd',
+                             'monitor',
+                             'video_card',
+                             'odd_internal',
+                             'ssd',
+                             'internal',
+                             'case',
+                             'power_supply',
+                             'keyboard',
+                             'mouse',
+                             'sound_card_internal',
+                             'software',
+                             'lan_card']
     @products_identifiers.map do |identifier|
       instance_variable_set("@#{identifier}", find_product(identifier))
     end
