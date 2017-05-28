@@ -32,17 +32,12 @@
 
 <hr>
 <div class="sum-p">
-
-
-  <a href="" id="button-offer" class="btn btn-danger" >Show offer</a>
-
-
-
-  <div><strong>Общо:</strong></div><div id="sum-prices"> </div>
+  <div><strong>Общо:</strong></div><div id="sum-prices"></div>
   <span style="color: green"><%=  %></span></h4>
   <div class="input-group">
     <div class="input-group-btn">
-      <button id="product_ids" class="btn btn-primary" >add to cart</button>
+      <a href="" id="button-offer" class="btn btn-primary" >Покажи оферта</a>
+      <button id="product_ids" class="btn btn-success" >Добави в количката</button>
     </div>
 </div>
 </div>
@@ -121,6 +116,7 @@
         cell_price.empty();
 
         cell_price.append(price_product).innerHtml;
+
         sum_price();
     });
 
@@ -153,9 +149,9 @@
                 i ++;
             });
 
-            var json_ids = JSON.stringify(obj_ids);
-            var json_quantity = JSON.stringify(obj_quantity);
-            var pro = JSON.stringify(products);
+            //var json_ids = JSON.stringify(obj_ids);
+            //var json_quantity = JSON.stringify(obj_quantity);
+            //var pro = JSON.stringify(products);
 
             $.ajax({
                 url: "/configurator/ids=(" + products + ")",
@@ -180,11 +176,14 @@
                 i ++;
             });
 
-            var json_ids = JSON.stringify(obj_ids);
-            var json_quantity = JSON.stringify(obj_quantity);
-            var pro = JSON.stringify(products);
+            var sumPrice = $('#sum-prices').html()
 
-            $('#button-offer').attr('href', '/configurator/show_offer/ids=' +'(' + products + ')');
+            if (!$.trim( sumPrice ).length)
+            {
+                $('#button-offer').attr('href', '#');
+            }else{
+                $('#button-offer').attr('href', '/configurator/show_offer/ids=' + '(' + products + ')/sum_price=' + sumPrice);
+            }
 
         });
     });

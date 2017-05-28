@@ -2,20 +2,23 @@
 class ConfiguratorController < ApplicationController
   def configurator
     @currency = currency
-    @products_identifiers = ['cpu', 'fan', 'mainboard', 'ram', 'hdd', 'monitor', 'video_card', 'odd_internal', 'ssd', 'case', 'power_supply', 'keyboard', 'mouse', 'sound_card_internal', 'software', 'lan_card']
+    @products_identifiers = ['cpu', 'fan', 'mainboard', 'ram', 'hdd', 'monitor', 'video_card', 'odd_internal', 'ssd', 'internal', 'case', 'power_supply', 'keyboard', 'mouse', 'sound_card_internal', 'software', 'lan_card']
     @products_identifiers.map do |identifier|
       instance_variable_set("@#{identifier}", find_product(identifier))
     end
   end
 
   def show
-    products = convert_to_hash(params[:ids].tr('(', '[').tr(')', ']'))
+    @sum_price = params[:sum_price]
+    @params_product = params[:ids]
+    products = convert_to_hash(@params_product.tr('(', '[').tr(')', ']'))
     @offer_products = []
 
     products.map do |k,|
-      next if k['id'][/undefined/]
-      @offer_products << product_all.where(id: k['id'])
-    end
+      unless k['id'][/undefined/]
+        @offer_products << product_all.where(id: k['id'])
+      end
+     end
 
     @offer_products
   end

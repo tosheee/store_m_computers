@@ -1,6 +1,58 @@
-<h1> show offer</h1>
-    <% @offer_products.each_with_index do |product, i| %>
-        <% product_description = eval(product[i].description)%>
-        <a href="/store_mcomputers/<%= product[i].id %>" target="_blank"><%= product_description[:code] %></a>
-        <%= convert_price("#{product_description[:price]} #{product_description[:currency]}") %>
+<h2>Оферта</h2>
+
+
+<input type="button" class="btn btn-success" onclick="printDiv('printableArea')" value="Принтирай офертата" />
+<br>
+<br>
+<div id="printableArea">
+<table class = "table table-bordered">
+    <thead>
+    <tr>
+      <th>Продукт</th>
+      <th>Цена</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @offer_products.map do |item| %>
+    <% item.map do |product| %>
+    <% product_description = eval(product.description) %>
+      <tr>
+        <td><a href="/store_mcomputers/<%= product.id %>" target="_blank"><%= product_description[:code] %></a></td>
+        <td><strong><%= convert_price("#{product_description[:price]} #{product_description[:currency]}") %> лв.</strong></td>
+        <% product.description %>
+      </tr>
     <% end %>
+<% end %>
+
+</table>
+</div>
+<div>
+  <strong>Обща сума: <%= @sum_price %> лв.</strong>
+  <div class="input-group">
+      <div class="input-group-btn">
+        <input id="param-order" type="hidden" value="<%= @params_product %>">
+        <button id="product_ids" class="btn btn-success" >Добави в количката</button>
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript" charset="utf-8">
+
+    $(document).ready(function(){
+        $("button#product_ids").click(function(){
+            var products = $('#param-order').val();
+            $.ajax({
+                url: "/configurator/ids=(" + products + ")",
+                type: 'post',
+            });
+        });
+    });
+
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+</script>

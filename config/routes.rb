@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   post 'configurator/ids=:ids', to: 'configurator#items_to_cart'
 
   get 'configurator', to: 'configurator#configurator'
-  get 'configurator/show_offer/ids=:ids', to: 'configurator#show'
+  get 'configurator/show_offer/ids=:ids/sum_price=:sum_price', to: 'configurator#show'
 
   resources :order_items, only: [:create, :update, :destroy]
 
