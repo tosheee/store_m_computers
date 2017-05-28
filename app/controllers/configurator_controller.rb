@@ -2,10 +2,22 @@
 class ConfiguratorController < ApplicationController
   def configurator
     @currency = currency
-    @products_identifiers = ['cpu', 'fan', 'mainboard', 'ram', 'hdd', 'monitor', 'video_card', 'odd_internal', 'case', 'power_supply', 'keyboard', 'mouse', 'sound_card_internal', 'software', 'lan_card']
+    @products_identifiers = ['cpu', 'fan', 'mainboard', 'ram', 'hdd', 'monitor', 'video_card', 'odd_internal', 'ssd', 'case', 'power_supply', 'keyboard', 'mouse', 'sound_card_internal', 'software', 'lan_card']
     @products_identifiers.map do |identifier|
       instance_variable_set("@#{identifier}", find_product(identifier))
     end
+  end
+
+  def show
+    products = convert_to_hash(params[:ids].tr('(', '[').tr(')', ']'))
+    @offer_products = []
+
+    products.map do |k,|
+      next if k['id'][/undefined/]
+      @offer_products << product_all.where(id: k['id'])
+    end
+
+    @offer_products
   end
 
   def find_product(product)
@@ -24,4 +36,5 @@ class ConfiguratorController < ApplicationController
     end
     redirect_to :back
   end
+
 end

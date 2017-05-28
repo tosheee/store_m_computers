@@ -1,0 +1,6 @@
+<h1> show offer</h1>
+    <% @offer_products.each_with_index do |product, i| %>
+        <% product_description = eval(product[i].description)%>
+        <a href="/store_mcomputers/<%= product[i].id %>" target="_blank"><%= product_description[:code] %></a>
+        <%= convert_price("#{product_description[:price]} #{product_description[:currency]}") %>
+    <% end %>
