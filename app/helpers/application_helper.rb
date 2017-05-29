@@ -26,7 +26,11 @@ module ApplicationHelper
     else
       con_price = price.to_f
     end
-    con_price.ceil.to_f
+    con_price.round(2)
+  end
+
+  def translate_name
+    eval(Admin::ApiTranslator.first.worlds)
   end
 
   def veiw_convert_hash(convert)

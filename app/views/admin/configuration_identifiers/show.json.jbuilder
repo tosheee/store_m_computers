@@ -1,0 +1,1 @@
+json.partial! "admin_configuration_identifiers/admin_configuration_identifier", admin_configuration_identifier: @admin_configuration_identifier

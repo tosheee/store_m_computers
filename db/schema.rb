@@ -11,14 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170424181246) do
+ActiveRecord::Schema.define(version: 20170529114219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "admin_api_translators", force: :cascade do |t|
+    t.text     "worlds"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "admin_categories", force: :cascade do |t|
     t.string   "name_cat"
     t.integer  "view_cat"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "admin_configuration_identifiers", force: :cascade do |t|
+    t.text     "identifier"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

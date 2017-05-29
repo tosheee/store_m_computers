@@ -2,12 +2,13 @@
 <input id="btnHide" class="btn btn-primary" type="button" value="Hide prices"/>
 <br>
 <br>
+<% @product_translate %>
 <table class = "table table-bordered table-striped" >
 
   <% @products_identifiers.map do |identifier| %>
 
       <tr class="row-config">
-        <td><%= identifier %></td>
+        <td><%= @product_translate[identifier] %></td>
         <td>
           <%= select("post", "#{identifier}", instance_variable_get("@#{identifier}").collect do |c|
               [

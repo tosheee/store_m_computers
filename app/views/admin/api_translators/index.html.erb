@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Admin Api Translators</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Worlds</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @admin_api_translators.each do |admin_api_translator| %>
+      <tr>
+        <td><%= admin_api_translator.worlds %></td>
+        <td><%= link_to 'Show', admin_api_translator %></td>
+        <td><%= link_to 'Edit', edit_admin_api_translator_path(admin_api_translator) %></td>
+        <td><%= link_to 'Destroy', admin_api_translator, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Api translator', new_admin_api_translator_path %>

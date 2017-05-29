@@ -1,0 +1,1 @@
+json.array! @admin_api_translators, partial: 'admin_api_translators/admin_api_translator', as: :admin_api_translator

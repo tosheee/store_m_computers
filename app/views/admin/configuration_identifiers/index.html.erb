@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Admin Configuration Identifiers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Identifier</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @admin_configuration_identifiers.each do |admin_configuration_identifier| %>
+      <tr>
+        <td><%= admin_configuration_identifier.identifier %></td>
+        <td><%= link_to 'Show', admin_configuration_identifier %></td>
+        <td><%= link_to 'Edit', edit_admin_configuration_identifier_path(admin_configuration_identifier) %></td>
+        <td><%= link_to 'Destroy', admin_configuration_identifier, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Configuration identifier', new_admin_configuration_identifier_path %>

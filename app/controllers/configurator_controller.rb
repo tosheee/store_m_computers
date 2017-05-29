@@ -1,27 +1,17 @@
 # pc configurator
 class ConfiguratorController < ApplicationController
   def configurator
+    configurator_products = Admin::ConfigurationIdentifier.all
     @currency = currency
-    @products_identifiers = ['cpu',
-                             'fan',
-                             'mainboard',
-                             'ram',
-                             'hdd',
-                             'monitor',
-                             'video_card',
-                             'odd_internal',
-                             'ssd',
-                             'internal',
-                             'case',
-                             'power_supply',
-                             'keyboard',
-                             'mouse',
-                             'sound_card_internal',
-                             'software',
-                             'lan_card']
+    @products_identifiers = configurator_products.first.identifier.squish.split(',').map(&:squish)
+    @product_translate = eval(configurator_products.last.identifier)
     @products_identifiers.map do |identifier|
       instance_variable_set("@#{identifier}", find_product(identifier))
     end
+  end
+
+  def find_product(product)
+    product_all.where(identifier: product)
   end
 
   def show
@@ -39,11 +29,6 @@ class ConfiguratorController < ApplicationController
     @offer_products
   end
 
-  def find_product(product)
-    cat_product = sub_cat.map { |cat| cat.id if cat.identifier[/#{product}/] }
-    product_all.where(sub_category_id: cat_product.join.to_i)
-  end
-
   def items_to_cart
     products = convert_to_hash(params[:ids].tr('(', '[').tr(')', ']'))
     products.map do |k,|
@@ -55,5 +40,4 @@ class ConfiguratorController < ApplicationController
     end
     redirect_to :back
   end
-
 end

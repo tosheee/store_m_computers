@@ -53,7 +53,7 @@
 
       <% @navigation_filters.each do |k, v|%>
       <details class="ul-inner-element" >
-        <summary id="<%= k %>" class="filters-names" ><%= k %></summary>
+        <summary id="<%= k %>" class="filters-names" ><%= translate_name[k].blank? ? k : translate_name[k]  %></summary>
 
           <% unless v.nil? %>
             <% v.each do |val| %>

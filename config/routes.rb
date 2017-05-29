@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
 
   namespace :admin do
+    resources :api_translators
+  end
+  namespace :admin do
+    resources :configuration_identifiers
+  end
+  namespace :admin do
     resources :currencies
   end
 
