@@ -20,11 +20,11 @@ module ApplicationHelper
 
   def convert_price(price)
     if price[/EUR/i]
-    con_price =  price.to_f * select_currency('EUR')
+    con_price =  price.to_f * select_currency('EUR') * 1.2
     elsif price[/USD/i]
-      con_price =  price.to_f * select_currency('USD')
+      con_price =  price.to_f * select_currency('USD') * 1.2
     else
-      con_price = price.to_f
+      con_price = price.to_f * 1.2
     end
     con_price.round(2)
   end
@@ -35,5 +35,9 @@ module ApplicationHelper
 
   def veiw_convert_hash(convert)
     eval(convert)
+  end
+
+  def price_dds(price)
+    (price.to_f * 1.2).round(2)
   end
 end

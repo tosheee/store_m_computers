@@ -14,25 +14,32 @@ class ConfiguratorController < ApplicationController
     product_all.where(identifier: product)
   end
 
-  def show
-    @sum_price = params[:sum_price]
-    @params_product = params[:ids]
-    products = convert_to_hash(@params_product.tr('(', '[').tr(')', ']'))
-    @offer_products = []
+  def convert_param(params)
+    params[/(?<=\{).*(?=\})/].split(',').map do |item|
+      "{'id'=>'#{item[/(?<=&id=)\d+(?=&q)/]}','quantity'=>'#{item[/(?<=&q=)\d+/]}'}"
+    end
+  end
 
-    products.map do |k,|
-      unless k['id'][/undefined/]
-        @offer_products << product_all.where(id: k['id'])
-      end
-     end
+  def show
+    offer_prod = params[:offer_products]
+    @params_product = offer_prod[/{.*}/]
+    products = convert_param(offer_prod)
+    @offer_products = []
+    sum_p = offer_prod[/(?<=&sum_price=)\d+,\d+/].to_s.gsub(',', '.')
+    sum_p.empty? ? @sum_price = '' : @sum_price = sum_p
+
+    products.each do |k|
+      k = eval(k)
+      @offer_products << [product_all.where(id: k['id']), k['quantity']]
+    end
 
     @offer_products
   end
 
   def items_to_cart
-    products = convert_to_hash(params[:ids].tr('(', '[').tr(')', ']'))
-    products.map do |k,|
-      next if k['id'][/undefined/]
+    products = convert_param(params[:ids])
+    products.each do |k|
+      k = eval(k)
       @order_item = current_order.order_items.new
       @order_item.quantity = k['quantity'].to_i
       @order_item.admin_product_feature_id = k['id'].to_i

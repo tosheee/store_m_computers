@@ -37,7 +37,7 @@
   <span style="color: green"><%=  %></span></h4>
   <div class="input-group">
     <div class="input-group-btn">
-      <a id="button-offer" class="btn btn-primary" target="_blank" >Покажи оферта</a>
+      <a id="button-offer" class="btn btn-primary" >Покажи оферта</a>
       <button id="product_ids" class="btn btn-success" >Добави в количката</button>
     </div>
 </div>
@@ -131,31 +131,33 @@
 
         var commonPrices = $('#sum-prices')
         commonPrices.empty();
-        commonPrices.append(sum_prices);
+        commonPrices.append(sum_prices.toFixed(2));
     }
 
 // ready
+    function get_params(products){
+        var i = 0;
+        $('.row-config').each(function(){
+            var ids = $(this).children('td:nth-child(5)').children('a').attr('href').split('/')[1];
+            var quantity = $(this).children('td:nth-child(3)').children('input').val();
+            if (ids != null || typeof ids != 'undefined'){
+                products.push('&id='+ ids + '&q=' + quantity);
+            }
+            i ++;
+
+        });
+    }
 
     $(document).ready(function(){
         $("button#product_ids").click(function(){
             var obj_ids = {};
             var obj_quantity = {};
             var products = [];
-            var i = 0;
 
-            $('.row-config').each(function(){
-                var ids = $(this).children('td:nth-child(5)').children('a').attr('href').split('/')[1];
-                var quantity = $(this).children('td:nth-child(3)').children('input').val();
-                products.push('{"id"=>"'+ ids + '", "quantity"=>"' + quantity+ '"}');
-                i ++;
-            });
-
-            //var json_ids = JSON.stringify(obj_ids);
-            //var json_quantity = JSON.stringify(obj_quantity);
-            //var pro = JSON.stringify(products);
+            get_params(products)
 
             $.ajax({
-                url: "/configurator/ids=(" + products + ")",
+                url: "/configurator/ids={" + products + "}",
                 type: 'post',
             });
         });
@@ -163,19 +165,14 @@
 
     //button offer
 
+
     $(document).ready(function(){
         $("#button-offer").click(function(){
             var obj_ids = {};
             var obj_quantity = {};
             var products = [];
-            var i = 0;
 
-            $('.row-config').each(function(){
-                var ids = $(this).children('td:nth-child(5)').children('a').attr('href').split('/')[1];
-                var quantity = $(this).children('td:nth-child(3)').children('input').val();
-                products.push('{"id"=>"'+ ids + '", "quantity"=>"' + quantity+ '"}');
-                i ++;
-            });
+            get_params(products)
 
             var sumPrice = $('#sum-prices').html()
 
@@ -183,7 +180,7 @@
             {
 
             }else{
-                $('#button-offer').attr('href', '/configurator/show_offer/ids=' + '(' + products + ')/sum_price=' + sumPrice);
+                $('#button-offer').attr('href', '/configurator/show_offer/offer_products=' + '{' + products.toString() + '}&sum_price=' + sumPrice.replace(".", ","));
             }
 
         });
@@ -202,7 +199,6 @@
                 $('.price_item').show();
                 $('#btnHide').attr('value', 'Hide prices');
             }
-
         });
     });
 

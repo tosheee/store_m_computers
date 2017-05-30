@@ -19,9 +19,9 @@
     <p style="font-size: 30px">Твоята поръчка</p>
     <hr>
     <ul>
-        <li><strong>ID: </strong> <%=  " #{current_order.id}" %></li>
+
         <li><strong>Брой продукти: </strong> <%=  " #{current_order.order_items.size}" %></li>
-        <li><strong>Обща стойност: </strong><%= " #{ current_order.subtotal} " %></li>
+        <li><strong>Обща стойност: </strong><%= " #{ price_dds(current_order.subtotal)} " %></li>
         <li>
           <h4 class="group inner list-group-item-heading">
           <a href="/cart/sale_id=<%= current_order.id %>">Купи</a>

@@ -9,25 +9,32 @@
     <thead>
     <tr>
       <th>Продукт</th>
-      <th>Цена</th>
+      <th>Единична цена</th>
+      <th>Бройки</th>
+      <th>Обща:</th>
     </tr>
     </thead>
     <tbody>
-    <% @offer_products.map do |item| %>
+    <% @offer_products.each do |item, quantity| %>
     <% item.map do |product| %>
     <% product_description = eval(product.description) %>
+        <% price = convert_price("#{product_description[:price]} #{product_description[:currency]}") %>
       <tr>
         <td><a href="/store_mcomputers/<%= product.id %>" target="_blank"><%= product_description[:code] %></a></td>
-        <td><strong><%= convert_price("#{product_description[:price]} #{product_description[:currency]}") %> лв.</strong></td>
+        <td><strong> <%= price %> лв.</strong></td>
         <% product.description %>
+        <td><%= quantity%></td>
+        <td><strong><%= (price.to_f * quantity.to_f).round(2) %> лв.</strong></td>
       </tr>
     <% end %>
 <% end %>
 
 </table>
-</div>
-<div>
+
+
   <strong>Обща сума: <%= @sum_price %> лв.</strong>
+  </div>
+  <div>
   <div class="input-group">
       <div class="input-group-btn">
         <input id="param-order" type="hidden" value="<%= @params_product %>">
@@ -42,7 +49,7 @@
         $("button#product_ids").click(function(){
             var products = $('#param-order').val();
             $.ajax({
-                url: "/configurator/ids=(" + products + ")",
+                url: "/configurator/ids={" + products + "}",
                 type: 'post',
             });
         });
