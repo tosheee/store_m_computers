@@ -3,6 +3,7 @@ class StoreMcomputersController < ApplicationController
   def store_mcomputers
     @categories = category
     @products = product_all
+    @laptops = product_all.where(identifier: 'notebook').limit(4)
   end
 
   def show

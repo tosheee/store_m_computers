@@ -1,6 +1,202 @@
-<h1>Heloo</h1>
+<script type="text/javascript" charset="utf-8">
+
+    $(document).ready(function(){
+        $('.carousel').carousel({
+            pause: true,
+            interval: false
+        });
+    });
+
+
+
+
+    $(document).ready(function(){
+        $(".col-md-3 ").mouseenter(function(){
+            $(this).find(".col-img-responsive02").show(200);
+        });
+
+
+        $(".col-md-3").mouseleave(function(){
+            $(this).find(".col-img-responsive02").hide();
+        });
+    });
+
+</script>
+
+<style>
+
+    .fa.fa-chevron-circle-right {
+        right: 0;
+    }
+    .fa.fa-chevron-circle-left {
+        left: 0;
+    }
+    .fa.fa-chevron-circle-right, .fa.fa-chevron-circle-left {
+        margin-bottom: 1px;
+        position: absolute;
+        top: -30px;
+        color: #116df1;
+    }
+    .col-img-responsive02 span{
+        color:#fff;
+    }
+    .col-img-responsive02 {
+
+        display:none;
+        background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
+        height: 100%;
+        position: absolute;
+        width: 100%;
+    }
+    .carousel-control{
+        width:5%;
+    }
+    .panel-body{
+        position:relative;
+        padding:0px;
+    }
+    .btn-primary {
+        background-color: #337ab7;
+        border-color: #2e6da4;
+        border-radius: 0;
+        bottom: -15px;
+        color: #fff;
+        position: relative;
+        width: 100%;
+        -webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.38);
+        -moz-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.38);
+        box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.38);
+    }
+    .btn-primary {
+        background-color: #cecece;
+        border-color: #fff;
+    }
+    .panel-default{
+        -webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.38);
+        -moz-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.38);
+        box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.38);
+        border: medium none;
+        border-radius: 0;
+    }
+
+    .panel-heading{
+        padding:0px;
+        position:relative;
+    }
+    .panel-heading img{
+        width:100%;
+    }
+    .carousel-control.left {
+        background-image: none;
+    }
+    .carousel-control.right{
+        background-image: none;
+    }
+    .panel-heading img{
+        width: 200px;
+        height: 230px;
+     }
+
+
+</style>
+
+
+
 
 <% @categories.each do |category| %>
-    <a href="<%= category.name_cat.downcase %>"><%= category.name_cat %></a>
+    <a href="<%= category.name_cat.downcase %>"><% category.name_cat %></a>
 <% end %>
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<div class="clear" style="width:100%;height:100px;"></div>
+
+ <div class="container">
+      <header id="myCarousel" class="carousel slide">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner" role="listbox">
+
+
+            <div class="item active">
+              <div class="row">
+                <% @laptops.each do |laptop|%>
+                    <% laptop_description = eval(laptop.description) %>
+
+                    <div class="col-md-3 col-sm-6">
+
+                      <div class="panel panel-default text-center">
+                        <div class="panel-heading">
+
+                          <div class="col-img-responsive02">
+                            <ul>
+                              <% laptop_description[:properties][:property].each do |property| %>
+                                  <% if property[:name][/Screen size|Screen type|Screen Resolution|OS|HDD|Memory size|CPU Model|Graphics|HDD|SSD|Body Color/i] %>
+                                      <p style="color: snow"><%= property[:text]%></p>
+                                  <% end %>
+                              <% end %>
+                            </ul>
+                          </div>
+                          <img src="<%= laptop_description[:main_picture_url]%>" />
+                        </div>
+                        <div class="panel-body">
+                          <h4><%= laptop_description[:code]%></h4>
+                          <p>Ние ви предлагаме:</p>
+                          <a class="btn btn-primary" href="/store_mcomputers/<%= laptop.id%>">Виж повече <i class="fa fa-chevron-right"></i></a>
+
+                        </div>
+
+
+                      </div>
+                    </div>
+                <% end %>
+
+                </div>
+            </div>
+
+                <div class="item">
+                  <div class="row">
+                    <% @laptops.each do |laptop|%>
+                        <% laptop_description = eval(laptop.description) %>
+
+                        <div class="col-md-3 col-sm-6">
+                          <div class="panel panel-default text-center">
+                            <div class="panel-heading">
+
+                              <div class="col-img-responsive02">
+
+                                  <% laptop_description[:properties][:property].each do |property| %>
+                                      <% if property[:name][/Screen size|Screen type|Screen Resolution|OS|HDD|Memory size|CPU Model|Graphics|HDD|SSD|Body Color/i] %>
+                                          <p style="color: snow"><%= property[:text]%></p>
+                                      <% end %>
+                                  <% end %>
+                              </div>
+                              <img src="<%= laptop_description[:main_picture_url]%>" />
+                            </div>
+                            <div class="panel-body">
+                              <h4><%= laptop_description[:code]%></h4>
+                              <p>Ние ви предлагаме:</p>
+                              <a class="btn btn-primary" href="/store_mcomputers/<%= laptop.id%>">Виж повече <i class="fa fa-chevron-right"></i></a>
+
+                            </div>
+                          </div>
+                        </div>
+                    <% end %>
+
+                  </div>
+                </div>
+          </div>
+
+
+          <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                <span  aria-hidden="true"><i class="fa fa-chevron-circle-left"></i></span>
+                <span class="sr-only">Previous</span>
+          </a>
+
+          <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span  aria-hidden="true"><i class="fa fa-chevron-circle-right"></i></span>
+            <span class="sr-only">Next</span>
+          </a>
+
+        </div>
+      </header>
+
+ </div>

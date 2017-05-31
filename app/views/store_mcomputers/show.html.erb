@@ -65,7 +65,7 @@
             </thead>
             <% product[:properties][:property].each do |property| %>
                 <tr>
-                  <td><%= property[:name] %></td>  <td><%=  property[:text] %></td>
+                  <td><%= translate_name[property[:name]] %></td>  <td><%=  property[:text] %></td>
                 </tr>
             <% end %>
 

@@ -46,7 +46,7 @@
                           <% if property.is_a?(Hash) %>
                             <li style="list-style-type: none; padding: 5px;">
                                   <% image_tag("tick_icon.png", size: "16") %>
-                                  <strong><%= property[:name] %>:</strong>
+                                  <strong><%= translate_name[property[:name]] %>:</strong>
                                   <%= property[:text].to_s[0..20] %>
                               <% break if i == 8%>
                                 </li>
